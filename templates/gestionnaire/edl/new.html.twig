@@ -1,0 +1,180 @@
+{% extends 'gestionnaire/base.html.twig' %}
+
+{% block title %}Etat des lieux{% endblock %}
+{% set type = app.request.get('t') %}
+{% set log = app.request.get('l') %}
+{% block body %}
+    <h1>Programmer un nouvel <span class="text-danger">{{ type ? type : 'EDL' }}</span>{% if logement %} pour le logement <span class="text-info">N°{{ logement.numero }}</span>{% endif %}
+    <span class="float-right">  <a href="{{ path('e_d_l_index') }}">
+        <button class="btn btn-sm btn-primary">
+            <i class="fa fas fa-backward"></i> Retour liste
+        </button>
+    </a></span></h1>
+    <hr>
+    {{ include('gestionnaire/edl/_form.html.twig') }}</div>
+    <hr>
+    {% if logement %}
+    <h5><i class="fas fa-hotel"></i> Logement</h5>
+    <div class="rounded bg-white border">
+        <div class="row p-3">
+            <div class="col-md-6">
+                <strong>Residence:</strong> <br>
+                <a href="{{ path('residence_show',{id:logement.residence.id}) }}"> {{ logement.residence.nom }} </a><br>
+                {{ logement.residence.adresse }} <br>
+                {{ logement.residence.ville.codePostal }} {{ logement.residence.ville.nom|upper }}
+                <hr>
+                {% set consoEner = logement.residence.consoEner %}
+                {% set emiGaz = logement.residence.emigaz %}
+                {{ include('extra/diag.html.twig') }}
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6">
+                        <a href="{{ path('logement_show',{resid:logement.residence.nom,id:logement.id}) }}">
+                            <strong> Appartement N°{{ logement.numero }}</strong>
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <strong> Loyer</strong>
+                    </div>
+                </div>
+                <hr>
+                <div class="small row">
+                    <div class="col-md-12">
+                        <div class="col-md-6 bg-light p-3 border border-right-0 rounded-left float-left">
+                            <strong>Batiment:</strong> {{ logement.batiment }} <br>
+                            <strong>Colocation:</strong> {{ logement.locataires|length > 1 ? 'Oui' : 'Non' }} <br>
+                            <strong>Etage:</strong> {{ logement.etage }} <br>
+                            <strong>Situation:</strong> {{ logement.situation }} <br>
+                            <strong>Type de couchage:</strong> {{ logement.typeLit }} <br>
+                            <strong>Catégorie:</strong> {{ logement.typeLit }} <br>
+                            <strong>Typologie:</strong> {{ logement.typeLogement }} <br>
+                            <strong>Surface:</strong> {{ logement.surface }} <br>
+                            <strong>Dépôt de garantie:</strong> {{ logement.residence.garantie }} <br>
+                        </div>
+                        <div class="col-md-6 bg-light rounded-right border p-3 border-left-0 float-right h-100">
+                            <strong>Loyer hors charge:</strong> <span
+                                    class="float-right text-info">{{ logement.loyer }}</span> <br>
+                            <strong>Montant des charges :</strong> <span
+                                    class="float-right text-info">{{ logement.charges }}</span> <br>
+                            <strong>Cotisation accessoires:</strong> <span
+                                    class="float-right text-info">{{ logement.cotisAcc }}</span> <br>
+                            <strong>Cotisation services:</strong> <span
+                                    class="float-right text-info">{{ logement.cotisServices }}</span>
+                            <br>
+                            <hr>
+                            <h5>TOTAL: <span class="float-right">{{ logement.loyerTotal }} €</span>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 rounded border bg-light p-2 mb-3">
+{% set locataire = logement.locataires[0] %}
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="font-weight-bold"><i class="fas fa-clock"></i> Historique des opérations</h6>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <p class="pl-4"><strong>Enregistrment:</strong>
+                                    <strong class="text-success">{{ locataire.dateRecord ? locataire.dateRecord|date('Y-m-d') : '' }}</strong><br>
+                                    par <a class="font-weight-bold"
+                                           href="{{ path('user_show',{id:locataire.recordBy.id}) }}">{{ locataire.recordBy.nomPrenom }}</a>
+                                </p>
+                            </div>
+                            <div class="col-md-4">
+                                <p class="pl-4"><strong>Etat des lieux:</strong> <br>
+                                    <strong class="text-success">EDLE:</strong> {{ locataire.edle ?  locataire.edle.date|date('d-m-Y'):'A planifier' }}
+                                    <br>
+                                    <strong class="text-danger">EDLS:</strong>{% if locataire.edls %}
+                                    {{ locataire.edls.date|date('d-m-Y') }}
+                                {% else %}
+                                    <a href="{{ path('e_d_l_new',{t:'EDLS',l:locataire.logement.id}) }}">
+                                        Planifer
+                                    </a>
+                                    {% endif %}
+                                    <br>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        {% for locataire in logement.locataires %}
+    <h5 class="mt-3"><i class="fas fa-user"></i> Locataire</h5>
+    <div class="rounded bg-white border">
+        <div class="row p-3">
+            <div class="col-md-6">
+                <a href="{{ path('locataire_show',{id:locataire.id}) }}">
+                    <strong>{{ locataire.civilite }}
+                        . {{ locataire.nom|upper }} {{ locataire.prenom|capitalize }}</strong>
+                </a>
+                <br>
+                {{ locataire.adresse }} <br> {{ locataire.codePostal }} {{ locataire.ville|upper }}
+                <br>
+                <strong class="{% if locataire.dateNaissance is null %}text-danger{% endif %}">Date de
+                    naissance:</strong> {{ locataire.dateNaissance|date('d/m/Y') }} <br>
+                <strong class="{% if locataire.villeNaissance is null %}text-danger{% endif %}">Ville de
+                    naissance:</strong> {{ locataire.villeNaissance }}
+                <br>
+                <strong class="{% if locataire.codeInsee is null %}text-danger{% endif %}">N° de sécurité sociale
+                    :</strong> {{ locataire.codeInsee }}
+            </div>
+            <div class="col-md-6">
+                <i class="fas fa-at"></i> {{ locataire.email }} <br>
+                <i class="fas fa-phone"></i> {{ locataire.telFixe ? locataire.telFixe : locataire.telMobile }}
+                <hr>
+                <strong>Type d'adhérent:</strong> {{ locataire.typeAdh }} <br>
+                <strong>Type de MRH:</strong> {{ locataire.typeMrh }}
+            </div>
+        </div>
+        <div class="row p-3">
+            <div class="col-md-6 small">
+                Le
+                prospect {{ locataire.cnilMgel ? '<span class="text-success">accepte</span>' : '<span class="text-danger">n\'accepte pas</span>' }}
+                les communications MGEL.
+                <br>
+                Le
+                prospect {{ locataire.cnilPartenaires ? '<span class="text-success">accepte</span>' : '<span class="text-danger">n\'accepte pas</span>' }}
+                les communications des partenaires.
+            </div>
+            <div class="col-md-6">
+                <strong>ID Gestionnaire: </strong><span class="text-info">{{ locataire.id }}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 rounded border bg-light p-2 mb-3">
+                <h6 class="font-weight-bold"><i class="fas fa-comment-dots"></i> Commentaire</h6>
+                <div class="row text-center">
+                    <div class="col-md-12">
+                        {{ locataire.commentaire ? locataire.commentaire : 'Aucun commentaire...' }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+{% endblock %}
+{% block javascripts %}
+    <script>
+        {% if type is same as('EDLE') %}
+        $('#edl_type option:contains(SORTIE)').remove();
+        {% else %}
+        $('#edl_type option:contains(ENTREE)').remove();
+        {% endif %}
+        {% if type and log %}
+        $('#edl_logement option[value="{{ log }}"]').prop('selected',true);
+        $('#edl_logement').parent().parent().hide();
+        $('#edl_type').parent().parent().hide();
+        {% endif %}
+    </script>
+{% endblock %}

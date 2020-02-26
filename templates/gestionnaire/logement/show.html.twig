@@ -1,0 +1,230 @@
+{% extends 'gestionnaire/base.html.twig' %}
+
+{% block title %}Logement{% endblock %}
+
+{% block body %}
+    <h1>Logement N°{{ logement.numero }} <span class="small text-info">({{ logement.residence.nom }}) {% if logement.locataire|length > 1 %} <button class="btn btn-sm btn-info"><i class="fas fa-user-friends"></i></button>{% endif %}</span>
+    <span class="float-right">
+        <div class="btn-group"><a href="{{ path('logement_index') }}">
+        <button class="btn btn-sm btn-info"><i class="fas fa-backward"></i></button>
+    </a>
+&nbsp;
+     <a href="{{ path('logement_edit', {'resid':logement.residence.nom,'id': logement.id}) }}">
+        <button class="btn btn-sm btn-success"><i class="fas fa-edit"></i></button>
+    </a>
+        &nbsp;
+    {{ include('gestionnaire/logement/_delete_form.html.twig') }}
+    </span></h1>
+<hr>
+
+{#TODO: DPE PAR LOGEMENT EDITABLE#}
+    <div class="row">
+       <div class="col-md-6">
+           <table class="table table-sm col-md-12">
+               <tbody>
+               <tr>
+                   <th>Id</th>
+                   <td>{{ logement.id }}</td>
+               </tr>
+               <tr>
+                   <th>Situation</th>
+                   <td>{{ logement.situation }}</td>
+               </tr>
+               <tr>
+                   <th>Type_lit</th>
+                   <td>{{ logement.typeLit }}</td>
+               </tr>
+               <tr>
+                   <th>Type_logement</th>
+                   <td>{{ logement.typeLogement }}</td>
+               </tr>
+               <tr>
+                   <th>Etage</th>
+                   <td>{{ logement.etage }}</td>
+               </tr>
+               <tr>
+                   <th>Batiment</th>
+                   <td>{{ logement.batiment }}</td>
+               </tr>
+               <tr>
+                   <th>Numero</th>
+                   <td>{{ logement.numero }}</td>
+               </tr>
+               <tr>
+                   <th>Categorie</th>
+                   <td>{{ logement.categorie }}</td>
+               </tr>
+               <tr>
+                   <th>Surface</th>
+                   <td>{{ logement.surface }}</td>
+               </tr>
+               <tr>
+                   <th>Loyer</th>
+                   <td>{{ logement.loyer }}</td>
+               </tr>
+               <tr>
+                   <th>Charges</th>
+                   <td>{{ logement.charges }}</td>
+               </tr>
+               <tr>
+                   <th>Cotis_acc</th>
+                   <td>{{ logement.cotisAcc }}</td>
+               </tr>
+               <tr>
+                   <th>Cotis_services</th>
+                   <td>{{ logement.cotisServices }}</td>
+               </tr>
+               <tr>
+                   <th>Tva</th>
+                   <td>{{ logement.tva }}</td>
+               </tr>
+               <tr>
+                   <th>Date_blocage</th>
+                   <td>{{ logement.dateBlocage ? logement.dateBlocage|date('Y-m-d') : '' }}</td>
+               </tr>
+               <tr>
+                   <th>Motif_blocage</th>
+                   <td>{{ logement.motifBlocage }}</td>
+               </tr>
+               <tr>
+                   <th>Cle_dispo</th>
+                   <td>{{ logement.cleDispo ? 'Oui' : 'Non' }}</td>
+               </tr>
+               <tr>
+                   <th>Ref_cle</th>
+                   <td>{{ logement.refCle }}</td>
+               </tr>
+               <tr>
+                   <th>Qte_cle</th>
+                   <td>{{ logement.qteCle }}</td>
+               </tr>
+               <tr>
+                   <th>Qte_cle_bal</th>
+                   <td>{{ logement.qteCleBal }}</td>
+               </tr>
+               <tr>
+                   <th>Ref_cle_bal</th>
+                   <td>{{ logement.refCleBal }}</td>
+               </tr>
+               <tr>
+                   <th>Ref_cle_badge</th>
+                   <td>{{ logement.refCleBadge }}</td>
+               </tr>
+               <tr>
+                   <th>Cle_residence</th>
+                   <td>{{ logement.cleResidence }}</td>
+               </tr>
+               <tr>
+                   <th>Cle_local_velo</th>
+                   <td>{{ logement.cleLocalVelo }}</td>
+               </tr>
+               <tr>
+                   <th>Cle_salle_commune</th>
+                   <td>{{ logement.cleSalleCommune }}</td>
+               </tr>
+               <tr>
+                   <th>Cle_commentaire</th>
+                   <td>{{ logement.cleCommentaire }}</td>
+               </tr>
+               <tr>
+                   <th>Date_maj_cle</th>
+                   <td>{{ logement.dateMajCle ? logement.dateMajCle|date('d-m-Y') : '' }}</td>
+               </tr>
+               </tbody>
+           </table>
+       </div>
+        <div class="col-md-6">
+            <h5><i class="fas fa-info-circle"></i> Infos Residence:</h5>
+           <div class="col-md-12">
+               <a href="{{ path('residence_show',{id:logement.residence.id}) }}"> {{ logement.residence.nom }} </a><br>
+               {{ logement.residence.adresse }} <br>
+               {{ logement.residence.ville.codePostal }} {{ logement.residence.ville.nom|upper }}
+               <hr>
+               {% set consoEner = logement.residence.consoEner %}
+               {% set emiGaz = logement.residence.emigaz %}
+               {{ include('extra/diag.html.twig') }}
+               <hr>
+               <h6><i class="fas fa-hands-helping"></i> Les services:</h6>
+               <div class="rounded bg-white border p-2 text-center shadow-sm">
+
+                   {% set residence = logement.residence %}
+                   {% include'extra/service.html.twig' %}
+               </div>
+           </div>
+            <hr>
+            <h5><i class="fas fa-info-circle"></i> Infos locataire</h5>
+            <div class="col-md-12">
+                {% if logement.hasLocataire %}
+                    {% set locataire =  logement.locataires[0] %}
+                        <div class="rounded bg-white border">
+                            <div class="row p-3">
+                                <div class="col-md-6">
+                                    <a href="{{ path('locataire_show',{'resid':logement.residence.nom,'id':locataire.id}) }}">
+                                        <strong>{{ locataire.civilite }}
+                                            . {{ locataire.nom|upper }} {{ locataire.prenom|capitalize }}</strong></a>
+                                    <br>
+                                    {{ locataire.adresse }} <br> {{ locataire.codePostal }} {{ locataire.ville|upper }}
+                                    <br>
+                                    <strong class="{% if locataire.dateNaissance is null %}text-danger{% endif %}">Date de
+                                        naissance:</strong> {{ locataire.dateNaissance|date('d/m/Y') }} <br>
+                                    <strong class="{% if locataire.villeNaissance is null %}text-danger{% endif %}">Ville de
+                                        naissance:</strong> {{ locataire.villeNaissance }}
+                                    <br>
+                                    <strong class="{% if locataire.codeInsee is null %}text-danger{% endif %}">N° de sécurité sociale
+                                        :</strong> {{ locataire.codeInsee }}
+                                </div>
+                                <div class="col-md-6">
+                                    <i class="fas fa-at"></i> {{ locataire.email }} <br>
+                                    <i class="fas fa-phone"></i> {{ locataire.telFixe ? locataire.telFixe : locataire.telMobile }}
+                                    <hr>
+                                    <strong>Type d'adhérent:</strong> {{ locataire.typeAdh }} <br>
+                                    <strong>Type de MRH:</strong> {{ locataire.typeMrh }}
+                                </div>
+                            </div>
+                            <div class="row p-3">
+                                <div class="col-md-6 small">
+                                    Le
+                                    prospect {{ locataire.cnilMgel ? '<span class="text-success">accepte</span>' : '<span class="text-danger">n\'accepte pas</span>' }}
+                                    les communications MGEL.
+                                    <br>
+                                    Le
+                                    prospect {{ locataire.cnilPartenaires ? '<span class="text-success">accepte</span>' : '<span class="text-danger">n\'accepte pas</span>' }}
+                                    les communications des partenaires.
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>ID Gestionnaire: </strong><span class="text-info">{{ locataire.id }}</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 rounded border bg-light p-2 mb-3">
+                                    <h6 class="font-weight-bold"><i class="fas fa-comment-dots"></i> Commentaire</h6>
+                                    <div class="row text-center">
+                                        <div class="col-md-12">
+                                            {{ locataire.commentaire ? locataire.commentaire : 'Aucun commentaire...' }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    {% else %}
+                   <div class="col-md-12 text-center">
+                       <button class="btn btn-success btn-lg ">
+                           Ce logement est libre !
+                       </button>
+                   </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+<hr>
+    <div class="btn-group"><a href="{{ path('logement_index') }}">
+        <button class="btn btn-sm btn-info"><i class="fas fa-backward"></i></button>
+    </a>
+&nbsp;
+    <a href="{{ path('logement_edit', {'resid':logement.residence.nom,'id': logement.id}) }}">
+        <button class="btn btn-sm btn-success"><i class="fas fa-edit"></i></button>
+    </a>
+        &nbsp;
+    {{ include('gestionnaire/logement/_delete_form.html.twig') }}
+{% endblock %}

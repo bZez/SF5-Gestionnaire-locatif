@@ -1,0 +1,146 @@
+<div class="container-fluid p-0 menu fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light big-text op-90 w-100 mobile" style="height: 30px">
+        <div class="container-fluid">
+            {#<a class="navbar-brand" href="{{ path('accueil') }}">
+                <img src="{{ asset('assets/img/mgel-logement-2019.png') }}" alt="" height="40"
+                     style="">
+            </a>#}
+           {# <a href="{{ path('demande-logement') }}"><button class="btn-rounded sm mobile"><i class="fas fa-home"></i> Demande de logement</button></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+#}
+
+            <div class="collapse navbar-collapse" id="navbarResponsive1">
+                <ul class="navbar-nav ml-auto mr-auto text-center small">
+                    <li class="m-1 nav-item">
+                        <a class="text-white" href="{{ path('liste_residences',{ville:'Angers'}) }}"><i class="fas fa-map-marker-alt text-dark"></i> Angers</a>&nbsp; -
+                    </li>
+                    <li class="m-1 nav-item">
+                        <a class="text-white" href="{{ path('liste_residences',{ville:'Metz'}) }}"><i class="fas fa-map-marker-alt text-dark"></i> Metz</a> &nbsp;-
+                    </li>
+                    <li class="m-1 nav-item">
+                        <a class="text-white" href="{{ path('liste_residences',{ville:'Mulhouse'}) }}"><i class="fas fa-map-marker-alt text-dark"></i> Mulhouse</a> &nbsp;-
+                    </li>
+                    <li class="m-1 nav-item">
+                        <a class="text-white" href="{{ path('liste_residences',{ville:'Nancy'}) }}"><i class="fas fa-map-marker-alt text-dark"></i> Nancy</a> &nbsp;-
+                    </li>
+                    <li class="m-1 nav-item">
+                        <a class="text-white" href="{{ path('liste_residences',{ville:'Reims'}) }}"><i class="fas fa-map-marker-alt text-dark"></i> Reims</a> &nbsp;-
+                    </li>
+                    <li class="m-1 nav-item">
+                        <a class="text-white" href="{{ path('liste_residences',{ville:'Strasbourg'}) }}"><i class="fas fa-map-marker-alt text-dark"></i> Strasbourg</a>
+                    </li>
+                </ul>
+
+{#                <a href="{{ path('demande-logement') }}"><button class="btn-rounded sm"><i class="fas fa-home"></i> Demande de logement</button></a>#}
+               {# {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <a style="width: 292px;" class="btn-rounded btn-rounded-red text-center"
+                       href="{{ path('app_logout') }}"><i
+                                class="fas fa-sign-out-alt"></i> DECONNEXION</a>
+                {% else %}
+                    <a style="width: 292px;" class="btn-rounded" href="{{ path('reservation') }}"><i
+                                class="fas fa-home"></i>
+                        RESERVEZ UN LOGEMENT</a>
+                {% endif %}
+#}
+            </div>
+
+        </div>
+        <hr>
+    </nav>
+    <nav class="navbar navbar-expand-lg navbar-light big-text" {% if 'demande-logement' in app.request.get('_route') %}style ="background:rgba(94,94,94,0.76);"{% endif %}>
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ path('accueil') }}">
+                {% if 'demande-logement' in app.request.get('_route') %}
+                    <img src="{{ asset('assets/img/logo-mgel-logement.svg') }}" alt="" height="40"
+                         class="mobile">{% else %}
+                    <img src="{{ asset('assets/img/logo-mgel-logement-color.svg') }}" alt="" height="40"
+                         class="mobile">
+                {% endif %}
+                <img src="{{ asset('assets/img/logo-mgel-logement.svg') }}" alt="" height="40"
+                     class="mobile-show">
+            </a>
+            <a href="{{ path('demande-logement') }}"><button class="btn-rounded sm mobile"><i class="fas fa-home"></i> Demande de logement</button></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive2"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+
+            <div class="collapse navbar-collapse " id="navbarResponsive2">
+                <ul class="navbar-nav ml-auto mr-auto text-center small">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="{{ path('decouvrez-mgel') }}" id="navbarDropdown1">
+                            Découvrir MGEL Logement
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ path('qui-sommes-nous') }}">Qui sommes-nous</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ path('notre-concept') }}">Notre contept</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ path('nos-services') }}">Nos services</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="{{ path('reservation') }}" id="navbarDropdown2">
+                            Réserver un logement
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ path('courts-sejours') }}">Courts séjours</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ path('demande-logement') }}">Demande de logement</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" onclick="return false;" id="navbarDropdown3">
+                            Nos résidences
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            {% for ville in get_residences.ville %}
+                                <a class="dropdown-item" href="{{ path('liste_residences',{ville:ville.nom}) }}">{{ ville.nom }}</a>
+                                {% if loop.last %}
+                                {% else %}
+                                    <div class="dropdown-divider"></div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="{{ path('nos-residences') }}" id="navbarDropdown3">
+                           Aide & Contact
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ path('aide') }}">FAQ</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ path('aide') }}">Contactez-nous</a>
+                        </div>
+                    </li>
+
+                </ul>
+                <a class="mobile" href="{{ path('demande-logement') }}"><button class="btn-rounded sm"><i class="fas fa-home"></i> Demande de logement</button></a>
+{#                <a href="{{ path('demande-logement') }}"><button class="btn-rounded sm"><i class="fas fa-home"></i> Demande de logement</button></a>#}
+                {# {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                     <a style="width: 292px;" class="btn-rounded btn-rounded-red text-center"
+                        href="{{ path('app_logout') }}"><i
+                                 class="fas fa-sign-out-alt"></i> DECONNEXION</a>
+                 {% else %}
+                     <a style="width: 292px;" class="btn-rounded" href="{{ path('reservation') }}"><i
+                                 class="fas fa-home"></i>
+                         RESERVEZ UN LOGEMENT</a>
+                 {% endif %}
+ #}
+            </div>
+
+        </div>
+    </nav>
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="flash-{{ label }}">
+                {{ message|raw }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+</div>

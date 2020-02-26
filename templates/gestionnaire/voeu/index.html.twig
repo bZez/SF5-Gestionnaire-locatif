@@ -1,0 +1,127 @@
+{% extends 'gestionnaire/base.html.twig' %}
+
+{% block title %}Voeu index{% endblock %}
+
+{% block body %}
+    <h1>Voeux pour la residence <span class="text-info">{{ residenceChoisie.nom }}</span><span class="float-right">
+            <a href="{{ path('voeu_new') }}">
+        <button class="btn btn-sm btn-primary"><i class="fa fas fa-plus-square"></i> Nouveau voeu</button>
+    </a>
+        </span></h1>
+    <hr>
+
+    <select name="residence" id="residence" class="form-control">
+        {% for residence in residences %}
+            <option value="{{ residence.nom }}"
+                    {% if residence.nom is same as(residenceChoisie.nom) %} selected{% endif %}>{{ residence.nom }}</option>
+        {% endfor %}
+    </select>
+    <hr>
+    <table class="table table-hover table-sm text-center">
+        <thead class="table-dark">
+        <tr>
+            <th class="col-md-1">Logement N°</th>
+            <th>Locataire(s)</th>
+            <th>Date fin contrat</th>
+            <th>Debut nouv. contrat</th>
+            <th>Voeu ?</th>
+            <th class="text-right">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for logement in logements %}
+            {#<tr>
+                <td>{{ logement.numero }}</td>
+                <td>{% for locataire in logement.locataire %}
+            {% if locataire.nom %}
+              {% else %}
+                Libre...
+            {% endif %}
+        {% endfor %}
+                    {% if logement.hasLocataire %}
+                        {% for locataire in logement.locataire %}
+                            <a href="{{ path('locataire_show',{id:locataire.id}) }}">
+                                {{ locataire.nom|upper }} {{ locataire.prenom|capitalize }}
+                            </a>
+                        {% endfor %}
+                    {% else %}
+                        Logement libre...
+                    {% endif %}</td>
+                <td></td>
+                <td></td>
+                <td>{% for voeu in voeus %}
+                        {% if voeu.logement is same as (logement) %}
+                            <a href="{{ path('voeu_edit',{id:voeu.id}) }}">
+                                {{ voeu.souhait }}
+                            </a>
+                        {% else %}
+                            Logement libre...
+                        {% endif %}
+                    {% endfor %}</td>
+            </tr>
+             {% for voeu in voeus %}
+                 <tr>
+                     <td>{{ voeu.id }}</td>
+                     <td>{{ voeu.annee }}</td>
+                     <td>{{ voeu.souhait }}</td>
+                     <td>
+                         <a href="{{ path('voeu_show', {'id': voeu.id}) }}">show</a>
+                         <a href="{{ path('voeu_edit', {'id': voeu.id}) }}">edit</a>
+                     </td>
+                 </tr>
+             {% else %}
+
+             {% endfor %}#}
+            <tr class="{% if logement.hasLocataire %}bg-primary{% endif %}">
+                <td class="align-middle"><a
+                            href="{{ path('logement_show',{resid:logement.residence.nom,id:logement.id}) }}"
+                            class="text-dark">N° {{ logement.numero }}</a></td>
+                <td class="align-middle">{% if logement.hasLocataire %}
+                        {% for locataire in logement.locataire %}
+                            <a href="{{ path('locataire_show',{id:locataire.id}) }}" class="text-dark">
+                                {{ locataire.nomComplet }} <br>
+                            </a>
+                        {% endfor %}
+                    {% else %}
+                        Logement libre...
+                    {% endif %}
+                </td>
+                <td class="align-middle"></td>
+                <td class="align-middle"></td>
+                <td class="align-middle">
+                    {% for locataire in logement.locataire %}
+                        {% if locataire.voeu %}
+                            {{ locataire.voeu.souhait }}
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td class="align-middle text-right">
+                    {% for locataire in logement.locataire %}
+                        {% if locataire.voeu %}
+                        <a href="{{ path('voeu_show',{id:locataire.voeu.id}) }}">
+                            <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i></button>
+                        </a>
+                        <a href="{{ path('voeu_edit',{id:locataire.voeu.id}) }}">
+                            <button class="btn btn-sm btn-danger"><i class="fas fa-edit"></i></button>
+                        </a>
+                        {% endif %}
+                    {% endfor %}
+
+                </td>
+            </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+    <hr>
+    <a href="{{ path('voeu_new') }}">
+        <button class="btn btn-sm btn-primary"><i class="fa fas fa-plus-square"></i> Nouveau voeu</button>
+    </a>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        $('#residence').change(function () {
+            window.location.href = '/voeux/' + $(this).val();
+        })
+    </script>
+{% endblock %}

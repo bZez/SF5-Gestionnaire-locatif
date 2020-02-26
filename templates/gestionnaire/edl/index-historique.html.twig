@@ -1,0 +1,91 @@
+{% extends 'gestionnaire/base.html.twig' %}
+
+{% block title %}EDL index{% endblock %}
+
+{% block body %}
+    <h1>Historique des EDL pour <span
+                class="text-info">{{ residenceChoisie ? residenceChoisie.nom : 'toutes les résidences' }}</span>
+        <span class="float-right">
+        <a href="{{ path('e_d_l_new') }}">
+        <button class="btn btn-sm btn-primary"><i class="fas fa-plus-square"></i> Planifier un nouvel EDL</button>
+    </a>
+    </span></h1>
+    <hr>
+    <select name="resid" id="resid" onchange="window.location.href='/etat-des-lieux/'+$(this).val()+'/historique'"
+            class="form-control">
+        <option value="tous">Selectionnez une résidence...</option>
+        {% for residence in residences %}
+            <option value="{{ residence.nom }}"
+                    {% if residenceChoisie.nom is defined and residenceChoisie.nom is same as (residence.nom) %}selected{% endif %}>{{ residence.nom }}</option>
+        {% endfor %}
+    </select>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-6 text-success"><h5>EDLE</h5></div>
+        <div class="col-md-6 text-danger"><h5>EDLS</h5></div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <table class="table table-sm table-hover text-center">
+                <thead class="table-dark">
+                <tr>
+                    <th>Logement</th>
+                    <th>Locataire</th>
+                    <th>Date</th>
+                    <th class="text-right">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for edl in edles %}
+                    <tr>
+                        <td class="font-weight-bold">N°{{ edl.logement.numero }}</td>
+                        <td>
+                            <a href="{{ path('locataire_show',{resid:edl.locataire.residence.nom,id:edl.locataire.id}) }}">{{ edl.locataire.nomComplet }}</a>
+                        </td>
+                        <td>{{ edl.date|date('d-m-Y') }}</td>
+                        <td>
+                            <a class="btn btn-sm btn-info" href="{{ path('e_d_l_show',{resid:edl.logement.residence.nom,id:edl.id}) }}">
+                                <i class="fa fas fa-eye"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-6">
+            <table class="table table-sm table-hover text-center">
+                <thead class="table-dark">
+                <tr>
+                    <th>Logement</th>
+                    <th>Locataire</th>
+                    <th>Date</th>
+                    <th class="text-right">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for edl in edlss %}
+                    <tr>
+                        <td class="font-weight-bold">N°{{ edl.logement.numero }}</td>
+                        <td>
+                            <a href="{{ path('locataire_show',{resid:edl.locataire.residence.nom,id:locataire.id}) }}">{{ edl.locataire.nomComplet }}</a>
+                        </td>
+                        <td>{{ edl.date|date('d-m-Y') }}</td>
+                        <td>
+                            <a class="btn btn-sm btn-info" href="{{ path('e_d_l_show',{resid:edl.logement.residence.nom,id:edl.id}) }}">
+                                <i class="fa fas fa-eye"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <hr>
+    <a href="{{ path('e_d_l_new') }}">
+        <button class="btn btn-sm btn-primary"><i class="fas fa-plus-square"></i> Planifier un nouvel EDL</button>
+    </a>
+{% endblock %}

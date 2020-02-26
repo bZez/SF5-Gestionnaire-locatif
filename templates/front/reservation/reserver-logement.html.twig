@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Résidences étudiantes avec services à Angers, Nancy, Mulhouse, Metz et Reims{% endblock %}
+
+{% block body %}
+
+    {#LANDING PAGE#}
+    <section class="section-ter row" id="landing">
+        <div class="landing-bg decouvrez">
+            <div class="cta-landing text-center">
+                <h1 class="text-white">Réserver mon logement étudiant</h1>
+                <br>
+                 <a href="{{ path('accueil') }}">
+                    <button class="btn-rounded btn-rounded-dark border-0">
+                        Voir nos résidences
+                    </button>
+                </a>
+                <a href="{{ path('reservation') }}">
+                    <button class="btn-rounded">
+                        Réserver un logement
+                    </button>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    {#DECOUVRIR MGEL#}
+
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center mt-5 mb-2">
+                    <h1 class="orange font-weight-bold">MGEL Logement</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <hr>
+                </div>
+            </div>
+            <div class="section-half">
+                <div class="row mt-5 mb-5">
+                    <div class="col-md-6">
+                        <img class="w-100 shadow-lg rounded" src="{{ asset('assets/img/soultz.jpg') }}" alt="">
+                    </div>
+                    <div class="col-md-6 text-black-50 ">
+                        <h1 class="mt-5 font-weight-bold">Notre concept</h1><br>
+                        <p class="text-justify">Les résidences comprennent des salles communes* qui permettent aux
+                            résidants de se retrouver pour des moments de convivialités comme par exemple des salles de
+                            sport, ou des saunas. Nous proposons également des salles de cowor-king pour travailler seul
+                            ou à plusieurs dans un espace confortable et spacieux <br> <br>
+                            <a href="{{ path('notre-concept') }}">
+                                <button class="btn-rounded border-0 mt-3 mb-3">
+                                    En savoir plus...
+                                </button>
+                            </a>
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-5 pb-5">
+                <div class="col-md-6 text-black-50 ">
+                    <h1 class="mt-5 font-weight-bold">Notre service</h1>
+                    <p class="text-justify">Les résidences comprennent des salles communes* qui permettent aux résidants
+                        de se retrouver pour des moments de convivialités comme par exemple des salles de sport, ou des
+                        saunas. Nous proposons également des salles de cowor-king pour travailler seul ou à plusieurs
+                        dans un espace confortable et spacieux.<br> <br>
+                        <a href="{{ path('nos-services') }}">
+                            <button class="btn-rounded border-0 mt-3 mb-3">
+                                En savoir plus...
+                            </button>
+                        </a>
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <img class="w-100 shadow-lg rounded" src="{{ asset('assets/img/salon.jpg') }}" alt="">
+                </div>
+            </div>
+
+            {# NOS RESIDENCE#}
+
+
+        </div>
+        </div>
+    </section>
+{% endblock %}

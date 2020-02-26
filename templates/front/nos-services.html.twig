@@ -1,0 +1,187 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Résidences étudiantes avec services à Nancy, Mulhouse, Metz et Reims{% endblock %}
+
+{% block body %}
+
+    {#LANDING PAGE#}
+    <section class="section-ter row" id="landing">
+        <div class="landing-bg services">
+            <div class="cta-landing text-center">
+                <h1 class="text-white">Nos services</h1>
+                <br>
+                <p class="text-white">Afin de rendre le quotidien dans nos résidents plus facile et plus convivial, nous
+                    mettons à disposition des services adaptés à leurs besoins et leurs envies !</p>
+                <br>
+                <a href="{{ path('demande-logement') }}">
+                    <button class="btn-rounded">
+                        Je réserve mon logement étudiant
+                    </button>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    {#DECOUVRIR MGEL#}
+    <section>
+        <div class="section-ter container">
+            <div class="row">
+                <div class="col-md-12 text-center mt-5 mb-2">
+                    <h1 class="orange font-weight-bold">Services</h1>
+                    <p class="small text-black-50">Les résidences offrent toutes des services différents. Vous pourrez y
+                        retrouver :</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row bg-dark-light rounded pt-4 pb-4 pl-2 pr-2">
+                        <div class="col-md-3 text-center mb-3">
+                            <div class="bg-white rounded">
+                                <img src="{{ asset('assets/img/icones/animateur.png') }}" data-toggle="tooltip"
+                                     data-placement="bottom" title="Animateur" class="w-100 h-100">
+                            </div>
+                            <br>
+                            <h4 class="text-black-50 font-weight-bold">Animateur</h4>
+                            <small>Il est présent dans la résidence quelques heures par jour et veille au
+                                bon fonctionnement de la résidence. Il assure le relais entre les locataires et le
+                                bureau
+                                MGEL Logement.
+                            </small>
+                        </div>
+
+                        <div class="col-md-3 text-center mb-3">
+                            <div class="bg-white rounded">
+                                <img src="{{ asset('assets/img/icones/abri_velo.png') }}" data-toggle="tooltip"
+                                     data-placement="bottom" title="Abris à vélos" class="w-100 h-100">
+                            </div>
+                            <br>
+                            <h4 class="text-black-50 font-weight-bold">Abris vélo</h4>
+                            <small>Plusieurs emplacements sont mis à votre disposition au sein de la résidence.</small>
+                        </div>
+
+                        <div class="col-md-3 text-center mb-3">
+                            <div class="bg-white rounded">
+                                <img src="{{ asset('assets/img/icones/buanderie.png') }}" data-toggle="tooltip"
+                                     data-placement="bottom" title="Buanderie" class="w-100 h-100">
+                            </div>
+                            <br>
+                            <h4 class="text-black-50 font-weight-bold">Buanderie</h4>
+                            <small>Avec machine à laver et sèche-linge, en accès libre et sans monnayeur !</small>
+                        </div>
+
+                        <div class="col-md-3 text-center mb-3">
+                            <div class="bg-white rounded">
+                                <img src="{{ asset('assets/img/icones/pret_materiel.png') }}" data-toggle="tooltip"
+                                     data-placement="bottom" title="Prêt de materiel" class="w-100 h-100">
+                            </div>
+                            <br>
+                            <h4 class="text-black-50 font-weight-bold">Prêt de matériel</h4>
+                            <small>Inutile de perdre de la place dans le logement, du matériel est à votre disposition
+                                auprès de l’animateur : aspirateur, fer à repasser, table à repasser,...
+                            </small>
+                        </div>
+
+                        <div class="col-md-3 text-center mb-3">
+                            <div class="bg-white rounded">
+                                <img src="{{ asset('assets/img/icones/salle_sport.png') }}" data-toggle="tooltip"
+                                     data-placement="bottom" title="Salle de sport" class="w-100 h-100">
+                            </div>
+                            <br>
+                            <h4 class="text-black-50 font-weight-bold">Salle de sport</h4>
+                            <small>Une remise en forme sans frais d'abonnements ? C'est possible au
+                                sein même de nos résidences ! Nos salles sont équipées de matériel moderne et adapté
+                                (rameur, vélo elliptique, tapis de course,...)</small>
+                        </div>
+
+                        <div class="col-md-3 text-center mb-3">
+                            <div class="bg-white rounded">
+                                <img src="{{ asset('assets/img/icones/salle_detente.png') }}" data-toggle="tooltip"
+                                     data-placement="bottom" title="Salle détente" class="w-100 h-100">
+                            </div>
+                            <br>
+                            <h4 class="text-black-50 font-weight-bold">Salle de détente</h4>
+                            <small>Pour passer des moments conviviaux. Cette salle est équipée de
+                                babyfoot, billard...</small>
+                        </div>
+
+                        <div class="col-md-3 text-center mb-3">
+                            <div class="bg-white rounded">
+                                <img src="{{ asset('assets/img/icones/salle_tv.png') }}" data-toggle="tooltip"
+                                     data-placement="bottom" title="Salle de Télévision" class="w-100 h-100">
+                            </div>
+                            <br>
+                            <h4 class="text-black-50 font-weight-bold">Salle de Télévision</h4>
+                            <small>Pour vous détendre devant du sport, un film, ...</small>
+                        </div>
+
+                        <div class="col-md-3 text-center mb-3">
+                            <div class="bg-white rounded">
+                                <img src="{{ asset('assets/img/icones/salle_cowork.png') }}" data-toggle="tooltip"
+                                     data-placement="bottom" title="Salle de Coworking" class="w-100 h-100">
+                            </div>
+                            <br>
+                            <h4 class="text-black-50 font-weight-bold">Salle de Télévision</h4>
+                            <small> Une salle pour travailler en groupe, innover ou simplement se
+                                détendre...</small>
+                        </div>
+
+                        <div class="col-md-3 text-center mb-3">
+                            <div class="bg-white rounded">
+                                <img src="{{ asset('assets/img/icones/sauna.png') }}" data-toggle="tooltip"
+                                     data-placement="bottom" title="Sauna" class="w-100 h-100">
+                            </div>
+                            <br>
+                            <h4 class="text-black-50 font-weight-bold">Sauna</h4>
+                            <small>Envie de faire une pause et de se détendre. Une séance de sauna ravivera
+                                votre corps et déstressera votre esprit !</small>
+                        </div>
+
+
+                        <div class="col-md-3 text-center mb-3">
+                            <div class="bg-white rounded">
+                                <img src="{{ asset('assets/img/icones/petit_dej.png') }}" data-toggle="tooltip"
+                                     data-placement="bottom" title="Petit-Déjeuner" class="w-100 h-100">
+                            </div>
+                            <br>
+                            <h4 class="text-black-50 font-weight-bold">Sauna</h4>
+                            <small> Pour commencer la journée du bon pied, nous vous proposons un petit
+                                déjeuner en semaine et hors vacances scolaires.</small>
+                        </div>
+
+                        <div class="col-md-3 text-center mb-3">
+                            <div class="bg-white rounded">
+                                <img src="{{ asset('assets/img/icones/wifi.png') }}" data-toggle="tooltip"
+                                     data-placement="bottom" title="Accès Wifi" class="w-100 h-100">
+                            </div>
+                            <br>
+                            <h4 class="text-black-50 font-weight-bold">Internet</h4>
+                            <small>Une connexion Internet est disponible dans chaque logement.</small>
+                        </div>
+
+                        <div class="col-md-3 text-center mb-3">
+                            <div class="bg-white rounded">
+                                <img src="{{ asset('assets/img/icones/video_surveil.png') }}" data-toggle="tooltip"
+                                     data-placement="bottom" title="Video-surveillance" class="w-100 h-100">
+                            </div>
+                            <br>
+                            <h4 class="text-black-50 font-weight-bold">Vidéo-surveillance</h4>
+                            <small>Pour la tranquillité de tous, nos résidences sont équipées de
+                                caméras de vidéosurveillance.</small>
+                        </div>
+                    </div>
+                    <hr class="invisible">
+                    <div class="mb-5">
+                        <h5 class="font-weight-bold">Également à disposition :</h5>
+                        Nous proposons également l'accès à des parkings aux pieds des résidences. Ce service est payant,
+                        mais reste à petit prix pour limiter les dépenses.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

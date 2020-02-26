@@ -1,0 +1,63 @@
+
+    <div class="disporow" id="dispo-{{ dispo.annee }}">
+        {% if dispo.janvier %}
+            <div class="btn btn-sm bg-success" title="Janvier {{ dispo.annee }}<br> <u>(Libre)</u>">J</div>
+        {% else %}
+            <div class="btn btn-sm bg-warning" title="Janvier {{ dispo.annee }}<br> <u>(Indisponible)</u>">J</div>
+        {% endif %}
+        {% if dispo.fevrier %}
+            <div class="btn btn-sm bg-success" title="Février {{ dispo.annee }}<br> <u>(Libre)</u>">F</div>
+        {% else %}
+            <div class="btn btn-sm bg-warning" title="Février {{ dispo.annee }}<br> <u>(Indisponible)</u>">F</div>
+        {% endif %}
+        {% if dispo.mars %}
+            <div class="btn btn-sm bg-success" title="Mars {{ dispo.annee }}<br> <u>(Libre)</u>">M</div>
+        {% else %}
+            <div class="btn btn-sm bg-warning" title="Mars {{ dispo.annee }}<br> <u>(Indisponible)</u>">M</div>
+        {% endif %}
+        {% if dispo.avril %}
+            <div class="btn btn-sm bg-success" title="Avril {{ dispo.annee }}<br> <u>(Libre)</u>">A</div>
+        {% else %}
+            <div class="btn btn-sm bg-warning" title="Avril {{ dispo.annee }}<br> <u>(Indisponible)</u>">A</div>
+        {% endif %}
+        {% if dispo.mai %}
+            <div class="btn btn-sm bg-success" title="Mai {{ dispo.annee }}<br> <u>(Libre)</u>">M</div>
+        {% else %}
+            <div class="btn btn-sm bg-warning" title="Mai {{ dispo.annee }}<br> <u>(Indisponible)</u>">M</div>
+        {% endif %}
+        {% if dispo.juin %}
+            <div class="btn btn-sm bg-success" title="Juin {{ dispo.annee }}<br> <u>(Libre)</u>">J</div>
+        {% else %}
+            <div class="btn btn-sm bg-warning" title="Juin {{ dispo.annee }}<br> <u>(Indisponible)</u>">J</div>
+        {% endif %}
+        {% if dispo.juillet %}
+            <div class="btn btn-sm bg-success" title="Juillet {{ dispo.annee }}<br> <u>(Libre)</u>">J</div>
+        {% else %}
+            <div class="btn btn-sm bg-warning" title="Juillet {{ dispo.annee }}<br> <u>(Indisponible)</u>">J</div>
+        {% endif %}
+        {% if dispo.aout %}
+            <div class="btn btn-sm bg-success" title="Aout {{ dispo.annee }}<br> <u>(Libre)</u>">A</div>
+        {% else %}
+            <div class="btn btn-sm bg-warning" title="Août {{ dispo.annee }}<br> <u>(Indisponible)</u>">A</div>
+        {% endif %}
+        {% if dispo.septembre %}
+            <div class="btn btn-sm bg-success" title="Septembre {{ dispo.annee }}<br> <u>(Libre)</u>">S</div>
+        {% else %}
+            <div class="btn btn-sm bg-warning" title="Septembre {{ dispo.annee }}<br> <u>(Indisponible)</u>">S</div>
+        {% endif %}
+        {% if dispo.octobre %}
+            <div class="btn btn-sm bg-success" title="Octobre {{ dispo.annee }}<br> <u>(Libre)</u>">O</div>
+        {% else %}
+            <div class="btn btn-sm bg-warning" title="Octobre {{ dispo.annee }}<br> <u>(Indisponible)</u>">O</div>
+        {% endif %}
+        {% if dispo.novembre %}
+            <div class="btn btn-sm bg-success" title="Novembre {{ dispo.annee }}<br> <u>(Libre)</u>">N</div>
+        {% else %}
+            <div class="btn btn-sm bg-warning" title="Novembre {{ dispo.annee }}<br> <u>(Indisponible)</u>">N</div>
+        {% endif %}
+        {% if dispo.decembre %}
+            <div class="btn btn-sm bg-success" title="Décembre {{ dispo.annee }}<br> <u>(Libre)</u>">D</div>
+        {% else %}
+            <div class="btn btn-sm bg-warning" title="Décembre {{ dispo.annee }}<br> <u>(Indisponible)</u>">D</div>
+        {% endif %}
+    </div>

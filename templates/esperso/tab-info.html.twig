@@ -1,0 +1,56 @@
+<div class="row " id="content-profil">
+    <div class="col-sm-12 col-md-6 mb-5">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-center">
+                    <h1 class="h1-loc text-white "><i class="fas fa-user-circle"></i> Vous <span
+                                class="text-black-50 small"><small>({{ locataire.statutPro ? 'Jeune actif':'Etudiant' }}) {% if locataire.statut is not same as('TRANSMIS') and is_granted('ROLE_PROSPECT') %}
+                                    <button data-toggle="modal" data-target="#modalStatutPro"
+                                            class="btn btn-sm btn-info"><i class="fas fa-edit"></i></button>{% endif %}</small></span>
+                    </h1>
+                    <hr class="profil">
+                </div>
+            </div>
+        </div>
+        {% if locataire.statut is not same as('TRANSMIS') and is_granted('ROLE_PROSPECT') %}
+            {% include 'modal/statut-pro.html.twig' %}
+        {% endif %}
+        {#FORM#}
+        <div class="row">
+            <div class="col-sm-12" style="font-size:1.5em">
+               <div>
+                   {{ locataire.nom }} <br>
+                   {{ locataire.prenom }} <br>
+                   {{ locataire.email }} <br>
+{#                   {{ locataire.telephone ? locataire.telephone : locataire.telMobile }} <br>#}
+                   {{ locataire.adresse }} {{ locataire.codePostal }} {{ locataire.ville }} <br>
+               </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-5">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-center">
+                    <h1 class="h1-loc text-white "><i class="fas fa-user-shield"></i> Votre garant</h1>
+                    <hr class="profil">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" style="font-size:1.5em">
+                {% if is_granted('ROLE_LOCATAIRE') %}{{ locataire.garant.nom }}{% else %}{{ locataire.nomGarant }}{% endif %}
+                <br>
+                {% if is_granted('ROLE_LOCATAIRE') %}{{ locataire.garant.prenom }}{% else %}{{ locataire.prenomGarant }}{% endif %}
+                <br>
+                {% if is_granted('ROLE_LOCATAIRE') %}{{ locataire.garant.email }}{% else %}{{ locataire.emailGarant }}{% endif %}
+                <br>
+                {% if is_granted('ROLE_LOCATAIRE') %}{{ locataire.garant.telMobile }}{% else %}{{ locataire.telephoneGarant }}{% endif %}
+                <br>
+                {% if is_granted('ROLE_LOCATAIRE') %}{{ locataire.garant.adresse }} {{ locataire.garant.codePostal }} {{ locataire.garant.ville }}{% else %}{{ locataire.adresseGarant }} {{ locataire.codePostalGarant }} {{ locataire.villeGarant }}{% endif %}
+                <br>
+
+            </div>
+        </div>
+    </div>
+</div>

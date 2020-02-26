@@ -1,0 +1,13 @@
+{% extends 'gestionnaire/base.html.twig' %}
+
+{% block title %}Edit Contrat{% endblock %}
+
+{% block body %}
+    <h1>Edit Contrat</h1>
+
+    {{ include('gestionnaire/contrat/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('contrat_index') }}">back to list</a>
+
+    {{ include('gestionnaire/contrat/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,13 @@
+twig:
+    default_path: '%kernel.project_dir%/templates'
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    form_themes: ['bootstrap_4_horizontal_layout.html.twig']
+    globals:
+         prospect_count: '@App\Service\ProspectCount'
+         edl_count: '@App\Service\EdlCount'
+         logement_libre: '@App\Service\LogementLibre'
+         get_residences: '@App\Service\ResidenceGetter'
+         get_locataires: '@App\Service\LocataireList'
+         datas_dir: '../../datas/'
+         photos_dir: '../../_photos_/'

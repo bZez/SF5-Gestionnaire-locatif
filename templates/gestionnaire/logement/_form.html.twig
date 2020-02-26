@@ -1,0 +1,8 @@
+{{ form_start(form) }}
+<h4><i class="fa fas fa-plus"></i> Ajout mulitple ?<h6 class="small text-danger">Si vous choisissez l'option multiple les numéros d'appartement se suivront automatiquement et les caracteristiques seront identiques !</h6></h4>
+<input type="number" name="logementNbr" class="form-control" placeholder="Entrez le nombre de logements à ajouter...">
+<hr>
+    {{ form_widget(form) }}
+<hr>
+   <div class="btn-group"><button class="btn btn-success"><i class="fa fas fa-edit"></i> {{ button_label|default('Enregistrer') }}</button>
+{{ form_end(form) }}

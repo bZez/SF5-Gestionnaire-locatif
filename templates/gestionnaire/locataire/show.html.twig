@@ -1,0 +1,423 @@
+{% extends 'gestionnaire/base.html.twig' %}
+{% set vide = '<strong class="text-danger">A renseigner</strong>' %}
+{% block title %}Locataire{% endblock %}
+{% block body %}
+    <h1>Locataire N°{{ locataire.id }}, <span
+                class="text-info">{{ locataire.logement.residence.nom }}</span>{% if locataire.parking %}
+
+        <a href="{{ path('parking_show', {'resid':locataire.parking.residence.nom,'id': locataire.parking.id}) }}">
+            <button class="btn btn-sm btn-primary">
+                <i class="fa fas fa-parking"></i>
+            </button>
+        </a>
+        {% endif %}</h1>
+    <hr>
+    <div class="container">
+        <h4><i class="fas fa-user-tag"></i> Détails du locataire N°{{ locataire.id }} {% if locataire.colocation %}
+                <small>(colocation)</small>{% endif %} <span
+                    class="float-right btn-group">
+                    <a href="{{ path('locataire_index') }}"><button class="btn btn-sm btn-primary small"><i
+                                    class="fas fa-backward"></i></button></a> &nbsp;
+
+        <a href="{{ path('locataire_edit', {'resid':locataire.logement.residence.nom,'id': locataire.id}) }}"><button
+                    class="btn btn-sm btn-success small"><i
+                        class="fa fas fa-edit"></i></button></a>&nbsp;
+
+        {{ include('gestionnaire/locataire/_delete_form.html.twig') }}
+            </span></h4>
+        {% block locataire %}
+            <div class="rounded bg-white border">
+                <div class="row p-3">
+                    <div class="col-md-6">
+                        <strong>{{ locataire.civilite }}
+                            . {{ locataire.nom|upper }} {{ locataire.prenom|capitalize }}</strong>
+                        <br>
+                        {{ locataire.adresse }} <br> {{ locataire.codePostal }} {{ locataire.ville|upper }}
+                        <br>
+                        <strong class="{% if locataire.dateNaissance is null %}text-danger{% endif %}">Date de
+                            naissance:</strong> {{ locataire.dateNaissance|date('d/m/Y') }} <br>
+                        <strong class="{% if locataire.villeNaissance is null %}text-danger{% endif %}">Ville de
+                            naissance:</strong> {{ locataire.villeNaissance }}
+                        <br>
+                        <strong class="{% if locataire.codeInsee is null %}text-danger{% endif %}">N° de sécurité
+                            sociale
+                            :</strong> {{ locataire.codeInsee }}
+                    </div>
+                    <div class="col-md-6">
+                        <i class="fas fa-at"></i> {{ locataire.email }} <br>
+                        <i class="fas fa-phone"></i> {{ locataire.telFixe ? locataire.telFixe : locataire.telMobile }}
+                        <hr>
+                        <strong>Type d'adhérent:</strong> {{ locataire.typeAdh }} <br>
+                        <strong>Type de MRH:</strong> {{ locataire.typeMrh }}
+                    </div>
+                </div>
+                <div class="row p-3">
+                    <div class="col-md-6 small">
+                        Le
+                        locataire {{ locataire.cnilMgel ? '<span class="text-success">accepte</span>' : '<span class="text-danger">n\'accepte pas</span>' }}
+                        les communications MGEL.
+                        <br>
+                        Le
+                        locataire {{ locataire.cnilPartenaires ? '<span class="text-success">accepte</span>' : '<span class="text-danger">n\'accepte pas</span>' }}
+                        les communications des partenaires.
+                    </div>
+                    <div class="col-md-6">
+                        <strong>ID Gestionnaire: </strong><span class="text-info">{{ locataire.id }}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 rounded border bg-light p-2 mb-3">
+                        <h6 class="font-weight-bold"><i class="fas fa-comment-dots"></i> Commentaire</h6>
+                        <div class="row text-center">
+                            <div class="col-md-12">
+                                {{ locataire.commentaire ? locataire.commentaire : 'Aucun commentaire...' }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+        <hr>
+        {% block garant %}
+            <h5><i class="fas fa-hands"></i> Détail du garant</h5>
+            <div class="rounded bg-white border">
+                <div class="row p-3">
+                    <div class="col-md-6">
+                        <strong>{{ locataire.garant.civilite }}
+                            . {{ locataire.garant.nom|upper }} {{ locataire.garant.prenom|capitalize }}</strong> <br>
+                        {{ locataire.garant.adresse }}
+                        <br> {{ locataire.garant.codePostal }} {{ locataire.garant.ville|upper }}
+                        <br>
+                        <hr>
+                        Date de naissance: <strong>{{ locataire.garant.dateNaissance|date('d/m/Y') }}</strong>
+                    </div>
+                    <div class="col-md-6">
+                        <i class="fas fa-at"></i> {{ locataire.garant.email }} <br>
+                        <i class="fas fa-phone"></i> {{ locataire.garant.telMobile ? locataire.telMobile : locataire.telFixe }}
+                        <br>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+        <hr>
+        {% block contrat %}
+            <h5><i class="fas fa-file-contract"></i> Détail du contrat {% if locataire.colocation %}
+                    <small class="text-info">(colocation)</small>{% endif %} <span class="float-right">
+                    {% set logement = locataire.logement %}
+                    {% include 'modal/nouveau-contrat.html.twig' %}
+                    <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#newContrat">
+                        <i class="fa fas fa-plus-square "></i> Renouvellement contrat
+                    </button>
+                </span></h5>
+            <div class="rounded bg-white border">
+                <div class="row pl-3 pr-3 pt-3 pb-0">
+                    <div class="col-md-6">
+                        <strong>Date de début du
+                            contrat:</strong> {{ locataire.lastContrat.debut|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}
+                        <br>
+                        <strong>Infos transfert Pass YAY:</strong>
+                        <hr>
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Date de fin du
+                            contrat:</strong> {{ locataire.lastContrat.fin|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}
+                        <br>
+                        <strong>Date d'avenant au
+                            contrat:</strong> {{ locataire.lastContrat.fin|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}
+                        <hr>
+                    </div>
+                </div>
+                <div class="row pb-3 pl-3 pr-3">
+                    <div class="col-md-12 text-center">
+                        <strong><i class="fas fa-folder-open"></i> Documents contractuels:</strong><br>
+                        <a href="{{ path('gen_contrat',{'loc':locataire.id}) }}" class="text-dark col-md-4"
+                           target="_blank"><strong>Première page du contrat: <i
+                                        class="fas fa-file-contract"></i></strong></a>
+                        <a href="{{ path('gen_caution',{'loc':locataire.id}) }}" class="text-dark col-md-4"
+                           target="_blank"><strong>Acte de caution: <i class="fas fa-file-invoice-dollar"></i></strong></a>
+                        <a href="{{ path('gen_dossier',{'loc':locataire.id}) }}" class="text-dark col-md-4"
+                           target="_blank"><strong>Dossier complet: <i class="fas fa-folder-open"></i></strong></a>
+                        <a href="{{ path('gen_contrat',{'loc':locataire.id}) }}" class="text-dark col-md-4"
+                           target="_blank"><strong>Attestation CAF: <i class="fa fas fa-eye"></i></strong></a>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+        <hr>
+        {% block logement %}
+            <h5><i class="fas fa-hotel"></i> Logement {% if locataire.colocation %}
+                    <small class="text-info">(colocation)</small>{% endif %}</h5>
+            <div class="rounded bg-white border">
+                <div class="row p-3">
+                    <div class="col-md-6">
+                        <strong>Residence:</strong> <br>
+                        <a href="{{ path('residence_show',{id:locataire.logement.residence.id}) }}"> {{ locataire.logement.residence.nom }} </a><br>
+                        {{ locataire.logement.residence.adresse }} <br>
+                        {{ locataire.logement.residence.ville.codePostal }} {{ locataire.logement.residence.ville.nom|upper }}
+                        <hr>
+                        {% set consoEner = locataire.logement.residence.consoEner %}
+                        {% set emiGaz = locataire.logement.residence.emigaz %}
+                        {{ include('extra/diag.html.twig') }}
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="{{ path('logement_show',{resid:locataire.logement.residence.nom,id:locataire.logement.id}) }}">
+                                    <strong> Appartement N°{{ locataire.logement.numero }}</strong>
+                                </a>
+                            </div>
+                            <div class="col-md-6">
+                                <strong> Loyer</strong>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="small row">
+                            <div class="col-md-12">
+                                <div class="col-md-6 bg-light p-3 border border-right-0 rounded-left float-left">
+                                    <strong>Batiment:</strong> {{ locataire.logement.batiment }} <br>
+                                    <strong>Colocation:</strong> {{ locataire.colocation ? 'Oui' : 'Non' }} <br>
+                                    <strong>Etage:</strong> {{ locataire.logement.etage }} <br>
+                                    <strong>Situation:</strong> {{ locataire.logement.situation }} <br>
+                                    <strong>Type de couchage:</strong> {{ locataire.logement.typeLit }} <br>
+                                    <strong>Catégorie:</strong> {{ locataire.logement.categorie }} <br>
+                                    <strong>Typologie:</strong> {{ locataire.logement.typeLogement }} <br>
+                                    <strong>Surface:</strong> {{ locataire.logement.surface }} m²<br>
+                                    <strong>Dépôt de garantie:</strong> {{ locataire.logement.residence.garantie }}
+                                    €<br>
+                                </div>
+                                <div class="col-md-6 bg-light rounded-right border p-3 border-left-0 float-right h-100">
+                                    <strong>Loyer hors charge:</strong> <span
+                                            class="float-right text-info">{{ locataire.logement.contrat.loyerPerso|default(locataire.logement.loyer) }}</span>
+                                    <br>
+                                    <strong>Montant des charges :</strong> <span
+                                            class="float-right text-info">{{ locataire.logement.contrat.chargesPerso|default(locataire.logement.charges) }}</span>
+                                    <br>
+                                    <strong>Cotisation accessoires:</strong> <span
+                                            class="float-right text-info">{{ locataire.logement.contrat.cotisAccPerso|default(locataire.logement.cotisAcc) }}</span>
+                                    <br>
+                                    <strong>Cotisation services:</strong> <span
+                                            class="float-right text-info">{{ locataire.logement.contrat.cotisServicesPerso|default(locataire.logement.cotisServices) }}</span>
+                                    <br>
+                                    <hr>
+                                    <h5>TOTAL: <span
+                                                class="float-right">{% if locataire.logement.contrat.loyerPerso %}{{ locataire.logement.contrat.loyerPerso + locataire.logement.contrat.chargesPerso + locataire.logement.contrat.cotisAccPerso + locataire.logement.contrat.cotisServicesPerso }}{% else %}{{ locataire.logement.loyerTotal }}{% endif %} €</span>
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 rounded border bg-light p-2 mb-3">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="font-weight-bold"><i class="fas fa-clock"></i> Historique des opérations</h6>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <p class="pl-4"><strong>Enregistrement:</strong>
+                                            <strong class="text-success">{{ locataire.dateRecord ? locataire.dateRecord|date('d-m-Y') : '' }}</strong><br>
+                                            par <a class="font-weight-bold"
+                                                   href="{{ path('user_show',{id:locataire.recordBy.id}) }}">{{ locataire.recordBy.nomPrenom }}</a>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p class="pl-4"><strong>Etat des lieux:</strong> <br>
+                                            <strong class="text-success">EDLE:</strong>{% if locataire.edle %}
+                                            <a href="{{ path('e_d_l_show',{resid:locataire.logement.residence.nom,id:locataire.edle.id}) }}">
+                                                {{ locataire.edle.date|date('d-m-Y') }}
+                                            </a>
+                                        {% else %}
+                                            <a href="{{ path('e_d_l_new',{t:'EDLE',l:locataire.logement.id}) }}">
+                                                Planifier
+                                            </a>
+                                            {% endif %}
+                                            <br>
+                                            <strong class="text-danger">EDLS:</strong>{% if locataire.edls %}
+                                            <a href="{{ path('e_d_l_show',{resid:locataire.logement.residence.nom,id:locataire.edls.id}) }}">
+                                                {{ locataire.edls.date|date('d-m-Y') }}
+                                            </a>
+                                        {% else %}
+                                            <a href="{{ path('e_d_l_new',{t:'EDLS',l:locataire.logement.id}) }}">
+                                                Planifier
+                                            </a>
+                                            {% endif %}
+                                            <br>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+        <hr>
+        {% block documents %}
+            <h5><i class="fas fa-folder-open"></i> Documents</h5>
+            <div class="rounded bg-white border">
+                <div class="row p-3">
+                    <div class="col-md-6">
+
+                        {#TODO Valider les documents #}
+                        <strong>Concernant le locataire:</strong><span
+                                class="text-info small"> ({{ locataire.statutPro ? 'Jeune actif':'Etudiant' }})</span>
+                        <br>
+                        {% if locataire.cni %}
+                            <a class="h5 text-success" href="{{ datas_dir }}{{ locataire.cni }}"><i
+                                        class="fas fa-id-card"></i> Carte d'identité <i class="fas fa-check"></i></a>
+
+                        {% else %}
+                            <span class="h5 text-danger"><i
+                                        class="fas fa-id-card"></i> Carte d'identité manquante</span>
+                        {% endif %} <br>
+                        {% if locataire.statutPro == true %}
+                            {% if locataire.contratTrav %}
+                                <a class="h5 text-success" href="{{ datas_dir }}{{ locataire.contratTrav }}"><i
+                                            class="fas fa-file-contract"></i> Contrat de travail <i
+                                            class="fas fa-check"></i></a>
+
+                            {% else %}
+                                <span class="h5 text-danger"><i class="fas fa-file-contract"></i> Contrat de travail manquant</span>
+                            {% endif %} <br>
+                            {% if locataire.bullSal %}
+                                <a class="h5 text-success" href="{{ datas_dir }}{{ locataire.bullSal }}"><i
+                                            class="fas fa-file-invoice-dollar"></i> Bulletins de salaires <i
+                                            class="fas fa-check"></i></a>
+
+                            {% else %}
+                                <span class="h5 text-danger"><i class="fas fa-file-invoice-dollar"></i> Bulletins de salaires manquant</span>
+                            {% endif %} <br>
+                            {% if locataire.avisImp %}
+                                <a class="h5 text-success" href="{{ datas_dir }}{{ locataire.avisImp }}"><i
+                                            class="fas fa-balance-scale"></i> Avis d'imposition <i
+                                            class="fas fa-check"></i></a>
+
+                            {% else %}
+                                <span class="h5 text-danger"><i
+                                            class="fas fa-balance-scale"></i> Avis d'imposition manquant</span>
+                            {% endif %} <br>
+                        {% elseif locataire.statutPro == false %}
+                            {% if locataire.justifScol %}
+                                <a class="h5 text-success" href="{{ datas_dir }}{{ locataire.justifScol }}"><i
+                                            class="fas fa-home"></i> Justificatif de scolarité <i
+                                            class="fas fa-check"></i></a>
+
+                            {% else %}
+                                <span class="h5 text-danger"><i
+                                            class="fas fa-home"></i> Justificatif de scolarité manquant</span>
+                            {% endif %} <br>
+                        {% endif %}
+                        {% if locataire.rib %}
+                            <a class="h5 text-success" href="{{ datas_dir }}{{ locataire.rib }}"><i
+                                        class="fas fa-file-invoice-dollar"></i> Rélevé d'identité bancaire (RIB) <i
+                                        class="fas fa-check"></i></a>
+
+                        {% else %}
+                            <span class="h5 text-danger"><i class="fas fa-file-invoice-dollar"></i> RIB manquant</span>
+                        {% endif %} <br>
+                        {% if locataire.sepa %}
+                            <a class="h5 text-success" href="{{ path('gen_sepa',{loc:locataire.id}) }}"><i
+                                        class="fas fa-file-invoice-dollar"></i> Autorisation de prélèvement (SEPA) <i
+                                        class="fas fa-check"></i></a>
+
+                        {% else %}
+                            <span class="h5 text-danger"><i class="fas fa-file-invoice-dollar"></i>  Autorisation de prélèvement (SEPA) manquant</span>
+                        {% endif %} <br>
+                        {% if locataire.photo %}
+                            <a class="h5 text-success" href="{{ datas_dir }}photos/{{ locataire.photo }}"><i
+                                        class="fas fa-camera"></i> Photo d'identité <i
+                                        class="fas fa-check"></i></a>
+
+                        {% else %}
+                            <span class="h5 text-danger"><i class="fas fa-camera"></i> Photo d'identité manquante</span>
+                        {% endif %} <br>
+                        {% if locataire.justifBourse %}
+                            <a class="h5 text-success" href="{{ datas_dir }}{{ locataire.justifBourse }}"><i
+                                        class="fas fa-hand-holding-usd"></i> Justif. bourse <i class="fas fa-check"></i></a>
+                        {% else %}
+                            <span class="h5 text-danger"><i
+                                        class="fas fa-hand-holding-usd"></i> Aucun justif. bourse</span>
+                        {% endif %} <br>
+                        {% if locataire.chequeFrais %}
+                            <span class="h5 text-success"><i class="fas fa-money-check"></i> Chèque de frais reçu <i
+                                        class="fas fa-check"></i></span>
+
+                            <i class="fas fa-sync-alt text-danger"
+                               onclick="updateProspect({{ locataire.id }},'cheque')"></i>
+
+                        {% else %}
+                            <span class="h5 text-danger"><i
+                                        class="fas fa-money-check"></i> Chèque de frais manquant</span>
+                            <i class="fas fa-sync-alt text-success"
+                               onclick="updateProspect({{ locataire.id }},'cheque')"></i>
+
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Concernant le garant:</strong> <br>
+                        {% if locataire.garant.cni %}
+                            <a class="h5 text-success" href="{{ datas_dir }}{{ locataire.garant.cni }}"><i
+                                        class="fas fa-id-card"></i> Carte d'identité du garant <i
+                                        class="fas fa-check"></i></a>
+                        {% else %}
+                            <span class="h5 text-danger"><i
+                                        class="fas fa-id-card"></i> Carte d'identité manquante</span>
+                        {% endif %} <br>
+                        {% if locataire.garant.livret %}
+                            <a class="h5 text-success" href="{{ datas_dir }}{{ locataire.garant.livret }}"><i
+                                        class="fas fa-address-book"></i> Livret de famille <i class="fas fa-check"></i></a>
+
+                        {% else %}
+                            <span class="h5 text-danger"><i
+                                        class="fas fa-address-book"></i> Livret de famille manquant</span>
+                        {% endif %} <br>
+                        {% if locataire.garant.justifDom %}
+                            <a class="h5 text-success" href="{{ datas_dir }}{{ locataire.garant.justifDom }}"><i
+                                        class="fas fa-home"></i> Justificatif de domicile <i
+                                        class="fas fa-check"></i></a>
+                        {% else %}
+                            <span class="h5 text-danger"><i
+                                        class="fas fa-home"></i> Justificatif de domicile manquant</span>
+                        {% endif %} <br>
+                        {% if locataire.garant.bullSal %}
+                            <a class="h5 text-success" href="{{ datas_dir }}{{ locataire.garant.bullSal }}"><i
+                                        class="fas fa-file-invoice-dollar"></i> Bulletins de salaires <i
+                                        class="fas fa-check"></i></a>
+                        {% else %}
+                            <span class="h5 text-danger"><i class="fas fa-file-invoice-dollar"></i> Bulletins de salaires manquant</span>
+                        {% endif %} <br>
+                        {% if locataire.garant.avisImp %}
+                            <a class="h5 text-success" href="{{ datas_dir }}{{ locataire.garant.avisImp }}"><i
+                                        class="fas fa-balance-scale"></i> Avis d'imposition <i class="fas fa-check"></i></a>
+                        {% else %}
+                            <span class="h5 text-danger"><i
+                                        class="fas fa-balance-scale"></i> Avis d'imposition manquant</span>
+                        {% endif %} <br>
+                    </div>
+                </div>
+
+            </div>
+        {% endblock %}
+    </div>
+    <div class="w-100 text-center mt-3">
+        <div class="btn-group">
+            <a href="{{ path('locataire_index') }}">
+                <button class="btn btn-sm btn-primary small"><i
+                            class="fas fa-backward"></i> Retour à la liste
+                </button>
+            </a> &nbsp;
+
+            <a href="{{ path('locataire_edit', {'resid':locataire.logement.residence.nom,'id': locataire.id}) }}">
+                <button class="btn btn-sm btn-success small"><i
+                            class="fa fas fa-edit"></i> Editer ce locataire
+                </button>
+            </a>&nbsp;
+
+            {{ include('gestionnaire/locataire/_delete_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

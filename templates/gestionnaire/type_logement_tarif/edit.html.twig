@@ -1,0 +1,13 @@
+{% extends 'gestionnaire/base.html.twig' %}
+
+{% block title %}Edit TypeLogementTarif{% endblock %}
+
+{% block body %}
+    <h1>Edit TypeLogementTarif</h1>
+
+    {{ include('type_logement_tarif/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('type_logement_tarif_index') }}">back to list</a>
+
+    {{ include('type_logement_tarif/_delete_form.html.twig') }}
+{% endblock %}

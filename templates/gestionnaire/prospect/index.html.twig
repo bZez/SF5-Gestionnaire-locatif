@@ -1,0 +1,145 @@
+{% extends 'gestionnaire/base.html.twig' %}
+
+{% block title %}Prospect index{% endblock %}
+
+{% block body %}
+    <h1>Demandes de logement <span class="float-right">
+            <a href="{{ path('prospect_new') }}">
+        <button class="btn btn-sm btn-primary"><i class="fas fa-plus-square"></i> Créer un nouveau prospect</button>
+            </a>
+        </span></h1>
+    <hr>
+    <div class="form-row pl-1 pr-1">
+        <select name="ville" id="ville" class="form-control col-md" onchange="filter($(this).val());">
+            {% for ville in villes %}
+                <option value="{{ ville.nom|lower }}">{{ ville.nom }}</option>
+            {% endfor %}
+        </select>
+        <button class="btn btn-success col-md-1" onclick="resetFilter()"><i class="fa fas fa-times"></i> RàZ</button>
+    </div>
+    <br>
+    {% for ville in villes %}
+        <div class="residences-liste row" id="residences-{{ ville.nom|lower }}" hidden>
+            {% for residence in residences[ville.nom] %}
+                <div class="col-md h6">
+                    <div class="col-md-12 rounded p-2 btn-residence bg-primary text-white text-center"
+                         onclick="labelCheck($(this),$('#check-{{ residence.id }}'))">
+                        <label class="label-residence" for="residence-{{ loop.index }}">
+                            <input id="check-{{ residence.id }}" type="checkbox" class="residence checkbox"
+                                   name="residence-{{ loop.index }}" value="{{ residence.nom }}"
+                                   checked>{{ residence.nom }} <span class="float-right">
+                              &nbsp;<i class="fa fas fa-check"></i>
+                           </span></label>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+    <table class="table col-md-12 table-hover table-sm text-center">
+        <thead class="table-dark ">
+        <tr>
+            <th>Nom & Prénom</th>
+            <th>Création réservation</th>
+            <th>Date de Réception</th>
+            <th>Date Entrée Souhaitée</th>
+            <th>Prioritaire ?</th>
+            <th>Colocation ?</th>
+            <th>Residences</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for prospect in prospects %}
+            <tr class="prospect-row">
+                {#<td>{{ prospect.id }}</td>#}
+                <td class="font-weight-bold"
+                    onclick="window.location.href='{{ path('prospect_show', {'id': prospect.id}) }}'">
+                    <span class="
+                    {% if prospect.statut is same as('EN ATTENTE') %}
+                    text-warning
+                    {% elseif prospect.statut is same as('REFUSE') %}
+                    text-danger
+                    {% else %}
+                    text-success
+                    {% endif %}
+                    ">{{ prospect.civilite }} {{ prospect.nom|upper }} {{ prospect.prenom|capitalize }}
+                        </span>
+                </td>
+                {#<td>{{ prospect.dateRecep ? prospect.dateRecep|date('Y-m-d') : '' }}</td>#}
+                <td onclick="window.location.href='{{ path('prospect_show', {'id': prospect.id}) }}'">{{ prospect.dateDemande ? prospect.dateDemande|date('d-m-Y') : '' }}</td>
+                <td>{{ prospect.dateRecepDossier ? prospect.dateRecepDossier|date('d-m-Y') : '' }}</td>
+                <td onclick="window.location.href='{{ path('prospect_show', {'id': prospect.id}) }}'">{{ prospect.dateEntree ? prospect.dateEntree|date('d-m-Y') : '' }}</td>
+                <td onclick="window.location.href='{{ path('prospect_show', {'id': prospect.id}) }}'">{{ prospect.prioritaire ? '<b class="text-success">Oui</b>':'<b class="text-danger">Non</b>' }}</td>
+                <td onclick="window.location.href='{{ path('prospect_show', {'id': prospect.id}) }}'">{{ prospect.colocation ? '<b class="text-success">Oui</b>':'<b class="text-danger">Non</b>' }}</td>
+
+                <td class="col-md-4 residences-souhaitee"
+                    onclick="window.location.href='{{ path('prospect_show', {'id': prospect.id}) }}'">
+                    {% for residence in prospect.residences %}
+                        {{ residence.nom }},
+                    {% endfor %}
+                </td>
+
+                <td class="col-md-1 text-right">
+                    <div class="btn-group">
+                        <a href="{{ path('prospect_edit', {'id': prospect.id}) }}">
+                            <button class="btn btn-sm btn-success small"><i class="fa fas fa-edit"></i></button>
+                        </a> &nbsp;
+                        {{ include('gestionnaire/prospect/_delete_form.html.twig') }}
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="37">Aucun prospect</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <hr>
+    <a href="{{ path('prospect_new') }}">
+        <button class="btn btn-sm btn-primary"><i class="fas fa-plus-square"></i> Créer un nouveau prospect</button>
+    </a>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        function checkFilter(ville) {
+            $('.residences-souhaitee').parent().hide();
+            $('#residences-' + ville + ' input:checked').each(function () {
+                val = $(this).val();
+
+                $('.residences-souhaitee:contains(' + val + ')').parent().show();
+            });
+        }
+
+        function filter(ville) {
+            // Liste des résidences de la ville XX
+            liste = $('.residences-liste');
+            liste.attr('hidden', true);
+            $('#residences-' + ville).removeAttr('hidden');
+            $('.prospect-row').hide();
+            checkFilter(ville);
+        }
+
+        function labelCheck(that, input) {
+            that.toggleClass('bg-warning bg-primary');
+            that.find('span i').toggleClass('fa-check fa-times');
+            input.prop('checked', function () {
+                if (input.prop('checked')) {
+                    return false;
+                } else {
+                    return true;
+                }
+            });
+            checkFilter($('#ville').val())
+        }
+
+        function resetFilter() {
+            $('.prospect-row').show();
+            btn = $('.btn-residence.bg-warning');
+            btn.each(function () {
+                $(this).toggleClass('bg-warning bg-primary');
+            });
+            btn.find('span i').toggleClass('fa-check fa-times');
+        }
+    </script>
+{% endblock %}

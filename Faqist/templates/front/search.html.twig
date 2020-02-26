@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+    <section id="content-profil">
+        <div class="row h-100">
+            <div class="col-md-12" id="page">
+                <div class="col-md-12 p-5">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3><i class="fas fa-question-circle"></i> A la recherche d'une information ?</h3>
+                            <hr class="profil float-left ml-5">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 p-5 rounded bg-dark-light">
+                            <form autocomplete="off">
+                                <input autocomplete="false" name="hidden" type="text" style="display:none;">
+                                <div class="bg-white rounded p-2">
+                                    <input type="text" name="search" id="search" class="input w-100"
+                                           placeholder="Trouver votre réponse en tapant un mots clés ou une phrase..." value="{% if terme is defined and terme is not null %}{{ terme }}{% endif %}">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row mt-5">
+                        <div class="col-md-3 font-weight-bold mb-5">
+                            <div class="bg-dark row rounded text-center">
+                                <div class="col-md-12 text-white p-4">QUESTIONS FREQUENTES</div>
+                            </div>
+
+
+                            {% for cat in categories %}
+                                <div class="row bg-dark-light rounded text-dark cat-hover">
+                                    <div class="col-md-12 p-4 cat-title" data-toggle="collapse" data-target="#{{ cat.nom }}">
+                                        {{ cat.libelle|upper }} <span class="float-right"><i
+                                                    class="fas fa-angle-down"></i></span>
+                                    </div>
+                                    <div id="{{ cat.nom }}" class="collapse table-hover">
+                                        <ul>
+                                            {% for q in questions[cat.nom] %}
+                                                <li class="q-hover pt-3 pb-3 col-md-11">{{ q.question }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                        <div class="col-md-9">
+                            <div id="ajax-results" class="col-md-12">
+                                <div >
+                                    <h3 class="mb-5"><i class="fa fas fa-chart-line"></i> Les questions les plus demandées</h3>
+
+                                    {% for q in top %}
+                                        <div class="">
+                                            <div class="input mb-3 w-100 orange" data-toggle="collapse" data-target="#tq-{{ q.id }}">{{ q.question }}
+                                                <span class="float-right"><i class="fas fa-angle-down"></i>
+                                            </span>
+                                            </div>
+                                            <div class="collapse" id="tq-{{ q.id }}">
+                                                {{ q.reponse|raw }}
+                                                <hr class="invisible">
+                                                <div class="col-md-12 text-center mt-2 p-3 bg-dark-light border rounded">
+                                                    <small>Afin d'améliorer nos services, merci de répondre à cette question !</small>
+                                                    <h4>Cette réponse vous à-t-elle été utile ?</h4>
+                                                    <button onclick="setStatus('OUI',{{ q.id }})" class="btn-rounded border-0">OUI</button>
+                                                    <button onclick="setStatus('NON',{{ q.id }})" class="btn-rounded border-0">NON</button>
+                                                </div>
+                                                <hr class="invisible">
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('assets/jquery/ajaxFaq.js') }}"></script>
+    {% if terme is defined and terme is not null %}
+        <script>goAjax('{{ terme }}')</script>
+    {% endif %}
+{% endblock %}

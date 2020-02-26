@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!-- Created by pdf2htmlEX (https://github.com/coolwanglu/pdf2htmlex) -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="generator" content="pdf2htmlEX"/>
+    <meta http-equiv="X-UA-Compatible" content="|E=edge,chrome=1"/>
+    <title>Autorisation de prélèvement SEPA</title>
+    <style>
+        html, body, * {
+            font-size: 11pt;
+        }
+    </style>
+<body>
+{% if locataire.logement.residence.id == 2 %}
+    <div style="text-align: center;">
+        <strong>ANNEXE III
+            <br>
+            <br>
+            <u style="font-size: 13pt!important;">Résidence « Les Grands Moulins »</u>
+        </strong>
+    </div>
+    <br>
+    <br>
+    <br>
+    <div>
+        <b><u>Système de chauffage et électricité</u></b>
+        <br>
+        <br>
+        La résidence est équipée d’un système informatique de chauffage et d’électricité de type GTB (Gestion Technique du Bâtiment) pour des raisons d’économies d’énergie et pour une meilleure gestion des flux énergétiques.
+        <br>
+        Le système gère la production d’eau chaude du logement, et le chauffage de la pièce principale. <br>
+        <br>
+        Le sous-locataire reconnaît avoir pris connaissance du mode de fonctionnement des appareils de chauffage et de l’utilisation de l’électricité pour son appartement, indiqués ci-après.
+        <br>
+        <br>
+        Le non-respect de ces consignes d’utilisation (branchement pirate d’un autre système de chauffage, modification du système de fonctionnement des appareils, etc.) peut, à la demande de l’U.E.S. MGEL LOGEMENT, entraîner la résiliation du bail dans les mêmes conditions que celles évoquées à l’article 7-1-3. En tout état de cause, la consommation électrique relevant de ce non-respect sera facturée au contrevenant. Il en sera de même pour la remise en état du système facturé à 150 € T.T.C. par intervention. Ces sommes seront prélevées directement sur le compte du contrevenant.
+        <br>
+        <br>
+        L’UES MGEL LOGEMENT ne pourra en aucun cas être tenu pour responsable s’il s’avère que toute personne dans le logement subit des dommages du fait de manipulation non autorisée sur le matériel ou les circuits électriques.
+        <br>
+        <br>
+        <u><b>Les paramètres d’utilisation sont les suivants :</b></u> <br>
+        <div style="padding: 5px 0 0 15px">
+            •	Pendant les heures normales d’occupation de 6h00 à 9h00 et de 16h00 à 23h00, le chauffage de la pièce principale peut atteindre, après actions répétées sur la touche + du convecteur : 21 degrés. Une possibilité de confort est possible par période d’une heure de 1 degré supplémentaire pour atteindre 22 degrés.
+            <br>
+            <br>
+            •	En dehors de ces heures normales d’occupation, la température est fixée à 18 degrés y compris la nuit et le week-end, avec cependant possibilité de dérogation temporisée, suite à l’impulsion donnée par l’occupant sur le boîtier de commande du convecteur pour obtenir 20 degrés.
+        </div>
+    </div>
+{% else %}
+    <div style="text-align: center;">
+        <strong>ANNEXE III
+            <br>
+            <br>
+            <u style="font-size: 13pt!important;"> Résidences « Paul Cézanne », « Quai 207 », « Les Bulles »,<br>
+                « Le Pancaliste »,  « Du Mail »</u>
+        </strong>
+    </div>
+<br>
+<br>
+<br>
+    <div>
+        <u><b>Système de chauffage et électricité</b></u> <br>
+        <br>
+        La résidence est équipée d’un chauffage collectif au gaz. Le sous-locataire reconnaît avoir pris connaissance du mode de fonctionnement des appareils de chauffage et de l’utilisation de l’électricité pour son appartement, indiqués ci-après.
+        <br>
+        <br>
+        Le non-respect de ces consignes d’utilisation (branchement d’un autre système de chauffage ou d’appareils à forte consommation électrique, etc.) peut à la demande de l’UES MGEL LOGEMENT entraîner la résiliation du bail dans les mêmes conditions que celles évoquées à l’article 7-1-2.
+        <br>
+        <br>
+        En cas d’absence prolongée, le sous-locataire devra diminuer le thermostat, voir le mettre en position hors gel. De même, le thermostat doit être baissé en cas d’ouverture prolongée de la fenêtre.
+        <br>
+        <br>
+        En tout état de cause, la consommation électrique ou de chauffage relevant de ce non-respect sera facturée au contrevenant. Ces sommes seront prélevées directement sur le compte du contrevenant.
+    </div>
+{% endif %}
+</body>
+</html>

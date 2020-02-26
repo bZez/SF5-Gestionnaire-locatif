@@ -1,0 +1,44 @@
+<!-- Modal -->
+<div class="modal fade" id="modifLocModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-edit"></i> Changement de coordonées</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="#" method="post" name="editUser">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="telFixeIcon"><i class="fas fa-phone"></i></span>
+                        </div>
+                        <input class="form-control" type="tel" pattern="[0-9]{10}" name="telFixe"
+                               value="{% if is_granted('ROLE_LOCATAIRE') %}{{ locataire.telFixe|default(locataire.telMobile) }}{% else %}{{ locataire.telephone }}{% endif %}" aria-label="telFixe" aria-describedby="telFixeIcon">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="telMobileIcon"><i class="fas fa-mobile-alt"></i></span>
+                        </div>
+                        <input class="form-control" type="tel" pattern="[0-9]{10}" name="telMobile"
+                               value="{% if is_granted('ROLE_LOCATAIRE') %}{{ locataire.telMobile }}{% else %}{{ locataire.telephone }}{% endif %}" aria-label="telMobile"
+                               aria-describedby="telMobileIcon">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="emailIcon"><i class="fas fa-mobile-alt"></i></span>
+                        </div>
+                        <input class="form-control" type="email" name="email"
+                               value="{{ locataire.email }}" aria-label="email"
+                               aria-describedby="emailIcon">
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

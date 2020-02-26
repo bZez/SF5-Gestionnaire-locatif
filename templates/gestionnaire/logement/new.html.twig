@@ -1,0 +1,19 @@
+{% extends 'gestionnaire/base.html.twig' %}
+
+{% block title %}New Logement{% endblock %}
+
+{% block body %}
+    <h1>Ajouter de nouveaux logements à la résidence <span class="text-info">{{ residence.nom }}</span> </h1>
+    <hr>
+    {{ include('gestionnaire/logement/_form.html.twig') }}
+
+    <button class="btn btn-info" onclick="history.back()">
+        <i class="fa fas fa-backward"></i> Retour à la liste des résidences
+    </button></div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        $('#logement_residence option:not(:contains({{ residence.nom }}))').remove();
+        // $('#logement_residence').attr('readonly',true)
+    </script>
+{% endblock %}

@@ -1,0 +1,23 @@
+<!-- Modal statut pro -->
+<div class="modal fade" id="modalChoixSign" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Comment souhaitez-vous signer votre contrat ?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <form action="{{ path('set_sign_elec') }}" method="post" name="signElec" class="text-center">
+                    <div class="btn-group w-100">
+                        <button type="submit" name="signElec" class="w-50 btn btn-orange bg-transparent" value="1"><i class="fas fa-file-contract"></i> Electroniquement </button>
+                        <button type="submit" name="signElec" class="w-50 btn btn-orange bg-transparent" value="0"><i class="fas fa-file-signature"></i> De façon standard * </button>
+                    </div>
+                </form>
+                <hr>
+                <small>*(salarié, étudiant salarié, alternant ou en contrat pro)</small>
+            </div>
+        </div>
+    </div>
+</div>

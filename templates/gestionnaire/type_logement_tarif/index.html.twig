@@ -1,0 +1,90 @@
+{% extends 'gestionnaire/base.html.twig' %}
+
+{% block title %}TypeLogementTarif index{% endblock %}
+
+{% block body %}
+    <h1>Tarifs des logements de la résidence <span class="text-info">{{ residenceChoisie.nom }}</span></h1>
+    <hr>
+    <select name="resid" id="resid" onchange="window.location.href='/logement-tarif/'+$(this).val()" class="form-control mb-3">
+        <option value="">Selectionnez une résidence...</option>
+        {% for residence in residences %}
+            <option value="{{ residence.nom }}"
+                    {% if residenceChoisie.nom is same as (residence.nom) %}selected{% endif %}>{{ residence.nom }}</option>
+        {% endfor %}
+    </select>
+
+       <form action="{{ path('type_logement_tarif_update') }}" method="post">
+           <div class="row">
+       <table class="table table-sm table-hover table-striped w-50 float-left">
+           <thead>
+           <tr>
+               <th>Categorie</th>
+               <th>Loyer</th>
+               <th>Charges</th>
+               <th>Cotis_acc</th>
+               <th>Cotis_services</th>
+           </tr>
+           </thead>
+           <tbody>
+           {% for type_logement_tarif in type_logement_tarifs[:13] %}
+               <tr>
+                   <td>{{ type_logement_tarif.categorie }}
+                       <input type="text" name="tarif[{{ type_logement_tarif.id }}][id]" value="{{ type_logement_tarif.id }}" hidden>
+                   </td>
+                   <td><input name="tarif[{{ type_logement_tarif.id }}][loyer]" class="small" id="loyer_{{ type_logement_tarif.id }}" type="text" value="{{ type_logement_tarif.loyer }}"></td>
+                   <td><input name="tarif[{{ type_logement_tarif.id }}][charges]" class="small" id="charges_{{ type_logement_tarif.id }}" type="text" value="{{ type_logement_tarif.charges }}"></td>
+                   <td><input name="tarif[{{ type_logement_tarif.id }}][cotisAcc]" class="small" id="cotisAcc_{{ type_logement_tarif.id }}" type="text" value="{{ type_logement_tarif.cotisAcc }}"></td>
+                   <td><input name="tarif[{{ type_logement_tarif.id }}][cotisServices]" class="small" id="cotisServices_{{ type_logement_tarif.id }}" type="text" value="{{ type_logement_tarif.cotisServices }}"></td>
+                   {# <td>
+                        <a href="{{ path('type_logement_tarif_show', {'id': type_logement_tarif.id}) }}">show</a>
+                        <a href="{{ path('type_logement_tarif_edit', {'id': type_logement_tarif.id}) }}">edit</a>
+                    </td>#}
+               </tr>
+           {% else %}
+               <tr>
+                   <td colspan="7">no records found</td>
+               </tr>
+           {% endfor %}
+           </tbody>
+       </table>
+       <table class="table table-sm table-hover table-striped w-50 float-right">
+           <thead>
+           <tr>
+               <th>Categorie</th>
+               <th>Loyer</th>
+               <th>Charges</th>
+               <th>Cotis_acc</th>
+               <th>Cotis_services</th>
+           </tr>
+           </thead>
+           <tbody>
+           {% for type_logement_tarif in type_logement_tarifs[13:] %}
+               <tr>
+                   <td>{{ type_logement_tarif.categorie }}
+                       <input hidden type="text" name="tarif[{{ type_logement_tarif.id }}][id]" id="id_{{ type_logement_tarif.id }}" value="{{ type_logement_tarif.id }}">
+                   </td>
+                   <td><input name="tarif[{{ type_logement_tarif.id }}][loyer]" class="small" id="loyer_{{ type_logement_tarif.id }}" type="text" value="{{ type_logement_tarif.loyer }}"></td>
+                   <td><input name="tarif[{{ type_logement_tarif.id }}][charges]" class="small" id="charges_{{ type_logement_tarif.id }}" type="text" value="{{ type_logement_tarif.charges }}"></td>
+                   <td><input name="tarif[{{ type_logement_tarif.id }}][cotisAcc]" class="small" id="cotisAcc_{{ type_logement_tarif.id }}" type="text" value="{{ type_logement_tarif.cotisAcc }}"></td>
+                   <td><input name="tarif[{{ type_logement_tarif.id }}][cotisServices]" class="small" id="cotisServices_{{ type_logement_tarif.id }}" type="text" value="{{ type_logement_tarif.cotisServices }}"></td>
+                   {# <td>
+                        <a href="{{ path('type_logement_tarif_show', {'id': type_logement_tarif.id}) }}">show</a>
+                        <a href="{{ path('type_logement_tarif_edit', {'id': type_logement_tarif.id}) }}">edit</a>
+                    </td>#}
+               </tr>
+           {% else %}
+               <tr>
+                   <td colspan="7">no records found</td>
+               </tr>
+           {% endfor %}
+           </tbody>
+
+       </table>
+
+           </div>
+           <div class="row">
+               <input type="submit" class="btn btn-sm btn-success">
+           </div>
+       </form>
+
+{% endblock %}

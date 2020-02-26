@@ -1,0 +1,28 @@
+{% for service in residence.services %}
+    {% if service is same as('anim') %}
+        <img src="{{ asset('assets/img/icones/animateur.png') }}" data-toggle="tooltip" data-placement="bottom" title="Animateur" width="100">
+    {% elseif service  is same as('sauna') %}
+        <img src="{{ asset('assets/img/icones/sauna.png') }}" data-toggle="tooltip" data-placement="bottom" title="Sauna" width="100">
+    {% elseif service  is same as('internet') %}
+        <img src="{{ asset('assets/img/icones/wifi.png') }}" data-toggle="tooltip" data-placement="bottom" title="Internet" width="100">
+    {% elseif service  is same as('velos') %}
+        <img src="{{ asset('assets/img/icones/abri_velo.png') }}" data-toggle="tooltip" data-placement="bottom" title="Abri à vélos" width="100">
+    {% elseif service  is same as('cowork') %}
+        <img src="{{ asset('assets/img/icones/salle_cowork.png') }}" data-toggle="tooltip" data-placement="bottom" title="Salle de Coworking" width="100">
+    {% elseif service  is same as('pret') %}
+        <img src="{{ asset('assets/img/icones/pret_materiel.png') }}" data-toggle="tooltip" data-placement="bottom" title="Prêt de matériel" width="100">
+    {% elseif service  is same as('video') %}
+        <img src="{{ asset('assets/img/icones/video_surveil.png') }}" data-toggle="tooltip" data-placement="bottom" title="Vidéo-surveillance" width="100">
+    {% elseif service  is same as('sport') %}
+        <img src="{{ asset('assets/img/icones/salle_sport.png') }}" data-toggle="tooltip" data-placement="bottom" title="Salle de sport" width="100">
+    {% elseif service  is same as('buanderie') %}
+        <img src="{{ asset('assets/img/icones/buanderie.png') }}" data-toggle="tooltip" data-placement="bottom" title="Buanderie" width="100">
+    {% elseif service is same as('tv') %}
+        <img src="{{ asset('assets/img/icones/salle_tv.png') }}" data-toggle="tooltip" data-placement="bottom" title="Salle Télévision" width="100">
+    {% elseif service is same as('detente') %}
+        <img src="{{ asset('assets/img/icones/salle_detente.png') }}" data-toggle="tooltip" data-placement="bottom" title="Salle détente" width="100">
+    {% elseif service is same as('petitdej') %}
+        <img src="{{ asset('assets/img/icones/petit_dej.png') }}" data-toggle="tooltip" data-placement="bottom" title="Petit-déjeuner" width="100">
+    {% endif %}
+{% endfor %}
+

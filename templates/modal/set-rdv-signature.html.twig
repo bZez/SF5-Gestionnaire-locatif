@@ -1,0 +1,28 @@
+<!-- Modal -->
+<div class="modal fade" id="modalDateRdvSign" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Rendez-vous signature (Contrat N°<span class="id_contrat"></span>)</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-md-6 pl-4"><h6 class="font-weight-bold">Date:</h6></div>
+                    <div class="col-md-6"><h6>Heure:</h6></div>
+                </div>
+                <form action="{{ path('contrat_set_rdv') }}" method="post">
+                    <input type="text" id="id_contrat_input" name="idContrat" hidden>
+                    <div class="input-group ">
+                        <input type="date" name="dateSign" class="form-control"><input type="time" name="heureSign" class="form-control">
+                    </div>
+
+            <button type="submit" class="btn btn-primary m-2">Planifier et envoyer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

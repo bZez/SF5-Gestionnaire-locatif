@@ -1,0 +1,22 @@
+{% extends 'gestionnaire/base.html.twig' %}
+
+{% block title %}New Parking{% endblock %}
+
+{% block body %}
+    <h1><i class="fa fas fa-parking"></i> Ajout de nouveaux parkings
+    <span class="float-right">
+ <a href="{{ path('parking_index') }}">
+        <button class="btn btn-sm btn-primary">
+            <i class="fa fas fa-backward"></i> Retour à la liste
+        </button>
+    </a>
+    </span></h1>
+    <hr>
+    {{ include('gestionnaire/parking/_form.html.twig') }}
+
+    <a href="{{ path('parking_index') }}">
+        <button class="btn btn-sm btn-primary">
+            <i class="fa fas fa-backward"></i> Retour à la liste
+        </button>
+    </a>
+{% endblock %}

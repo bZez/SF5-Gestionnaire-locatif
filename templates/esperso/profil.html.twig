@@ -1,0 +1,124 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace Perso{% endblock %}
+
+{% block body %}
+    {% include 'modal/modif-locataire.html.twig' %}
+    <div class="container">
+        {% include 'esperso/tab-'~ tab ~'.html.twig' %}
+    </div>
+{#    <section>
+        <div class="row h-100">
+            <div class="col-md-2 h-100 mobile">
+                <div class="col-md-12 border p-5 bg-light shadow-lg" id="menu">
+                    <div class="text-center w-50 m-auto">
+                        <img src="{{ asset('datas/photos/'~locataire.photo|default('nopic.png')) }}"
+                             class="w-100 rounded">
+                    </div>
+                    <hr class="profil">
+                    <ul class="list-unstyled h-100">
+                        <a href="{{ path('locataire_home') }}">
+                            <li class="mb-3 mt-2"><i class="fas fa-user-circle"></i>&nbsp; Mes informations</li>
+                        </a>
+                        {% if is_granted('ROLE_LOCATAIRE') %}
+                            <a href="{{ path('mon-logement') }}">
+                                <li class="mb-3"><i class="fas fa-city"></i> Mon logement</li>
+                            </a>
+                            <a href="{{ path('mes-echeances') }}">
+                                <li class="mb-3"><i class="fas fa-file-pdf"></i>&nbsp;&nbsp; Mes avis d'échéances</li>
+                            </a>
+                            <a href="{{ path('demande') }}">
+                                <li class="mb-3"><i class="fas fa-info-circle"></i>&nbsp;&nbsp; Faire une demande</li>
+                            </a>
+                            <a href="{{ path('mon-voeu') }}">
+                                <li><i class="fas fa-question-circle mb-3"></i>&nbsp; Voeu pour la rentrée</li>
+                            </a>
+                        {% endif %}
+                        <a href="{{ path('mes-documents') }}">
+                            <li class="mb-3"><i class="fas fa-folder-open"></i> &nbsp;Mes documents</li>
+                        </a>
+
+                    </ul>
+                </div>
+            </div>
+            {% include 'esperso/tab-'~ tab ~'.html.twig' %}
+        </div>
+    </section>#}
+    {% if (locataire.colocation is empty and locataire.statut is same as('TRANSMIS')) %}
+        {% include 'modal/set-coloc.html.twig' %}
+    {% endif %}
+    {% if is_granted('ROLE_PROSPECT') %}
+        {% if (locataire.nomGarant is empty or locataire.prenomGarant is empty or locataire.telephoneGarant is empty or locataire.emailGarant is empty or locataire.adresseGarant is empty or locataire.villeGarant is empty or locataire.codePostalGarant is empty) %}
+            {% include 'modal/modal-garant.html.twig' %}
+        {% endif %}
+    {% endif %}
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+    <script>
+
+        function updateDossier(id, val) {
+            $('.loader').show();
+            $.ajax({
+                url: '{{ path('update_dossier',{subdomain:'locataire'}) }}',
+                type: "POST",
+                data: {
+                    "id": id,
+                    "statut": val
+                },
+                async: true,
+                success: function () {
+                    location.reload();
+                }
+            });
+        }
+
+        function transDoss() {
+            updateDossier({{ locataire.id }}, 'TRANSMIS');
+        }
+
+
+        {% if locataire.statutPro is null %}
+        $('#modalStatutPro').modal();
+        {% endif %}
+        {% if is_granted('ROLE_PROSPECT') %}
+        {% if (locataire.nomGarant is empty or locataire.prenomGarant is empty or locataire.telephoneGarant is empty or locataire.emailGarant is empty or locataire.adresseGarant is empty or locataire.villeGarant is empty or locataire.codePostalGarant is empty) and locataire.statutPro is not null %}
+        $('#modalGarant').modal();
+        {% endif %}
+        {% if locataire.colocation is empty %}
+        $('#modalColoc').modal();
+        {% endif %}
+        {% elseif (is_granted('ROLE_LOCATAIRE') and locataire.lastContrat.signElec is null) %}
+        $('#modalChoixSign').modal();
+        {% elseif (is_granted('ROLE_LOCATAIRE') and locataire.sepa is null) %}
+        $('#modalSetSepa').modal();
+        {% endif %}
+
+        function isNotTitulaire(){
+            $('#sepa_titulaire').val(0);
+            $('input.titulaire').attr('required',true)
+        }
+        $('.inputIban').mask('SS00 0000 0000 0000 0000 00');
+        $('.inputZip').mask('ZZZZZXXX', {
+            translation: {
+                'Z': {
+                    pattern: /[a-zA-Z0-9]/,
+                },
+                'X': {
+                    pattern: /[a-zA-Z0-9]/, optional:true,
+                }
+            }
+        });
+        $('.inputBic').mask('SSSS SS ZZ XXX', {
+            translation: {
+                'Z': {
+                    pattern: /[a-zA-Z0-9]/,
+                },
+                'X': {
+                    pattern: /[a-zA-Z0-9]/, optional:true,
+                }
+            }
+        });
+    </script>
+{% endblock %}

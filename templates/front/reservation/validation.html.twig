@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Résidences étudiantes avec services à Angers, Nancy, Mulhouse, Metz et Reims{% endblock %}
+
+{% block body %}
+    {#LANDING PAGE#}
+    <section class="h-100 row" id="landing">
+        <div class="landing-bg reservation">
+            <div class="cta-landing text-center">
+                <h1 class="orange">Merci !</h1>
+                <br>
+                <p class="text-black-50">Votre réservation à bien été prise en compte ! <br>
+                Nos conseillers reviendront vers vous très rapidement ! </p>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block javascripts %}
+<!-- Event snippet for DL landing page - reserver conversion page -->
+<script>
+    gtag('event', 'conversion', {'send_to': 'AW-972410452/63bbCLHjuJUBENSc188D'});
+</script>
+
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends 'gestionnaire/base.html.twig' %}
+{#TODO: RAPPEL INFOS https://www..mgellogement.fr/GEST_V2/parkings/pkg_etat.php#}
+{% block title %}Liste des parkings{% endblock %}
+
+{% block body %}
+    <h1>Gestion des parking pour <span class="text-info">{% if residenceChoisie is not null %}{{ residenceChoisie.nom }}{% else %} toutes les résidences{% endif %}</span>
+    <span class="float-right">
+          <a href="{{ path('parking_new') }}">
+        <button class="btn btn-sm btn-primary">
+            <i class="fa fas fa-plus-square"></i> Ajouter de nouveaux parkings
+        </button>
+    </a>
+    </span></h1>
+    <hr>
+    <select name="resid" id="resid" onchange="window.location.href='/parking/'+$(this).val()" class="form-control">
+        <option value="tous">Toutes les résidences...</option>
+        {% for residence in residences %}
+            <option value="{{ residence.nom }}" {% if residenceChoisie.nom is defined and residenceChoisie.nom is same as (residence.nom) %}selected{% endif %}>{{ residence.nom }}</option>
+        {% endfor %}
+    </select>
+
+    <hr>
+    <table class="table table-sm table-hover text-center">
+        <thead class="table-dark">
+            <tr>
+                <th class="col-sm-1">Numero</th>
+                <th>Locataire ?</th>
+                <th>Situation</th>
+                <th>Date_blocage</th>
+                <th class="text-right">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for parking in parkings %}
+            <tr class="{{ parking.occupation ? 'bg-warning':'bg-info' }}{{ parking.dateBlocage ? ' bg-danger':'' }}">
+                <td class="col-md-1 bg-dark text-white">{{ parking.numPlace }}</td>
+                <td>{% if parking.locataire %}
+                        <a class="font-weight-bold text-dark" href="{{ path('locataire_show',{'id':parking.locataire.id}) }}">
+                        <i class="fa fas fa-user"></i> {{ parking.locataire.nomComplet }}</a>
+                    {% elseif parking.dateBlocage %}
+                        <i>Parking bloqué...</i>
+                        {% else %}
+                            <i>Parking libre...</i>
+                {% endif %}</td>
+                <td>{{ parking.situation }}</td>
+                <td>{{ parking.dateBlocage ? parking.dateBlocage|date('Y-m-d') : '' }}
+                        {% if parking.bloquePar %}
+                    <a href="{{ path('user_show',{id:parking.bloquePar.id}) }}" class="text-white">
+                        {{ parking.bloquePar.nomPrenom }}
+                    </a>
+                {% endif %}</td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        {% if parking.locataire %}
+                            <a href="{{ path('parking_liberation',{'resid':parking.residence.nom,'id':parking.id,'locataire':parking.locataire.id}) }}">
+                                <button class="btn btn-sm btn-danger">
+                                    <i class="fa fas fa-user-minus"></i> Libérer ce parking
+                                </button>
+                            </a> &nbsp;
+                        {% endif %}
+                        <a href="{{ path('parking_show', {'resid':parking.residence.nom,'id': parking.id}) }}">
+                            <button class="btn btn-sm btn-primary">
+                                <i class="fa fas fa-eye"></i>
+                            </button>
+                        </a>
+                        &nbsp;
+                        <a href="{{ path('parking_edit', {'resid':parking.residence.nom,'id': parking.id}) }}">
+                            <button class="btn btn-sm btn-success">
+                                <i class="fa fas fa-edit"></i>
+                            </button>
+                        </a>
+                        &nbsp;
+                        {{ include('gestionnaire/parking/_delete_form.html.twig') }}
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('parking_new') }}">
+        <button class="btn btn-sm btn-primary">
+            <i class="fa fas fa-plus-square"></i> Ajouter de nouveaux parkings
+        </button>
+    </a>
+{% endblock %}

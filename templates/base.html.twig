@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MGEL Logement - {% block title %}{% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="{{ asset('assets/css/global.css') }}" rel="stylesheet">
+    <link rel="shortcut icon" href="https://www.mgellogement.fr/favicon.ico">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css">
+    <link href="{{ asset('assets/css/datepicker.min.css') }}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="loader"></div>
+<!-- Error banner -->
+{% if error is defined and error is not null %}
+    <div class="alert alert-danger rounded-0 text-center">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+{% endif %}
+
+{% include 'header.html.twig' %}
+
+{% block body %}{% endblock %}
+
+{% include 'footer.html.twig' %}
+<!-- Bootstrap core JavaScript -->
+<script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+<script src="{{ asset('assets/js/jquery.uploadPreview.min.js') }}"></script>
+<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+
+<script src="{{ asset('assets/js/datepicker.min.js') }}"></script>
+<script src="{{ asset('assets/js/datepicker.fr.js') }}"></script>
+
+
+<script>
+    function arrange(par) {
+        if (par === 3) {
+            $('.blockres').removeClass('col-md-6').addClass('col-md-4');
+            $('.nomres').removeClass('h4').addClass('h6');
+        } else if (par === 2) {
+            $('.blockres').removeClass('col-md-4').addClass('col-md-6');
+            $('.nomres').removeClass('h6').addClass('h4');
+        }
+    }
+
+    $(function () {
+        $(".loader").fadeOut("fast");
+        $('[data-toggle="tooltip"]').tooltip();
+    })
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > $('.landing-bg').offset().top + $('.landing-bg').outerHeight(true) - 150) {
+            $('.menu').addClass('shadow').css('background','rgba(94,94,94,0.76)');
+            $('.navbar-brand').find('img').attr('src', '{{ asset('assets/img/logo-mgel-logement.svg') }}');
+        } else {
+            $('.menu').removeClass('shadow').css('background','none');
+            $('.navbar-brand').find('img').attr('src', '{{ asset('assets/img/logo-mgel-logement-color.svg') }}');
+        }
+    });
+    $('#nl-submit').click(function () {
+        $.ajax({
+            url: '../newsletter',
+            type: "POST",
+            data: {
+                "email": $('#nl-email').val()
+            },
+            async: true,
+            success: function () {
+                console.log('Ajouté à la newsletter !')
+                $('#nl-email').val('Inscription validée !').attr('disabled', true)
+            }
+        });
+    })
+</script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-87414-7"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'UA-87414-7');
+</script>
+<!-- Global site tag (gtag.js) - Google Ads: 972410452 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-972410452"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'AW-972410452');
+</script>
+
+{% block javascripts %}{% endblock %}
+</body>
+</html>

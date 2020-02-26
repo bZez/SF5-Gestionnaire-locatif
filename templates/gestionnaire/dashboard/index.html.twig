@@ -1,0 +1,257 @@
+{% extends 'gestionnaire/base.html.twig' %}
+
+{% block title %}Hello DashboardController!{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <h1><i class="fa fas fa-clock"></i> Tâches en
+                attentes {% if residence is defined %} {% set residenceChoisie = residence %}pour la résidence <span
+                        class="text-info">{{ residence.nom }}</span>{% endif %}</h1>
+            <hr>
+            <select name="resid" id="resid" onchange="window.location.href='/dashboard/'+$(this).val()"
+                    class="form-control">
+                <option value="">Toutes les résidences</option>
+                {% for residence in get_residences.all %}
+                    <option value="{{ residence.nom }}"
+                            {% if residenceChoisie.nom is defined and residenceChoisie.nom is same as (residence.nom) %}selected{% endif %}>{{ residence.nom }}</option>
+                {% endfor %}
+            </select>
+            <hr>
+        </div>
+    </div>
+    <div class="row">
+        {% if is_granted(['ROLE_ADMIN','ROLE_CL','ROLE_ADJ','ROLE_AG']) %}
+            <div class="col-md-3 mb-4">
+                <div class="col-md-12 shadow-sm bg-white p-4 text-center">
+                    <h5>Prospect(s) à traiter</h5>
+                    <h1>{{ prospect_count.getNew }}</h1>
+                    <div class="btn-group">
+                        <button class="btn btn-info" data-toggle="collapse" data-target="#waitLogement"><i
+                                    class="fa fas fa-eye"></i> Visualiser
+                        </button>
+                    </div>
+                    <div class="collapse" id="waitLogement">
+                        <hr>
+                        {% for prospect in prospect_count.getNew %}
+                            {{ prospect.nom }}
+                            {{ prospect.prenom }}
+                        {% else %}
+                            Tout est ok !
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="col-md-12 shadow-sm bg-white p-4 text-center">
+                    <h5>Locataire(s) en attente</h5>
+                    <h1>{{ integrations|length }}</h1>
+                    <div class="btn-group">
+                        <button class="btn btn-info" data-toggle="collapse" data-target="#waitLogement"><i
+                                    class="fa fas fa-eye"></i> Visualiser
+                        </button>
+                    </div>
+                    <div class="collapse" id="waitLogement">
+                        <hr>
+                        {% for int in integrations %}
+                            <a href="{{ path('locataire_show',{resid:int.locataire.logement.residence.nom,id:int.locataire.id}) }}">
+                                {{ int.locataire.nomComplet }} - Appt N°{{ int.logement.numero }}
+                                - {{ int.dateEntree|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}
+
+                            </a>
+                            <a href="{{ path('locataire_set',{resid:int.locataire.logement.residence.nom,id:int.locataire.id}) }}">
+                                <button class="btn btn-success btn-sm"><i class="fa fas fa-sign-in-alt"></i></button>
+                            </a>
+                        {% else %}
+                            Tout est ok !
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="col-md-12 shadow-sm bg-white p-4 text-center">
+                    <h5>Logement(s) à libérer</h5>
+                    <h1>{{ liberations|length }}</h1>
+                    <div class="btn-group">
+                        <button class="btn btn-info" data-toggle="collapse" data-target="#unsetLogement"><i
+                                    class="fa fas fa-eye"></i> Visualiser
+                        </button>
+                    </div>
+                    <div class="collapse" id="unsetLogement">
+                        <hr>
+                        {% for int in liberations %}
+                            <a href="{{ path('locataire_show',{resid:int.locataire.logement.residence.nom,id:int.locataire.id}) }}">
+                                {{ int.locataire.nomComplet }} - Appt N°{{ int.logement.numero }}
+                                - {{ int.dateEntree|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}
+
+                            </a>
+                            <a href="{{ path('locataire_set',{resid:int.locataire.logement.residence.nom,id:int.locataire.id}) }}">
+                                <button class="btn btn-success btn-sm"><i class="fa fas fa-sign-in-alt"></i></button>
+                            </a>
+                        {% else %}
+                            Tout est ok !
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="col-md-12 shadow-sm bg-white p-4 text-center">
+                    <h5>Contrats en attente de signature</h5>
+                    <h1>{{ contratsAsigner|length }}</h1>
+                    <div class="btn-group">
+                        <button class="btn btn-info" data-toggle="collapse" data-target="#contratCollapse"><i
+                                    class="fa fas fa-eye"></i> Visualiser
+                        </button>
+                    </div>
+                    <div class="collapse" id="contratCollapse">
+                        <hr>
+                        {% for contrat in contratsAsigner %}
+                            <a href="{{ path('gen_contrat', {'loc': contrat.locataire.id}) }}">
+                                {{ contrat.locataire.nomComplet }} - Appt N°{{ contrat.logement.numero }}
+                                - {{ contrat.debut|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}
+
+                            </a>
+                            {#   <a href="{{ path('locataire_set',{resid:int.locataire.logement.residence.nom,id:int.locataire.id}) }}">
+                                   <button class="btn btn-success btn-sm"><i class="fa fas fa-sign-in-alt"></i></button>
+                               </a>#}
+                        {% else %}
+                            Tout est ok !
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <div class="col-md-3 mb-4">
+            <div class="col-md-12 shadow-sm bg-white p-4 text-center">
+                <h5>Etats des lieux à effectuer
+                    {% if is_granted('ROLE_ANIM') %}
+                        <br>
+                        <small class="text-info">{{ app.user.residences[0].nom }}</small>
+                    {% endif %}
+                </h5>
+                <h1>{% if residence is defined %}
+                        {{ edlx[0]|length }}
+                    {% else %}
+                        {{ edlx|length }}
+                    {% endif %}</h1>
+                <div class="btn-group">
+                    <button class="btn btn-info" data-toggle="collapse" data-target="#edlxCollapse"><i
+                                class="fa fas fa-eye"></i> Visualiser
+                    </button>
+                </div>
+                <div class="collapse" id="edlxCollapse">
+                    <hr>
+                    {% if edlx|length > 1 %}
+                        {% for e_d_l in edlx %}
+                            <a href="{{ path('e_d_l_show',{'id':e_d_l.id,'resid':e_d_l.logement.residence.nom}) }}">{{ e_d_l.locataire.nomComplet }}
+                                - {{ e_d_l.date|date('d/m/Y à h:i') }} - Appt N°{{ e_d_l.logement.numero }}</a>
+                            {% if is_granted('ROLE_ANIM') %}
+                                {% for edl in e_d_l %}
+                                    <a href="{{ path('e_d_l_show',{'id':edl.id,'resid':edl.logement.residence.nom}) }}">{{ edl.locataire.nomComplet }}
+                                        - {{ edl.date|date('d/m/Y à h:i') }} - Appt N°{{ edl.logement.numero }}</a>
+                                {% endfor %}
+                            {% endif %}
+                        {% else %}
+                            Tout est ok !
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="col-md-12 shadow-sm bg-white p-4 text-center">
+                <h5>RDV <span class="text-success">EDLE</span> à prendre
+                    {% if is_granted('ROLE_ANIM') %}
+                        <br>
+                        <small class="text-info">{{ app.user.residences[0].nom }}</small>
+                    {% endif %}
+                </h5>
+                <h1>{% if is_granted('ROLE_ANIM') or residence is defined %}{{ rdvEdle[0]|length }}{% else %}{{ rdvEdle|length }}{% endif %}</h1>
+                <div class="btn-group">
+                    <button class="btn btn-info" data-toggle="collapse" data-target="#edleCollapse"><i
+                                class="fa fas fa-eye"></i> Visualiser
+                    </button>
+                </div>
+                <div class="collapse" id="edleCollapse">
+                    <hr>
+                    {% if is_granted('ROLE_ANIM') or residence is defined %}
+                        {% for locataire in rdvEdle[0] %}
+                            <a href="{{ path('locataire_show',{'id':locataire.id,'resid':locataire.logement.residence.nom}) }}">{{ locataire.nomComplet }}
+                                - {{ locataire.lastContrat.fin|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}
+                                - Appt N°{{ locataire.logement.numero }}
+                            </a> <br>
+                        {% endfor %}
+                    {% else %}
+                        {% for locataires in rdvEdle %}
+                            <a href="{{ path('locataire_show',{'id':locataires.id,'resid':locataires.logement.residence.nom}) }}">{{ locataires.nomComplet }}
+                               {# - {{ locataires.lastContrat.fin|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}#}
+                               {# {{ dump(locataires.contrat.id) }}#}
+                                - Appt N°{{ locataires.logement.numero }}
+                            </a> <br>
+                        {% else %}
+                            Tout est ok !
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="col-md-12 shadow-sm bg-white p-4 text-center">
+                <h5>RDV <span class="text-danger">EDLS</span> à prendre
+                    {% if is_granted('ROLE_ANIM') %}
+                        <br>
+                        <small class="text-info">{{ app.user.residences[0].nom }}</small>
+                    {% endif %}
+                </h5>
+                <h1>{% if is_granted('ROLE_ANIM') or residence is defined %}{{ rdvEdls[0]|length }}{% else %}{{ rdvEdls|length }}{% endif %}</h1>
+                <div class="btn-group">
+                    <button class="btn btn-info" data-toggle="collapse" data-target="#edlsCollapse"><i
+                                class="fa fas fa-eye"></i> Visualiser
+                    </button>
+                </div>
+                <div class="collapse" id="edlsCollapse">
+                    <hr>
+
+                    {% if is_granted('ROLE_ANIM') or residence is defined %}
+                        {% for locataire in rdvEdls[0] %}
+                                <a href="{{ path('locataire_show',{'id':locataire.id,'resid':locataire.logement.residence.nom}) }}">{{ locataire.nomComplet }}
+                                    - {{ locataire.lastContrat.fin|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}
+                                    - Appt N°{{ locataire.logement.numero }}
+                                </a> <br>
+                        {% endfor %}
+                    {% else %}
+                        {% for locataires in rdvEdls %}
+                            <a href="{{ path('locataire_show',{'id':locataires.id,'resid':locataires.logement.residence.nom}) }}">{{ locataires.nomComplet }}
+                                - {{ locataires.lastContrat.fin|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}
+                                - Appt N°{{ locataires.logement.numero }}
+                            </a> <br>
+                        {% else %}
+                            Tout est ok !
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="col-md-12 shadow-sm bg-white p-4 text-center">
+                <h5>Nouvelle(s) question(s) à traiter</h5>
+                <h1>{{ newQuestions|length }}</h1>
+                <div class="btn-group">
+                    <button class="btn btn-info" data-toggle="collapse" data-target="#questionsCollapse"><i
+                                class="fa fas fa-eye"></i> Visualiser
+                    </button>
+                </div>
+                <div class="collapse" id="questionsCollapse">
+                    <hr>
+                    {% for question in newQuestions %}
+                        {{ question.question[:38] }}
+                    {% else %}
+                        Tout est ok !
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

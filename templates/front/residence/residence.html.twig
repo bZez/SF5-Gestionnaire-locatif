@@ -1,0 +1,209 @@
+{% extends 'base.html.twig' %}
+{% block title %}Résidence {{ residence.nom }}{% endblock %}
+{% block stylesheets %}
+    <span class="metadata-marker" style="display: none;" data-region_tag="css"></span>
+    <style>
+        /* Set the size of the div element that contains the map */
+        #map {
+            height: 500px; /* The height is 400 pixels */
+            width: 100%; /* The width is the width of the web page */
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <span class="metadata-marker" style="display: none;" data-region_tag="html-body"></span>
+    <section class="section-ter row" id="landing">
+        <div class="landing-bg" style="border-radius: 0 0 10vw 10vw">
+            <img src="{{ asset('_photos_/'~residence.couverture) }}" class="col-md couv-resid">
+        </div>
+    </section>
+
+    <section>
+        <div class="section-ter container">
+            <div class="row">
+                <div class="col-md-12 mt-5 mb-2">
+                    <h1 class="font-weight-bold h1-resid">Résidence {{ residence.nom }}</h1>
+                    <span class="small text-black-50">{{ residence.adresse }}</span>
+                    <h5 class="font-weight-bold">{{ residence.ville.codePostal }} {{ residence.ville.nom }}</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8 float-left">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 class="font-weight-bold">{% if residence.typeMin is same as(residence.typeMax) %}
+                                    {{ residence.typeMin }}
+                                    {% else %}
+                                        {{ residence.typeMin }} à {{ residence.typeMax }}
+                                {% endif %}</h4>
+                        </div>
+                        <div class="col-md-8 text-black-50">Surface de {{ residence.surfaceMin }} à {{ residence.surfaceMax }} m²</div>
+                    </div>
+                    <hr class="mt-3">
+                </div>
+                <div class="col-md-4 float-right">
+                    <div id="map" class="float-right position-absolute shadow-sm mobile"></div>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 class="font-weight-bold">Description</h4>
+                        </div>
+                        <div class="col-md-8 text-black-50 text-justify">{{ residence.intro }}</div>
+                    </div>
+                    <hr class="mt-4">
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 class="font-weight-bold">Aides au logement</h4>
+                        </div>
+                        <div class="col-md-8 text-black-50">Tous les logements vous ouvrent droit aux ALS ou APL. Faites
+                            une simulation sur le site de la CAF.
+                        </div>
+                    </div>
+                    <hr class="mt-4">
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 class="font-weight-bold">Les Services</h4>
+                        </div>
+                        <div class="col-md-8 text-black-50">{% include 'extra/service.html.twig' %}
+                        </div>
+                    </div>
+                    <hr class="mt-4">
+                </div>
+            </div>
+
+            <hr class="invisible mt-5 mb-5">
+
+            <div class="row mt-2">
+                <div class="col-md-12 mt-5">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <h4 class="font-weight-bold">Diagnostic performance énergétique</h4>
+                        </div>
+                        {% set consoEner = residence.consoEner %}
+                        {% set emiGaz = residence.emiGaz %}
+                        <div class="col-md-7 text-black-50">{% include 'extra/diag.html.twig' %}
+                        </div>
+                    </div>
+                    <hr class="mt-4">
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <h4 class="font-weight-bold">Dépôt de garantie</h4>
+                        </div>
+                        <div class="col-md-7 text-black-50">{{ residence.garantie }}
+                        </div>
+                    </div>
+                    <hr class="mt-4">
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <h4 class="font-weight-bold" style="line-height: 0">Loyers à partir de</h4>
+                            <small><i>* APL/ALS maximum déduites pour un étudiant non boursier</i></small>
+                        </div>
+                        <div class="col-md-7 text-black-50">{{ residence.loyerMin }} € *
+                        </div>
+                    </div>
+                    <hr class="mt-4">
+                </div>
+            </div>
+
+            <div class="row mt-4 mb-5">
+                <div class="col-md-12">
+                    <a href="{{ path('demande-logement',{r:residence.nom}) }}">
+                        <button class="btn-rounded">
+                            Réserver un logement
+                        </button>
+                    </a>
+                </div>
+            </div>
+            {#MODALS#}
+            <div class="row">
+                {% for photo in residence.photos %}
+                    <div class="modal fade" id="zoomImgModal_{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                         aria-hidden="true" >
+                        <div class="modal-dialog modal-lg modal-dialog-centered" role="document" >
+                            <div class="modal-content">
+                                <img class="w-100" src="{{ asset('_photos_/'~photo.image) }}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    {% if loop.index < 1 %}
+                        <div class="col-md-6" data-toggle="modal" data-target="#zoomImgModal_{{ loop.index }}">
+                            <img src="{{ asset('_photos_/'~photo.image) }}" class="w-100 shadow">
+                        </div>
+                        {% else %}
+                            <div class="col-md-6 mt-4" data-toggle="modal" data-target="#zoomImgModal_{{ loop.index }}">
+                                <img src="{{ asset('_photos_/'~photo.image) }}" class="w-100 shadow">
+                            </div>
+                    {% endif %}
+                {% endfor %}
+                <div class="modal fade" id="zoomImgModal_couv" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true" >
+                    <div class="modal-dialog modal-lg modal-dialog-centered" role="document" >
+                        <div class="modal-content">
+                            <img class="w-100" src="{{ asset('_photos_/'~residence.couverture) }}" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mt-4" data-toggle="modal" data-target="#zoomImgModal_couv">
+                    <img src="{{ asset('_photos_/'~residence.couverture) }}" class="w-100 shadow">
+                </div>
+            </div>
+        </div>
+    </section>
+    <hr class="invisible mt-5 mb-5" >
+{% endblock %}
+{% block javascripts %}
+    <script>
+        $('.disporow div').each(function () {
+            $(this).attr('data-toggle', 'tooltip');
+            $(this).attr('data-placement', 'bottom');
+            $(this).attr('data-html', 'true');
+            // $(this).attr('title','bottom');
+        })
+    </script>
+    <span class="metadata-marker" style="display: none;" data-region_tag="script-body"></span>
+    <script>
+        // Initialize and add the map
+        function initMap() {
+            var residence = {lat: {{ residence.lattitude }}, lng:{{  residence.longitude }} };
+            // The map, centered at Uluru
+            var map = new google.maps.Map(
+                document.getElementById('map'), {zoom: 15, center:
+                   residence
+                });
+            // The marker, positioned at Uluru
+            var marker = new google.maps.Marker({position: residence, map: map});
+        }
+    </script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrPnxSYautlz6GnVCf0cp5DsNAXUkCepM&callback=initMap">
+    </script>
+{% endblock %}

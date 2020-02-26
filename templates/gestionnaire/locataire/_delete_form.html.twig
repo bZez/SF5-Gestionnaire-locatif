@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('locataire_delete', {'resid':locataire.logement.residence.nom,'id': locataire.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer ce locataire ?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ locataire.id) }}">
+    <button class="btn btn-sm btn-danger"><i class="fa fas fa-times"></i></button>
+</form>

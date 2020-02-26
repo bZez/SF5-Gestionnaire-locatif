@@ -1,0 +1,19 @@
+{% extends 'gestionnaire/base.html.twig' %}
+
+{% block title %}Photos index{% endblock %}
+
+{% block body %}
+    <h1>Galerie photos</h1>
+    <hr>
+    {{ include('photos/_form.html.twig') }}
+    <hr>
+    <div class="row">
+        {% for photo in photos %}
+        <div class="col-md-2">
+            <a href="{{ path('photos_show', {'id': photo.id}) }}">
+                <img src="{{ photos_dir }}{{ photo.image }}" alt="{{ photo.alt }}" class="w-100 rounded">
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

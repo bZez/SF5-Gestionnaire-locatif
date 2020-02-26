@@ -1,0 +1,533 @@
+{% extends 'gestionnaire/base.html.twig' %}
+
+{% block title %}Prospect{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h4><i class="fas fa-user-tag"></i> Détails du prospect N°{{ prospect.id }} <span
+                    class="text-info">({{ prospect.statutPro ? 'Jeune actif':'Etudiant' }})</span> <span
+                    class="float-right btn-group">
+                    <a href="{{ path('prospect_index') }}"><button class="btn btn-sm btn-primary small"><i
+                                    class="fas fa-backward"></i></button></a> &nbsp;
+
+        <a href="{{ path('prospect_edit', {'id': prospect.id}) }}"><button class="btn btn-sm btn-success small"><i
+                        class="fa fas fa-edit"></i></button></a>&nbsp;
+
+        {{ include('gestionnaire/prospect/_delete_form.html.twig') }}
+            </span></h4>
+        <div class="rounded bg-white border">
+            <div class="row p-3">
+                <div class="col-md-6">
+                    <strong>{{ prospect.civilite }}. {{ prospect.nom|upper }} {{ prospect.prenom|capitalize }}</strong>
+                    <br>
+                    {{ prospect.adresse }} <br> {{ prospect.codePostal }} {{ prospect.ville|upper }}
+                    <br>
+                    <hr>
+                    Date de naissance: <strong>{{ prospect.dateNaissance|date('d/m/Y') }}</strong>
+                </div>
+                <div class="col-md-4">
+                    <i class="fas fa-at"></i> {{ prospect.email }} <br>
+                    <i class="fas fa-phone"></i> {{ prospect.telephone }}
+                </div>
+                <div class="col-md-2 text-right">
+                    <img src="{{ asset('datas/photos/'~prospect.photo) }}" data-toggle="tooltip"
+                         title="Photos de {{ prospect.nom|upper }} {{ prospect.prenom|capitalize }}"
+                         class="w-100 rounded">
+                </div>
+            </div>
+            <div class="row p-3">
+                <div class="col-md-12">
+                    Le
+                    prospect {{ prospect.promoMgel ? '<span class="text-success">accepte</span>' : '<span class="text-danger">n\'accepte pas</span>' }}
+                    les communications MGEL.
+                    <br>
+                    Le
+                    prospect {{ prospect.promoPartenaire ? '<span class="text-success">accepte</span>' : '<span class="text-danger">n\'accepte pas</span>' }}
+                    les communications des partenaires.
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 rounded border bg-light p-2 mb-3">
+                    <h6 class="font-weight-bold"><i class="fas fa-comment-dots"></i> Informations utiles</h6>
+                    <div class="row text-center">
+                        <div class="col-md-4">
+                            {% if prospect.prioritaire %}
+                                <span class="text-success h5" style="cursor:pointer"
+                                      onclick="updateProspect({{ prospect.id }},'prioritaire')"><i
+                                            class="fas fa-check"></i> Prioritaire</span>
+                            {% else %}
+                                <span class="text-danger h5" style="cursor:pointer"
+                                      onclick="updateProspect({{ prospect.id }},'prioritaire')"><i
+                                            class="fas fa-times"></i> Prioritaire</span>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-4">
+                            {% if prospect.colocation %}
+                                <span class="text-success h5" style="cursor:pointer"
+                                      onclick="updateProspect({{ prospect.id }},'colocation')"><i
+                                            class="fas fa-check"></i> Colocation</span>
+                            {% else %}
+                                <span class="text-danger h5" style="cursor:pointer"
+                                      onclick="updateProspect({{ prospect.id }},'colocation')"><i
+                                            class="fas fa-times"></i> Colocation</span>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-4">
+                            {% if prospect.etranger %}
+                                <span class="text-success h5" style="cursor:pointer"
+                                      onclick="updateProspect({{ prospect.id }},'etranger')"><i
+                                            class="fas fa-check "></i> Etranger</span>
+                            {% else %}
+                                <span class="text-danger h5" style="cursor:pointer"
+                                      onclick="updateProspect({{ prospect.id }},'etranger')"><i
+                                            class="fas fa-times "></i> Etranger</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <h5><i class="fas fa-hands"></i> Détail du garant</h5>
+        <div class="rounded bg-white border">
+            <div class="row p-3">
+                <div class="col-md-6">
+                    <strong>{{ prospect.civiliteGarant }}
+                        . {{ prospect.nomGarant|upper }} {{ prospect.prenomGarant|capitalize }}</strong> <br>
+                    {{ prospect.adresseGarant }} <br> {{ prospect.codePostalGarant }} {{ prospect.villeGarant|upper }}
+                    <br>
+                    <hr>
+                    Date de naissance: <strong>{{ prospect.dateNaissanceGarant|date('d/m/Y') }}</strong>
+                </div>
+                <div class="col-md-6">
+                    <i class="fas fa-at"></i> {{ prospect.emailGarant }} <br>
+                    <i class="fas fa-phone"></i> {{ prospect.telephoneGarant }}
+                </div>
+            </div>
+        </div>
+        <hr>
+        <h5><i class="fas fa-hotel"></i> Souhaits de réservation</h5>
+        <div class="rounded bg-white border">
+            <div class="row p-3">
+                <div class="col-md-10">
+                    <strong>Résidence(s):</strong> <br>
+                    {% for residence in prospect.residences %}
+                        <button class="p-2 rounded bg-light border m-1">{{ residence.nom }}</button>
+                    {% endfor %}
+                </div>
+                <div class="col-md-2 text-right">
+                    <button class="btn btn-info"><i class="fas fa-file-alt fa-4x"></i></button>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center pt-3 text-info">
+                        <p class=" h5 pl-4">Date d'entrée souhaitée:
+                            <strong>{{ prospect.dateEntree ? prospect.dateEntree|date('d-m-Y') : '' }}</strong></p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 rounded border bg-light p-2 mb-3">
+                    <h6 class="font-weight-bold"><i class="fas fa-clock"></i> Historique des opérations</h6>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <p class="pl-4">Date de la demande:
+                                <strong>{{ prospect.dateDemande ? prospect.dateDemande|date('d-m-Y') : '' }}</strong>
+                            </p>
+                        </div>
+                        {% if prospect.dateRecepDossier %}
+                            <div class="col-md-3">
+                                <p class="pl-4">Dossier reçu le:
+                                    <strong>{{ prospect.dateRecepDossier ? prospect.dateRecepDossier|date('d-m-Y') : '' }}</strong>
+                                </p>
+                            </div>
+                        {% endif %}
+                        {% if prospect.dateAccep %}
+                            <div class="col-md-3">
+                                <p class="pl-4">Dossier accepté le:
+                                    <strong>{{ prospect.dateAccep ? prospect.dateAccep|date('d-m-Y') : '' }}</strong>
+                                    par <a class="font-weight-bold"
+                                           href="{{ path('user_show',{id:prospect.acceptBy.id}) }}">{{ prospect.acceptBy.nomPrenom }}</a>
+                                </p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <h5><i class="fas fa-folder-open mb-2"></i> Documents
+            {% if prospect.statut is not same as('ACCEPTE') %}
+                <span class="float-right">
+            <a href="{{ path('prospect_relance',{id:prospect.id}) }}" class="btn btn-sm btn-danger"><i
+                        class="fa fas fa-envelope"></i> Envoyer le mail de relance</a>
+        </span>
+            {% endif %}
+        </h5>
+        <div class="rounded bg-white border">
+            <div class="row p-3">
+                <div class="col-md-6">
+
+                    {#TODO Valider les documents #}
+                    <strong>Concernant le locataire:</strong><span
+                            class="text-info small"> ({{ prospect.statutPro ? 'Jeune actif':'Etudiant' }})</span> <br>
+                    {% if prospect.cni %}
+                        <a class="h5 text-success" href="{{ datas_dir }}{{ prospect.cni }}"><i
+                                    class="fas fa-id-card"></i> Carte d'identité <i class="fas fa-check"></i></a>
+                        <small><a href="{{ path('doc_remover',{id:prospect.id,doc:prospect.cni,name:'cni'}) }}"><i
+                                        class="fa fas fa-times text-danger fa-2x"></i></a></small>
+                    {% else %}
+                        <span class="h5 text-danger"><i class="fas fa-id-card"></i> Carte d'identité manquante</span>
+                    {% endif %} <br>
+                    {% if prospect.statutPro == true %}
+                        {% if prospect.contratTrav %}
+                            <a class="h5 text-success" href="{{ datas_dir }}{{ prospect.contratTrav }}"><i
+                                        class="fas fa-file-contract"></i> Contrat de travail <i
+                                        class="fas fa-check"></i></a>
+                            <small>
+                                <a href="{{ path('doc_remover',{id:prospect.id,doc:prospect.contratTrav,name:'contratTrav'}) }}"><i
+                                            class="fa fas fa-times text-danger fa-2x"></i></a></small>
+                        {% else %}
+                            <span class="h5 text-danger"><i class="fas fa-file-contract"></i> Contrat de travail manquant</span>
+                        {% endif %} <br>
+                        {% if prospect.bullSalLoc %}
+                            <a class="h5 text-success" href="{{ datas_dir }}{{ prospect.bullSalLoc }}"><i
+                                        class="fas fa-file-invoice-dollar"></i> Bulletins de salaires <i
+                                        class="fas fa-check"></i></a>
+                            <small>
+                                <a href="{{ path('doc_remover',{id:prospect.id,doc:prospect.bullSalLoc,name:'bullSalLoc'}) }}"><i
+                                            class="fa fas fa-times text-danger fa-2x"></i></a></small>
+
+                        {% else %}
+                            <span class="h5 text-danger"><i class="fas fa-file-invoice-dollar"></i> Bulletins de salaires manquant</span>
+                        {% endif %} <br>
+                        {% if prospect.avisImpLoc %}
+                            <a class="h5 text-success" href="{{ datas_dir }}{{ prospect.avisImpLoc }}"><i
+                                        class="fas fa-balance-scale"></i> Avis d'imposition <i class="fas fa-check"></i></a>
+                            <small>
+                                <a href="{{ path('doc_remover',{id:prospect.id,doc:prospect.avisImpLoc,name:'avisImpLoc'}) }}"><i
+                                            class="fa fas fa-times text-danger fa-2x"></i></a></small>
+                        {% else %}
+                            <span class="h5 text-danger"><i
+                                        class="fas fa-balance-scale"></i> Avis d'imposition manquant</span>
+                        {% endif %} <br>
+                    {% elseif prospect.statutPro == false %}
+                        {% if prospect.justifScol %}
+                            <a class="h5 text-success" href="{{ datas_dir }}{{ prospect.justifScol }}"><i
+                                        class="fas fa-home"></i> Justificatif de scolarité <i class="fas fa-check"></i></a>
+                            <small>
+                                <a href="{{ path('doc_remover',{id:prospect.id,doc:prospect.justifScol,name:'justifScol'}) }}"><i
+                                            class="fa fas fa-times text-danger fa-2x"></i></a></small>
+                        {% else %}
+                            <span class="h5 text-danger"><i
+                                        class="fas fa-home"></i> Justificatif de scolarité manquant</span>
+                        {% endif %} <br>
+                    {% endif %}
+                    {% if prospect.rib %}
+                        <a class="h5 text-success" href="{{ datas_dir }}{{ prospect.rib }}"><i
+                                    class="fas fa-file-invoice-dollar"></i> Rélevé d'identité bancaire (RIB) <i
+                                    class="fas fa-check"></i></a>
+                        <small>
+                            <a href="{{ path('doc_remover',{id:prospect.id,doc:prospect.rib,name:'rib'}) }}"><i
+                                        class="fa fas fa-times text-danger fa-2x"></i></a></small>
+
+                    {% else %}
+                        <span class="h5 text-danger"><i class="fas fa-file-invoice-dollar"></i> RIB manquant</span>
+                    {% endif %} <br>
+                    {% if prospect.sepa %}
+                        <a class="h5 text-success" href="{{ datas_dir }}{{ prospect.sepa }}"><i
+                                    class="fas fa-file-invoice-dollar"></i> Autorisation de prélèvement (SEPA) <i
+                                    class="fas fa-check"></i></a>
+                        <small>
+                            <a href="{{ path('doc_remover',{id:prospect.id,doc:prospect.sepa,name:'sepa'}) }}"><i
+                                        class="fa fas fa-times text-danger fa-2x"></i></a></small>
+
+                    {% else %}
+                        <span class="h5 text-danger"><i class="fas fa-file-invoice-dollar"></i>  Autorisation de prélèvement (SEPA) manquant</span>
+                    {% endif %} <br>
+                    {% if prospect.photo %}
+                        <a class="h5 text-success" href="{{ datas_dir }}photos/{{ prospect.photo }}"><i
+                                    class="fas fa-camera"></i> Photo d'identité <i
+                                    class="fas fa-check"></i></a>
+                        <small>
+                            <a href="{{ path('doc_remover',{id:prospect.id,doc:prospect.photo,name:'photo'}) }}"><i
+                                        class="fa fas fa-times text-danger fa-2x"></i></a></small>
+
+                    {% else %}
+                        <span class="h5 text-danger"><i class="fas fa-camera"></i> Photo d'identité manquante</span>
+                    {% endif %} <br>
+                    {% if prospect.justifBourse %}
+                        <a class="h5 text-success" href="{{ datas_dir }}{{ prospect.justifBourse }}"><i
+                                    class="fas fa-hand-holding-usd"></i> Justif. bourse <i class="fas fa-check"></i></a>
+                        <small>
+                            <a href="{{ path('doc_remover',{id:prospect.id,doc:prospect.justifBourse,name:'justifBourse'}) }}"><i
+                                        class="fa fas fa-times text-danger fa-2x"></i></a></small>
+
+                    {% else %}
+                        <span class="h5 text-danger"><i class="fas fa-hand-holding-usd"></i> Aucun justif. bourse</span>
+                    {% endif %} <br>
+                    {% if prospect.chequeFrais %}
+                        <span class="h5 text-success"><i class="fas fa-money-check"></i> Chèque de frais reçu <i
+                                    class="fas fa-check"></i></span>
+
+                        <i class="fas fa-sync-alt text-danger" onclick="updateProspect({{ prospect.id }},'cheque')"></i>
+
+                    {% else %}
+                        <span class="h5 text-danger"><i class="fas fa-money-check"></i> Chèque de frais manquant</span>
+                        <i class="fas fa-sync-alt text-success"
+                           onclick="updateProspect({{ prospect.id }},'cheque')"></i>
+
+                    {% endif %}
+                </div>
+                <div class="col-md-6">
+                    <strong>Concernant le garant:</strong> <br>
+                    {% if prospect.cniGarant %}
+                        <a class="h5 text-success" href="{{ datas_dir }}{{ prospect.cniGarant }}"><i
+                                    class="fas fa-id-card"></i> Carte d'identité du garant <i class="fas fa-check"></i></a>
+                        <small>
+                            <a href="{{ path('doc_remover',{id:prospect.id,doc:prospect.cniGarant,name:'cniGarant'}) }}"><i
+                                        class="fa fas fa-times text-danger fa-2x"></i></a></small>
+
+                    {% else %}
+                        <span class="h5 text-danger"><i class="fas fa-id-card"></i> Carte d'identité manquante</span>
+                    {% endif %} <br>
+                    {% if prospect.livret %}
+                        <a class="h5 text-success" href="{{ datas_dir }}{{ prospect.livret }}"><i
+                                    class="fas fa-address-book"></i> Livret de famille <i class="fas fa-check"></i></a>
+                        <small><a href="{{ path('doc_remover',{id:prospect.id,doc:prospect.livret,name:'livret'}) }}"><i
+                                        class="fa fas fa-times text-danger fa-2x"></i></a></small>
+
+                    {% else %}
+                        <span class="h5 text-danger"><i
+                                    class="fas fa-address-book"></i> Livret de famille manquant</span>
+                    {% endif %} <br>
+                    {% if prospect.justifDom %}
+                        <a class="h5 text-success" href="{{ datas_dir }}{{ prospect.justifDom }}"><i
+                                    class="fas fa-home"></i> Justificatif de domicile <i class="fas fa-check"></i></a>
+                        <small>
+                            <a href="{{ path('doc_remover',{id:prospect.id,doc:prospect.justifDom,name:'justifDom'}) }}"><i
+                                        class="fa fas fa-times text-danger fa-2x"></i></a></small>
+                    {% else %}
+                        <span class="h5 text-danger"><i
+                                    class="fas fa-home"></i> Justificatif de domicile manquant</span>
+                    {% endif %} <br>
+                    {% if prospect.bullSal %}
+                        <a class="h5 text-success" href="{{ datas_dir }}{{ prospect.bullSal }}"><i
+                                    class="fas fa-file-invoice-dollar"></i> Bulletins de salaires <i
+                                    class="fas fa-check"></i></a>
+                        <small><a href="{{ path('doc_remover',{id:prospect.id,doc:prospect.bullSal,name:'bullSal'}) }}"><i
+                                        class="fa fas fa-times text-danger fa-2x"></i></a></small>
+
+                    {% else %}
+                        <span class="h5 text-danger"><i class="fas fa-file-invoice-dollar"></i> Bulletins de salaires manquant</span>
+                    {% endif %} <br>
+                    {% if prospect.avisImp %}
+                        <a class="h5 text-success" href="{{ datas_dir }}{{ prospect.avisImp }}"><i
+                                    class="fas fa-balance-scale"></i> Avis d'imposition <i class="fas fa-check"></i></a>
+                        <small><a href="{{ path('doc_remover',{id:prospect.id,doc:prospect.avisImp,name:'avisImp'}) }}"><i
+                                        class="fa fas fa-times text-danger fa-2x"></i></a></small>
+                    {% else %}
+                        <span class="h5 text-danger"><i
+                                    class="fas fa-balance-scale"></i> Avis d'imposition manquant</span>
+                    {% endif %} <br>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 rounded border bg-light p-2 mb-3">
+                    <h6 class="font-weight-bold"><i class="fas fa-clock"></i> Statut du dossier</h6>
+                    <p class="pl-4 float-left h6">Ce dossier est:
+                        <strong>
+                            {% if (prospect.statut is same as('EN ATTENTE') or prospect.statut is same as('TRANSMIS')) %}
+                                <span class="text-warning">
+                                    {% if prospect.statut is same as('TRANSMIS') %}
+                                        EN ATTENTE DE VALIDATION DES DOCUMENTS
+                                    {% else %}
+                                        {{ prospect.statut }}
+                                    {% endif %}
+                                </span>
+                            {% elseif prospect.statut is same as('REFUSE') %}
+                                <span class="text-danger">{{ prospect.statut }}</span>
+                            {% else %}
+                                <span class="text-success">{{ prospect.statut }}</span>{% endif %}</strong></p>
+                    <span class="float-right">
+                        {% if prospect.statut is same as('EN ATTENTE') %}
+                            <button class="btn btn-danger mb-4 mr-4"
+                                    onclick="updateDossier({{ prospect.id }},'REFUSE')">Refuser ce dossier</button>
+                            <button class="btn btn-danger mb-4 mr-4"
+                                    onclick="updateDossier({{ prospect.id }},'ANNULE')">Annuler ce dossier</button>
+                            {#{% elseif prospect.statut is same as('REFUSE') %}
+                                <button class="btn btn-warning mb-4 mr-4"
+                                        onclick="updateDossier({{ prospect.id }},'EN ATTENTE')">Mettre ce dossier en attente</button>#}
+                        {% endif %}
+                        {% if prospect.statutPro == false %}
+                            {% if (prospect.isValid and prospect.statut is not same as('ACCEPTE')) %}
+                                <button class="btn btn-success mb-4 mr-4"
+                                        onclick="updateDossier({{ prospect.id }},'ACCEPTE')">Accepter ce dossier</button>
+                                <button class="btn btn-danger mb-4 mr-4"
+                                        onclick="updateDossier({{ prospect.id }},'ANNULE')">Annuler ce dossier</button>
+                            {% endif %}
+                        {% elseif prospect.statutPro == true %}
+                            {% if (prospect.isValid and prospect.statut is not same as('ACCEPTE')) %}
+                                <button class="btn btn-success mb-4 mr-4"
+                                        onclick="updateDossier({{ prospect.id }},'ACCEPTE')">Accepter ce dossier</button>
+                                <button class="btn btn-danger mb-4 mr-4"
+                                        onclick="updateDossier({{ prospect.id }},'ANNULE')">Annuler ce dossier</button>
+                            {% endif %}
+                        {% endif %}
+                        {% if (prospect.isValid and prospect.statut is same as('ACCEPTE')) %}
+                            {% include 'modal/attribuer.html.twig' with {'user':app.user,'residencesUser':prospect.residences} %}
+                            <button class="btn btn-success mb-4 mr-4" data-toggle="modal"
+                                    data-target="#exampleModalCenter">Attribuer un logement</button>
+                            <button class="btn btn-danger mb-4 mr-4"
+                                    onclick="updateDossier({{ prospect.id }},'ANNULE')">Annuler ce dossier</button>
+                            {#                  <button class="btn btn-danger mb-4 mr-4"
+                                                      onclick="updateDossier({{ prospect.id }},'REFUSE')">Refuser ce dossier</button>#}
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        {% if prospect.statut is same as('ACCEPTE') %}
+        $('i.fa.fas.fa-times.text-danger.fa-2x').parent().parent().remove();
+        {% endif %}
+        $('.table-residence').css('display', 'none');
+
+        function showLogement(that) {
+            residence = that.val();
+            residenceNom = that.find('option:selected').text();
+            $('#nom-residence').html('Logements libre pour la résidence <span class="text-info">' + residenceNom + '</span>');
+        }
+
+        function updateProspect(id, val) {
+            $.ajax({
+                url: '{{ path('update') }}',
+                type: "POST",
+                data: {
+                    "id": id,
+                    "utile": val
+                },
+                async: true,
+                success: function () {
+                    location.reload();
+                }
+            });
+        }
+
+        function changePrice(prospect, idLogement, infos) {
+            var loyer = $('#fullInfos_' + idLogement + ' .loyer').text();
+            var charges = $('#fullInfos_' + idLogement + ' .charges').text();
+            var cotisAcc = $('#fullInfos_' + idLogement + ' .cotisAcc').text();
+            var cotisServices = $('#fullInfos_' + idLogement + ' .cotisServices').text();
+            var url = '/prospect/attribution/' + {{ prospect.id }} +'/' + idLogement;
+            $('#change').html('<form name="contratChange" method="post" action="' + url + '" class="p-2">' +
+                '<div class="input-group mb-3 mt-3">' +
+                '<div class="input-group-prepend">' +
+                '<span class="input-group-text" >Durée</span>' +
+                '</div>' +
+                '<input class="form-control" type="text" name="duree" value=12>' +
+                '<div class="input-group-append">' +
+                '<span class="input-group-text" >mois</span>' +
+                '</div></div>' +
+                '<div class="input-group mb-3 mt-3">' +
+                '<div class="input-group-prepend">' +
+                '<span class="input-group-text" >Loyer</span>' +
+                '</div>' +
+                '<input class="form-control" type="text" name="loyer" value=' + loyer + '>' +
+                '<div class="input-group-append">' +
+                '<span class="input-group-text" >€</span>' +
+                '</div></div>' +
+                '<div class="input-group mb-3">' +
+                '<div class="input-group-prepend">' +
+                '<span class="input-group-text" >Charges</span>' +
+                '</div>' +
+                '<input class="form-control" type="text" name="charges" value=' + charges + '>' +
+                '<div class="input-group-append">' +
+                '<span class="input-group-text">€</span>' +
+                '</div></div>' +
+                '<div class="input-group mb-3">' +
+                '<div class="input-group-prepend">' +
+                '<span class="input-group-text" >Cotis. Acc.</span>' +
+                '</div>' +
+                '<input class="form-control" type="text" name="cotisAcc" value=' + cotisAcc + '>' +
+                '<div class="input-group-append">' +
+                '<span class="input-group-text">€</span>' +
+                '</div></div>' +
+                '<div class="input-group">' +
+                '<div class="input-group-prepend">' +
+                '<span class="input-group-text" >Cotis. Services</span>' +
+                '</div>' +
+                '<input class="form-control" type="text" name="cotisServices" value=' + cotisServices + '>' +
+                '<div class="input-group-append">' +
+                '<span class="input-group-text">€</span>' +
+                '</div></div>' +
+                '<button type="submit" class="btn btn-success mt-3 w-100">Attribuer</button>' +
+                '</form>'
+            );
+        }
+
+        function getLogement(residence, admin = null) {
+            $('.ajax-loader').show();
+            $.ajax({
+                url: '{{ path('prospect_get_logement',{id:prospect.id}) }}',
+                type: "POST",
+                data: {
+                    "residence": residence
+                },
+                async: true,
+                success: function (data) {
+                    $('.ajax-loader').fadeOut('fast');
+                    $('#liste-logements').html('');
+                    if (data.logements.length > 0) {
+
+                        for (i = 0; i < data.logements.length; i++) {
+                            var idLogement = data.logements[i].id;
+                            var infos = data.logements[i].infos;
+                            if (admin) {
+                                var url = 'changePrice({{ prospect.id }},' + idLogement + ',"' + infos + '")';
+                                $('#liste-logements').append("<tr>" +
+                                    "<td class='col-md align-middle pl-2'>" + infos + "</td>" +
+                                    "<td class='text-right align-middle'>" +
+                                    "<button onclick='" + url + "' class='btn btn-sm btn-success'>" +
+                                    "<i class='fa fas fa-sign-in-alt'></i>" +
+                                    "</button>" +
+                                    "</td>" +
+                                    "</tr>");
+                            } else {
+                                var url = '/prospect/attribution/' + {{ prospect.id }} +'/' + idLogement;
+                                $('#liste-logements').append("<tr>" +
+                                    "<td class='col-md align-middle pl-2'>" + infos + "</td>" +
+                                    "<td class='text-right align-middle'>" +
+                                    "<a href='" + url + "'><button class='btn btn-sm btn-success'>" +
+                                    "<i class='fa fas fa-sign-in-alt'></i>" +
+                                    "</button></a>" +
+                                    "</td>" +
+                                    "</tr>");
+                            }
+                        }
+                    } else {
+                        $('#liste-logements').append("<tr><td class='col-md align-middle bg-light font-weight-bold text-center'>Aucun logement libre dans cette résidence</td></tr>");
+                    }
+                }
+            })
+        }
+
+        function updateDossier(id, val) {
+            $('.loader').show();
+            $.ajax({
+                url: '{{ path('update_dossier') }}',
+                type: "POST",
+                data: {
+                    "id": id,
+                    "statut": val
+                },
+                async: true,
+                success: function () {
+                    location.reload();
+                }
+            });
+        }
+    </script>
+{% endblock %}

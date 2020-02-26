@@ -1,0 +1,80 @@
+<div class="row " id="content-profil">
+    <div class="col-sm-12 col-md-12 mb-5">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-center">
+                    <h1 class="h1-loc text-white "><i class="fas fa-file-pdf"></i> Mes avis d'échéances</h1>
+                        <hr class="profil">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12" style="font-size:1.5em">
+                <table class="col-md-12 text-center table-hover table-responsive-lg">
+                    <thead class="bg-dark-light ">
+                    <tr>
+                        <td class="p-3">#</td>
+                        <td class="p-3">Mois</td>
+                        <td class="p-3">Télécharger</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for echeance in echs[0:3] if echs is defined %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+
+                        {% set mois = echeance[5:2] %}
+                        <td class="p-4">
+                            {% if mois is same as('01') %}
+                                Janvier
+                            {% elseif mois is same as('02') %}
+                                Février
+                            {% elseif mois is same as('03') %}
+                                Mars
+                            {% elseif mois is same as('04') %}
+                                Avril
+                            {% elseif mois is same as('05') %}
+                                Mai
+                            {% elseif mois is same as('06') %}
+                                Juin
+                            {% elseif mois is same as('07') %}
+                                Juillet
+                            {% elseif mois is same as('08') %}
+                                Août
+                            {% elseif mois is same as('09') %}
+                                Septembre
+                            {% elseif mois is same as('10') %}
+                                Octobre
+                            {% elseif mois is same as('11') %}
+                                Novembre
+                            {% else %}
+                                Décembre
+
+                            {% endif %}
+                            {% if 'parking' in echeance %} <small>(Parking)</small> {% endif %} - {{ echeance[0:4] }}
+                        </td>
+                        <td class="p-2"> {% if 'parking' in echeance %}
+                            <a href="{{ path('downloader_parking',{
+                                id:app.user.id,
+                                annee:echeance[0:4],
+                                mois:echeance[5:2],
+                                file:echeance[16:-4]}) }}">
+                                <i class="fas fa-parking fa-2x"></i>&nbsp;
+                                {% else %}
+                                <a href="{{ path('downloader',{
+                                    id:app.user.id,
+                                    annee:echeance[0:4],
+                                    mois:echeance[5:2],
+                                    file:echeance[8:-4]}) }}">
+                                    <i class="fas fa-file-pdf fa-2x"></i>&nbsp;
+                                    {% endif %}
+                                </a></td>
+                    </tr>
+                    </tbody>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

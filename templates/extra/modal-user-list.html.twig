@@ -1,0 +1,48 @@
+<div class="modal fade" id="modalUserList" tabindex="-1" role="dialog" aria-labelledby="modalUserListTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalUserListlLongTitle">Liste des locataires</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <table class="table table-sm table-hover text-center">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>Id</th>
+                        <th>Nom</th>
+                        <th>Email</th>
+                        <th class="text-right">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for locataire in get_locataires.all %}
+                        {% if locataire.parking is null %}
+                    <tr {% if loop.index > 10 %} hidden{% endif %}>
+                        <td>{{ locataire.id }}</td>
+                        <td>{{ locataire.nomComplet }}</td>
+                        <td>{{ locataire.email }}</td>
+                        <td class="text-right">
+                            <a href="{{ path('parking_attribution',{'resid':parking.residence.nom,'id':parking.id,'locataire':locataire.id}) }}">
+                                <button class="btn btn-sm btn-success">
+                                    Attribuer <i class="fa fas fa-sign-in-alt"></i>
+                                </button>
+                            </a>
+                        </td>
+                    </tr>
+                        {% else %}
+                        {% endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

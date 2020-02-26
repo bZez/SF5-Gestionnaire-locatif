@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Gestionnaire MGEL Logement">
+    <meta name="author" content="Sam BZEZ">
+    <title>Connexion MGEL Logement</title>
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('assets/css/login.css') }}">
+</head>
+<body class="bg-light">
+    <section class="text-center m-auto">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">
+                    {{ message|raw }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+        <form class="form-signin" method="post">
+            <img class="mb-4" src="{{ asset('assets/img/logo-mgel-logement.png') }}" alt="" width="199">
+            <input type="text" value="{{ last_username }}" name="login" id="inputLogin" class="form-control"
+                   placeholder="Login..." required autofocus>
+            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de passe..." required>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <button class="btn btn-sm btn-primary btn-block" type="submit">Connexion</button>
+        </form>
+        <a href="#" data-toggle="modal" data-target="#modalPassOublie" class="text-dark">
+            <i class="fa fas fa-lock"></i> Mot de passe oublié ?</a>
+        <!-- Modal -->
+        <div class="modal fade" id="modalPassOublie" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Mot de passe oublié ?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body m-0 p-0">
+                        <form class="form-signin" method="post" action="{{ path('gen_pass') }}">
+                               <input type="email" name="email" id="inputEmail" class="form-control w-100"
+                                      placeholder="Adresse email ou login" required autofocus>
+                               <input type="number" name="zipCode" id="inputZipCode" class="form-control w-100 mt-2" placeholder="Code postal..." required>
+                    </div>
+                    <div class="modal-footer text-center">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                            <button type="submit" class="btn btn-success">Valider</button>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <p class="mt-5 mb-3 text-muted">&copy; 1948-{{ "now"|date('Y') }}</p>
+    </section>
+    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap.js') }}"></script>
+</body>
+</html>

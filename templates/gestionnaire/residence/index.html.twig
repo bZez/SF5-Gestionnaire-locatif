@@ -1,0 +1,54 @@
+{% extends 'gestionnaire/base.html.twig' %}
+
+{% block title %}Gestion des résidences{% endblock %}
+
+{% block body %}
+    <h1><i class="fa fas fa-building"></i> Liste des résidences <span class="float-right">
+             <a href="{{ path('residence_new') }}">
+        <button class="btn btn-sm btn-primary"><i class="fas fa-plus-square"></i> Ajouter une nouvelle résidence</button>
+    </a>
+        </span></h1>
+    <hr>
+    <table class="table table-hover table-sm">
+        <thead class="table-dark">
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Intro</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for residence in residences %}
+            <tr>
+                <td>{{ residence.id }}</td>
+                <td>{{ residence.nom }}</td>
+                <td>{{ residence.intro|raw }}</td>
+                <td class="btn-group">
+                    <a href="{{ path('residence_show', {'id': residence.id}) }}">
+                        <button class="btn btn-sm btn-info">
+                            <i class="fa fas fa-eye"></i>
+                        </button>
+                    </a>
+                    &nbsp;
+                    <a href="{{ path('residence_edit', {'id': residence.id}) }}">
+                        <button class="btn btn-sm btn-success">
+                            <i class="fa fas fa-edit"></i>
+                        </button>
+                    </a>
+                    &nbsp;
+                    {{ include('gestionnaire/residence/_delete_form.html.twig') }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="21">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('residence_new') }}">
+        <button class="btn btn-sm btn-primary"><i class="fas fa-plus-square"></i> Ajouter une nouvelle résidence</button>
+    </a>
+{% endblock %}

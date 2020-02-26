@@ -1,0 +1,54 @@
+security:
+  encoders:
+    App\Entity\User:
+      algorithm: bcrypt
+    App\Entity\Locataire:
+      algorithm: bcrypt
+    App\Entity\Prospect:
+      algorithm: bcrypt
+
+  # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+  providers:
+    # used to reload user from session & other features (e.g. switch_user)
+    app_user_provider:
+      entity:
+        class: App\Entity\User
+        property: login
+    app_loc_provider:
+      entity:
+        class: App\Entity\Locataire
+        property: email
+    app_prospect_provider:
+      entity:
+        class: App\Entity\Prospect
+        property: email
+    chain_provider:
+      chain:
+        providers: [app_user_provider,app_loc_provider,app_prospect_provider]
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
+    main:
+      anonymous: true
+      provider: chain_provider
+      guard:
+        authenticators:
+          - App\Security\LoginFormAuthenticator
+      logout:
+        path: app_logout
+        target: site
+      # activate different ways to authenticate
+
+      # http_basic: true
+      # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+
+      # form_login: true
+      # https://symfony.com/doc/current/security/form_login_setup.html
+
+  # Easy way to control access for large sections of your site
+  # Note: Only the *first* access control that matches will be used
+  access_control:
+#        - { path: ^/_admin, roles: ROLE_ADMIN }
+#        - { path: ^/profil, roles: ROLE_USER }
+#        - { path: ^/_/^, roles: ROLE_ECHEANCE }

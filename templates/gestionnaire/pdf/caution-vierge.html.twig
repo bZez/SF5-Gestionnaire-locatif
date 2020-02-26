@@ -1,0 +1,166 @@
+{# ./templates/default/mypdf.html.twig #}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Caution solidaire</title>
+    <style>
+        html, body {
+            font-size: 11pt;
+            line-height: 0.9em;
+        }
+
+        small {
+            font-size: small;
+        }
+
+        red {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div style="text-align: right">{{ locataire.id }}</div>
+<h4 style="text-align: center;font-size: 13pt">ACTE DE CAUTION SOLIDAIRE</h4>
+<div style="width: 92%">
+    <div style="border-radius: 10px;border: 1px solid black;padding: 10px;width: 36%;height:55px;float: left">
+        <div style="text-align: center"><strong>Le bailleur</strong></div>
+        <div style="margin-top: 5px">MGEL LOGEMENT <br>
+            53, avenue Jean Jaurès <br>
+            54500 VANDOEUVRE LES NANCY
+        </div>
+    </div>
+    <div style="border-radius: 10px;border: 1px solid black;padding: 10px;width: 30%;height:55px;;float: left;margin: 0 .5% 0 .5%">
+        <div style="text-align: center"><strong>La caution</strong></div>
+        <div style="margin-top: 5px">
+            {{ locataire.garant.nom|upper }} {{ locataire.garant.prenom|capitalize }} <br>
+            {{ locataire.garant.adresse }} <br>
+            {{ locataire.garant.codePostal }} {{ locataire.garant.ville }}
+        </div>
+    </div>
+    <div style="border-radius: 10px;border: 1px solid black;padding: 10px;width: 31%;height:55px;;float: left">
+        <div style="text-align: center"><strong>Le sous-locataire</strong></div>
+        <div style="margin-top: 5px">
+            {{ locataire.nom|upper }} {{ locataire.prenom|capitalize }} <br>
+            {{ locataire.adresse }} <br>
+            {{ locataire.codePostal }} {{ locataire.ville }}
+        </div>
+    </div>
+</div>
+<div style="max-width: 93%">
+    <div style="margin-top: 15px">
+        <div style="padding-left: 5px;"><strong>Contrat de sous-location</strong></div>
+        <div style="border-radius: 10px;border: 1px solid black;padding: 10px;width: 24.5%;height:35px;float: left;margin: 5px .5% 0 0">
+            <div style="text-align: center"><strong>Date d'effet du contrat</strong> <br>
+                <div style="margin-top: 5px;">{{ locataire.lastContrat.debut|date('d-m-Y') }}</div>
+            </div>
+        </div>
+        <div style="border-radius: 10px;border: 1px solid black;padding: 10px;width: 24.5%;height:35px;float: left;margin: 0 .5% 0 0">
+            <div style="text-align: center"><strong>Durée du contrat</strong> <br>
+                <div style="margin-top: 5px;">{{ locataire.lastContrat.duree }} mois</div>
+            </div>
+        </div>
+        <div style="border-radius: 10px;border: 1px solid black;padding: 10px;width: 47%;height:35px;float: left;margin: 0 .5% 0 0">
+            <div><strong>Adresse:</strong>
+                {{ locataire.logement.residence.nom }} - Appt
+                N°{{ locataire.logement.numero }}
+                <br>
+                <div style="padding-left:52px ">
+                    {{ locataire.residence.adresse }}<br>
+                    {{ locataire.residence.ville.codePostal }} {{ locataire.residence.ville.nom|upper }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="width: 100%;clear: both">
+    <div>
+        <div style="border-radius: 10px;border: 1px solid black;padding: 10px;margin-top: 5px;">
+            <div>
+                <strong>Loyer mensuel toutes charges comprises:</strong>
+                {% if locataire.lastContrat.loyerPerso %}
+                {{ locataire.lastContrat.loyerPerso + locataire.lastContrat.chargesPerso + locataire.lastContrat.cotisAccPerso + locataire.lastContrat.cotisServicesPerso }} €
+                    {% else %}
+                    {{ locataire.logement.loyerTotal }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div style="margin-top: 10px;text-align: justify;font-size: 12pt;line-height: 15pt">
+    La caution déclare avoir pris connaissance du contrat de sous-location, de ses conditions et déclare se porter caution
+    solidaire pour la durée du contrat de sous-location ci-annexé, c'est-à-dire jusqu’au : <strong>{{ contrat.fin|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}.</strong> Il
+    s’engage à ce titre au profit du bailleur, qui accepte à satisfaire à toutes les obligations du sous-locataire (figurant
+    au bail) sans bénéfice de discussion pour le paiement des loyers éventuellement révisés, des indemnités d’occupation,
+    des services, des charges récupérables (majoré des éventuelles réparations locative et des frais de procédures) pour un
+    montant de :
+    <strong>
+        {% if locataire.lastContrat.loyerPerso %}
+            {{ (locataire.lastContrat.loyerPerso + locataire.lastContrat.chargesPerso + locataire.lastContrat.cotisAccPerso + locataire.lastContrat.cotisServicesPerso)*locataire.lastContrat.duree }} €
+        {% else %}
+            {{ locataire.logement.loyerTotal * locataire.lastContrat.duree }} €
+        {% endif %}
+    </strong>
+    <br><br>
+    La caution par la présente reconnaît avoir pris connaissance de la nature et de l’étendue de ses obligations et à ce
+    titre ce porte caution solidaire sans bénéfice de discussion et de division jusqu’à la date du <strong>{{ contrat.fin|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}</strong>
+    pour un montant de   <strong>
+        {% if locataire.lastContrat.loyerPerso %}
+            {{ (locataire.lastContrat.loyerPerso + locataire.lastContrat.chargesPerso + locataire.lastContrat.cotisAccPerso + locataire.lastContrat.cotisServicesPerso)*locataire.lastContrat.duree }} €
+        {% else %}
+            {{ locataire.logement.loyerTotal * locataire.lastContrat.duree }} €
+        {% endif %}
+    </strong> pour le paiement du loyer
+    s’élevant à ce jour à   <strong>
+        {% if locataire.lastContrat.loyerPerso %}
+            {{ (locataire.lastContrat.loyerPerso + locataire.lastContrat.chargesPerso + locataire.lastContrat.cotisAccPerso + locataire.lastContrat.cotisServicesPerso) }} €
+        {% else %}
+            {{ locataire.logement.loyerTotal }} €
+        {% endif %}
+    </strong> et de sa révision chaque année sur la base de la moyenne des Indices de
+    Référence des Loyers (IRL) du quatrième trimestre 2018 d’une valeur de 129,03 indiquée au contrat de sous-location,
+    ainsi que des indemnités d’occupation, des services, des charges éventuellement majorés de réparations locatives et
+    frais de procédures, ces obligations résultent du contrat de sous-location dont la caution reconnais avoir reçu un
+    exemplaire. <br><br>
+
+    La caution confirme avoir pleinement connaissance de la nature et de l’étendue de l’obligation qu'elle contracte au
+    titre du présent acte de caution solidaire et accepte, le cas échéant, la signature électronique comme méthode de
+    signature légale.
+    <br><br>
+    Enfin la caution reconnaît avoir pris connaissance que : « Lorsque le cautionnement d’obligations résultant d’un contrat
+    de location conclu en application du présent titre ne comporte aucune indication de durée ou lorsque la durée du
+    cautionnement est stipulée indéterminée, la caution peut le résilier unilatéralement. La résiliation prend effet au
+    terme du contrat de location, qu’il s’agisse du contrat initial ou d’un contrat reconduit ou renouvelé, au cours duquel
+    le bailleur reçoit notification de la résiliation. »
+</div>
+<br>
+<br>
+<div style="text-align: center">........................................................................</div>
+<br>
+<br>
+<br>
+<div style="width: 100%;clear: both;font-size: 12pt;">
+    <div>
+        <div style="border-radius: 10px;border: 1px solid black;padding: 10px;margin-top: 5px; height:100px ">
+            <div style="width: 50%;float: left">
+                Fait à: <strong>{{ locataire.residence.ville.nom|upper }}</strong>,
+            </div>
+            <div style="width: 50%;float: right">
+                Le: <strong>{{ locataire.lastContrat.dateSignature|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }}</strong>
+            </div>
+            <div style="width: 100%;margin-top: 20px">
+                <div style="width: 50%;text-align: center;float: right">
+                    <strong>MGEL LOGEMENT</strong>
+                </div>
+                <div style="width: 50%;text-align: center;float:left">
+                    <strong>La caution</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

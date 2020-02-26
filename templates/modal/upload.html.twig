@@ -1,0 +1,20 @@
+<!-- Modal -->
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h5 class="text-center">Envoi <span id="titleUpload"></span></h5>
+                <form  method="post" name="upload" class="was-validated" enctype="multipart/form-data">
+                    <div class="custom-file">
+                        <input name="" type="file" class="custom-file-input" id="validatedCustomFile" lang="fr" required >
+                        <label class="custom-file-label" for="validatedCustomFile">Choisissez un fichier...</label>
+                        <div class="invalid-feedback">Veuillez selectionnez un ficher !</div>
+                        <div class="valid-feedback">
+                            <button type="submit" class="btn btn-orange bg-transparent btn-sm w-100 mt-2 mb-4"><i class="fa fas fa-upload"></i> Envoyer</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

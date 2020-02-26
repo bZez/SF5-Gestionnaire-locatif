@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+{% block title %}Signature de votre contrat de sous-location{% endblock %}
+{% block body %}
+    <div style="display:flex; justify-content:space-between; align-items:stretch; height:90vh;border: none!important;">
+        <div id="iframeContainerId" style="width:100%; height:auto;">
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+<script src="https://sign.test.universign.eu/sig/embed.js"></script>
+<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script>
+    $(function () {
+        $('.loader').remove();
+        $('footer').remove();
+        generateIframe();
+    })
+    function generateIframe() {
+        const configuration = {};
+        configuration.redirectionMode = 'OUT';
+        const signerid = '{{ signerId }}';
+        universignSigInit('iframeContainerId', signerid, configuration);
+        iframe = $('iframe');
+        iframe.css('border','none');
+        $('body')[0].css('height','10000px!important');
+        $('#footer').remove();
+    }
+</script>
+<script type="text/javascript">
+    // add an appropriate event listener
+    window.addEventListener('pdsEvent', (e) => {
+        // e.detail.eventType return 'begin' or 'end' of signature process
+        // e.detail.signerId get the Signer Id
+    });
+
+</script>
+{% endblock %}

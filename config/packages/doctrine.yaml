@@ -1,0 +1,67 @@
+parameters:
+    # Adds a fallback DATABASE_URL if the env var is not set.
+    # This allows you to run cache:warmup even if your
+    # environment variables are not available yet.
+    # You should not need to change this value.
+    env(DATABASE_URL): ''
+
+doctrine:
+    dbal:
+        default_connection: default
+        connections:
+            default:
+                # configure these for your database server
+                driver: 'pdo_mysql'
+                server_version: '5.7'
+                charset: utf8mb4
+                url: '%env(resolve:DATABASE_URL)%'
+#            site:
+#                url: '%env(resolve:DATABASE_SITE_URL)%'
+#                driver: 'pdo_mysql'
+#                server_version: '5.7'
+#                charset: utf8mb4
+            old_gest:
+                url: '%env(DATABASE_OLD_URL)%'
+                driver: 'pdo_sqlsrv'
+                server_version: '7'
+                charset: UTF-8
+    orm:
+        default_entity_manager: default
+        entity_managers:
+            default:
+                dql:
+                    datetime_functions:
+                        date_format: DoctrineExtensions\Query\Mysql\DateFormat
+                        year: DoctrineExtensions\Query\Mysql\Year
+                        yearweek: DoctrineExtensions\Query\Mysql\YearWeek
+                        month: DoctrineExtensions\Query\Mysql\Month
+                        day: DoctrineExtensions\Query\Mysql\Day
+                        week: DoctrineExtensions\Query\Mysql\Week
+                        now: DoctrineExtensions\Query\Mysql\Now
+                connection: default
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                mappings:
+                    App:
+                        is_bundle: false
+                        type: annotation
+                        dir: '%kernel.project_dir%/src/Entity'
+                        prefix: 'App\Entity'
+                        alias: App
+#            site:
+#                connection: site
+#                mappings:
+#                    Old_gest:
+#                        is_bundle: false
+#                        type: annotation
+#                        dir: '%kernel.project_dir%/src/Entity'
+#                        prefix: 'App\Entity\Locataire'
+#                        alias: Site
+            old_gest:
+                connection: old_gest
+                mappings:
+                    Old_gest:
+                        is_bundle: false
+                        type: annotation
+                        dir: '%kernel.project_dir%/src/Entity'
+                        prefix: 'App\Entity\Customer'
+                        alias: Old_gest

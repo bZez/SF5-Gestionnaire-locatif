@@ -1,0 +1,105 @@
+{% extends 'gestionnaire/base.html.twig' %}
+
+{% block title %} - Statistiques{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <h1><i class="fa fas fa-chart-line"></i> Statistiques {% if residence is defined %} {% set residenceChoisie = residence %}pour la résidence <span class="text-info">{{ residence.nom }}</span>{% endif %}</h1>
+            <hr>
+
+            <select name="resid" id="resid" onchange="window.location.href='/stats/'+$(this).val()" class="form-control">
+                <option value="">Toutes les résidences</option>
+                {% for residence in get_residences.all %}
+                    <option value="{{ residence.nom }}" {% if residenceChoisie.nom is defined and residenceChoisie.nom is same as (residence.nom) %}selected{% endif %}>{{ residence.nom }}</option>
+                {% endfor %}
+            </select>
+            <hr>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="col-md-12 shadow-sm bg-white p-4 text-center">
+                <h5>Prospect(s)</h5>
+                <span class="text-info">Depuis lancement</span>
+                <h1>{{ newProspectAll }}</h1>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="col-md-12 shadow-sm bg-white p-4 text-center">
+                <h5>Prospect(s)</h5>
+                <span class="text-info">Cette année</span>
+                <h1>{{ newProspectYear }}</h1>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="col-md-12 shadow-sm bg-white p-4 text-center">
+                <h5>Prospect(s)</h5>
+                <span class="text-info">Ce mois-ci</span>
+                <h1>{{ newProspectMonth }}</h1>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="col-md-12 shadow-sm bg-white p-4 text-center">
+                <h5>Prospect(s)</h5>
+                <span class="text-info">Aujourd'hui</span>
+                <h1>{{ newProspectDay }}</h1>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="col-md-12 shadow-sm bg-white p-4 text-center">
+                <h5>Locataire(s)</h5>
+                <span class="text-info">Depuis lancement</span>
+                <h1>{{ countLocataireAll }}</h1>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="col-md-12 shadow-sm bg-white p-4 text-center">
+                <h5>Locataire(s)</h5>
+                <span class="text-info">Cette année</span>
+                <h1>{{ countLocataireYear }}</h1>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="col-md-12 shadow-sm bg-white p-4 text-center">
+                <h5>Locataire(s)</h5>
+                <span class="text-info">Ce mois-ci</span>
+                <h1>{{ countLocataireMonth }}</h1>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="col-md-12 shadow-sm bg-white p-4 text-center">
+                <h5>Locataire(s)</h5>
+                <span class="text-info">Aujourd'hui</span>
+                <h1>{{ countLocataireDay }}</h1>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="col-md-12 shadow-sm bg-white p-4 text-center">
+                <h5>Taux d'occupation</h5>
+                <span class="text-info">Actuel</span>
+                <h1>{{ tauxOccupationAll[:4] }} %</h1>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="col-md-12 shadow-sm bg-white p-4 text-center">
+                <h5>Taux d'occupation</h5>
+                <span class="text-info">Cette année</span>
+                <h1>{{ tauxOccupationYear[:4] }} %</h1>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="col-md-12 shadow-sm bg-white p-4 text-center">
+                <h5>Taux d'occupation</h5>
+                <span class="text-info">Ce mois-ci</span>
+                <h1>{{ tauxOccupationMonth[:4] }} %</h1>
+            </div>
+        </div>
+    </div>
+{% endblock %}

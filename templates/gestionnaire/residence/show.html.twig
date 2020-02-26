@@ -1,0 +1,86 @@
+{% extends 'gestionnaire/base.html.twig' %}
+
+{% block title %}Residence{% endblock %}
+
+{% block body %}
+    <h1>Residence <span class="text-info">{{ residence.nom }}</span> <span class="btn-group float-right"><a
+                    href="{{ path('residence_index') }}">
+        <button class="btn btn-sm btn-info"><i class="fa fas fa-backward"></i></button>
+    </a>
+&nbsp;
+    <a href="{{ path('residence_edit', {'id': residence.id}) }}">
+        <button class="btn btn-sm btn-success"><i class="fa fas fa-edit"></i></button>
+    </a>
+&nbsp;
+    {{ include('gestionnaire/residence/_delete_form.html.twig') }}</span></h1>
+    <hr>
+    <a href="{{ path('logement_new',{'residence':residence.nom}) }}">
+        <button class="btn-info btn btn-sm"><i class="fa fas fa-plus-square"></i> Ajouter des logement à cette résidence
+        </button>
+    </a>
+    <hr>
+    <div class="rounded"
+         style="height:15vh;overflow: hidden;background: url({{ photos_dir }}{{ residence.couverture }}) no-repeat center;background-size: cover"></div>
+    <table class="table table-sm mt-3">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Adresse</th>
+            <th>Diagnostique energétique</th>
+            <th>Services</th>
+            <th>Types</th>
+            <th>Surfaces</th>
+            <th>Garantie</th>
+            <th>Loyers</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ residence.id }}</td>
+            <td>{{ residence.adresse }}</td>
+            {% set consoEner = residence.consoEner %}
+            {% set emiGaz = residence.emiGaz %}
+            <td class="bg-white">
+                {% include 'extra/diag.html.twig' %}
+            </td>
+            <td>{% include 'extra/service.html.twig' %}</td>
+
+            {#         <th>Video</th>
+                     <td>{{ residence.video }}</td>
+         #}
+
+            <td>{{ residence.typeMin }} à {{ residence.typeMax }}</td>
+
+
+            <td>{{ residence.surfaceMin }} à {{ residence.surfaceMax }}m²</td>
+
+
+            <td>{{ residence.garantie }}</td>
+
+
+            <td>{{ residence.loyerMin }} à {{ residence.loyerMax }}€</td>
+        </tr>
+        </tbody>
+    </table>
+    {% for photo in residence.photos %}
+        <div class="col-md-1 float-left">
+            <img src="{{ photos_dir }}{{ photo.image }}" class="w-100">
+            <div class="bg-white p-2 text-center">
+                <a href="{{ path('residence_delete_photo',{id:residence.id,photo_id:photo.id}) }}"><i
+                            class="fa fas fa-times"> Suppr.</i></a>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="btn-group">
+
+        <a href="{{ path('residence_index') }}">
+            <button class="btn btn-sm btn-info"><i class="fa fas fa-backward"></i></button>
+        </a>
+        &nbsp;
+        <a href="{{ path('residence_edit', {'id': residence.id}) }}">
+            <button class="btn btn-sm btn-success"><i class="fa fas fa-edit"></i></button>
+        </a>
+        &nbsp;
+        {{ include('gestionnaire/residence/_delete_form.html.twig') }}
+    </div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'gestionnaire/base.html.twig' %}
+
+{% block title %}New Residence{% endblock %}
+
+{% block body %}
+    <h1><i class="fa fas fa-hotel"></i> Création d'une nouvelle résidence</h1>
+    <hr>
+    {{ include('gestionnaire/residence/_form.html.twig') }}
+
+    <a href="{{ path('residence_index') }}">back to list</a>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        sel_res = $('#residence_ville');
+
+        function addVille() {
+            sel_res.parent().append(
+                '<div class="input-group"><input type="text" id="ville_nom" name="ville[nom]" required="required" class="form-control mt-3" placeholder="Nom de la nouvelle ville...">' +
+                '<input type="number" id="ville_code_postal" name="ville[code_postal]" required="required" class="form-control mt-3" placeholder="Code Postal..."></div>'
+            );
+            $('#addVille').removeAttr('onclick');
+        }
+
+        sel_res.append(
+            '<option id="addVille" value="nouvelle" onclick="addVille()">Ajouter une ville...</option>'
+        );
+    </script>
+{% endblock %}

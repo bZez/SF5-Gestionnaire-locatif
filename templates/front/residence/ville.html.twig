@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Résidences étudiantes avec services à Nancy, Mulhouse, Metz et Reims{% endblock %}
+
+{% block body %}
+
+    {#LANDING PAGE#}
+    <section class="section-ter row" id="landing">
+        <div class="landing-bg {{ ville.nom|lower }}">
+            <div class="cta-landing text-center">
+                <h1 class="text-white font-weight-bold">Nos résidences à {{ ville.nom }}</h1>
+                <br>
+                <a href="{{ path('demande-logement') }}">
+                    <button class="btn-rounded">
+                        Réserver mon logement
+                    </button>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    {#DECOUVRIR MGEL#}
+    <section>
+        <div class="section-ter container">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="text-black-50 text-left p-2 row bg-white shadow-sm">
+                        <div class="col-md-6">
+                            <span class="small">Organiser </span> &nbsp;<i class="fas fa-th-list"></i> &nbsp; <i onclick="arrange(3)" class="fas fa-th"></i> &nbsp; <i onclick="arrange(2)" class="fas fa-th-large"></i>
+                        </div>
+                        <div class="col-md-6 text-right">
+                          <span class="small"> Affichage de <strong> {{ residence[ville.nom]|length }}</strong> résidence(s)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="bg-dark-light pb-5" style="margin-top:-1rem;">
+        <div class="container pt-5 pb-5">
+            <div class="row">
+                {% for r in residence[ville.nom] %}
+                    <a href="{{ path('infos_residence',{ville:r.ville.nom,nom:r.nom}) }}">
+                        <div class="col-md-6 float-left mb-4 blockres">
+                            <div class="col-md-12 bg-white p-0 hoverable">
+                                <div class="w-100" style="overflow: hidden">
+                                    <img src="{{ asset('_photos_/'~r.couverture) }}" alt="" class="w-100 blockimg" style="max-height: 360px!important;">
+                                </div>
+                                <div class="p-4">
+                                    <a href="{{ path('infos_residence',{ville:r.ville.nom,nom:r.nom}) }}"
+                                       class="nomres h4">
+                                        <strong>Résidence {{ r.nom }}</strong>
+                                    </a>
+                                    <span class="float-right orange font-weight-bold">
+                                       <small>à partir de</small>  {{ r.loyerMin }} €
+                                    </span>
+                                    <br>
+                                    <small class="text-black-50"><i
+                                                class="fas fa-map-marker-alt"></i> {{ r.adresse }}
+                                        <br> {{ r.ville.codePostal }} {{ r.ville.nom|upper }}
+                                    </small>
+                                    <br>
+                                    <div class="row mt-3">
+                                        <div class="col-md-12">
+                                            <div class="mr-3 float-left">
+                                                <h5 class="mb-0 rounded">
+                                                    {{ r.typeMin }}{% if r.typeMin is not same as(r.typeMax) %} à {{ r.typeMax }}{% endif %}
+                                                </h5>
+                                                <span class="text-black-50"><small>Type</small></span>
+                                            </div>
+                                            <div class="float-left">
+                                                <h5 class="rounded mb-0">
+                                                    {{ r.surfaceMin }}{% if r.surfaceMin is not same as(r.surfaceMax) %} à {{ r.surfaceMax }}{% endif %}
+                                                </h5>
+                                                <span class="text-black-50"><small>Surface</small></span>
+                                            </div>
+                                            <div class="float-right">
+                                                <a href="{{ path('infos_residence',{ville:r.ville.nom,nom:r.nom}) }}">
+                                                    <button class="btn-rounded">
+                                                        <small>{{ 'détails'|upper }} <i
+                                                                    class="fas fa-chevron-right"></i></small>
+                                                    </button>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+
+                {% endfor %}
+            </div>
+        </div>
+        </div>
+    </section>
+{% endblock %}

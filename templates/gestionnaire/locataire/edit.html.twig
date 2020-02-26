@@ -1,0 +1,22 @@
+{% extends 'gestionnaire/base.html.twig' %}
+
+{% block title %}Edit Locataire{% endblock %}
+
+{% block body %}
+  <h1><i class="fa fas fa-edit"></i> Modification d'une fiche locataire</h1>
+  <hr>
+    {{ include('gestionnaire/locataire/_form.html.twig', {'button_label': 'Update'}) }}
+
+    {{ include('gestionnaire/locataire/_delete_form.html.twig') }}
+{% endblock %}
+{% block javascripts %}
+<script>
+  $('label.custom-file-label[for="locataire_documents_cni"]').addClass('{% if locataire.cni %}bg-success{% else %}bg-warning{% endif %}').append('{{ locataire.cni }}');
+  $('label.custom-file-label[for="locataire_documents_justif_bourse"]').addClass('{% if locataire.justifBourse %}bg-success{% else %}bg-warning{% endif %}').append('{{ locataire.justifBourse }}');
+  $('label.custom-file-label[for="garant_documents_cni"]').addClass('{% if locataire.garant.cni %}bg-success{% else %}bg-warning{% endif %}').append('{{ locataire.garant.cni }}');
+  $('label.custom-file-label[for="garant_documents_livret"]').addClass('{% if locataire.garant.livret %}bg-success{% else %}bg-warning{% endif %}').append('{{ locataire.garant.livret }}');
+  $('label.custom-file-label[for="garant_documents_justif_dom"]').addClass('{% if locataire.garant.justifDom %}bg-success{% else %}bg-warning{% endif %}').append('{{ locataire.garant.justifDom }}');
+  $('label.custom-file-label[for="garant_documents_bull_sal"]').addClass('{% if locataire.garant.bullSal %}bg-success{% else %}bg-warning{% endif %}').append('{{ locataire.garant.bullSal }}');
+  $('label.custom-file-label[for="garant_documents_avis_imp"]').addClass('{% if locataire.garant.avisImp %}bg-success{% else %}bg-warning{% endif %}').append('{{ locataire.garant.avisImp }}');
+</script>
+{% endblock %}

@@ -1,0 +1,782 @@
+{# ./templates/default/mypdf.html.twig #}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Contrat de sous-location</title>
+    <style>
+        *{
+            line-height: 0.9em;
+            font-size: 11pt;
+        }
+        small {
+            font-size: small;
+        }
+
+        red {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body style="margin-top: -40px">
+{#START CONTRAT#}
+<span style="float: right;margin-top: 25px;">{{ locataire.id|default('<red>XXXXX</red>')|raw }}</span>
+<h2 style="text-align: center">CONTRAT DE SOUS-LOCATION</h2>
+<br>
+<div style="margin:-15px 0 10px 0;width:100%;text-align: center">
+    <b>RESIDENCE {{ residence.nom|default('<red>a remplir</red>')|raw }} / APPARTEMENT
+        N&deg;{{ logement.numero|default('<red>a remplir</red>')|raw }} {% if locataire.colocation %}/ Colocation{% endif %}</b>
+</div>
+<div style="width: 100%;border:2px solid black; padding: 7px;">
+    <u>Entre:</u> La Soci&eacute;t&eacute; U.E.S MGEL LOGEMENT, repr&eacute;sent&eacute;e par Patrice DREXLER, son G&eacute;rant
+</div>
+
+<div style="width: 100%;text-align: center"><b>Et</b></div>
+
+{#INFOS LOCATAIRE#}
+<div style="line-height:1.1em!important;width: 50%;height: 7%;float: left;border-left:1px solid black;border-bottom: 1px solid black;border-top: 1px solid black;padding: 7px 0 0 7px;">
+    <u>Le sous-locataire:</u>{{ locataire.nomComplet|default('<red>a remplir</red>')|raw }} <br>
+    <small><u><i>Adresse familiale:</i></u><br>
+        {{ locataire.adresse|default('<red>XX, Rue de xxxxx</red>')|raw }}<br>
+        {{ locataire.codePostal|default('<red>XXXXX</red>')|raw }} {{ locataire.ville|default('<red>XXXXXXXXXX</red>')|raw }}
+    </small>
+</div>
+<div style="line-height:1.1em!important;width: 50%;height: 7%;float: left;border-right:1px solid black;border-bottom: 1px solid black;border-top: 1px solid black;padding: 7px 0 0 -9px;">
+    <u>Le
+        garant:</u> {{ garant.nom|default('<red>a remplir</red>')|raw }} {{ garant.prenom|default('<red>a remplir</red>')|raw }}
+    <br>
+    <small><u><i>Adresse:</i></u><br>
+        {{ garant.adresse|default('<red>XX, Rue de xxxxx</red>')|raw }}<br>
+        {{ garant.codePostal|default('<red>XXXXX</red>')|raw }} {{ garant.ville|default('<red>XXXXXXXXXX</red>')|raw }}
+    </small>
+</div>
+<h4 style="margin: 30px 0 0 0"><b><u>APRES AVOIR RAPPELE QUE:</u></b></h4>
+<p style="font-size: small">L'UES MGEL LOGEMENT, par les pr&eacute;sentes, sous-loue les lieux d&eacute;sign&eacute;s
+    ci-apr&egrave;s au
+    sous-locataire qui aura soit la
+    qualit&eacute; d'&eacute;tudiant, de personne en formation ou de jeune actif.
+    <br>
+    L'une de ces qualit&eacute;s est une condition substantielle &agrave; la conclusion et &agrave; l'&eacute;x&eacute;cution
+    des pr&eacute;sentes. L'admission du
+    sous-locataire sera faite sur pr&eacute;sentation de la carte d'&eacute;tudiant, d'un justificatif de l'organisme de
+    formation de
+    l'ann&egrave;e en cours ou du contrat de travail.
+    En outre, il devra obligatoirement &ecirc;tre adh&eacute;rent MGEL (au minimum le pack MGEL). En cas de
+    non-admission aux
+    examens, pour non assisatance aux cours, ou pour toutes autres raisons que ce soient, de cessation de formation ou
+    contrat, le sous-locataire ne peut se pr&eacute;valoir de sa perte de qualit&eacute; d'&eacute;tudiant, de personne
+    en formation ou de jeune actif.
+</p>
+<h4 style="margin: 10px 0 0 0"><b><u>IL A ETE CONVENU CE QUI SUIT:</u></b></h4>
+<div style="width: 100%;border:2px solid black;margin-top: 10px; padding: 7px;text-align: center">
+    <b>ARTICLE 1 - DESIGNATION DES LIEUX</b>
+</div>
+<p style="font-size: small">L'UES MGEL LOGEMENT sous-loue au sous-locataire, qui accepte, les locaux meubl&eacute;s de
+    type {{ logement.typeLogement|default('<red>a remplir</red>')|raw }} dont la d&eacute;signation est reprise au
+    paragraphe
+    6-6</p>
+<div style="border: 1px solid black;font-size: small">
+    <div style="border-bottom: 1px solid black;padding: 3px;">ADRESSE DE LA
+        RESIDENCE:{{ residence.nom|default('<red>XXXXXXXXXX</red>')|raw }} {{ residence.adresse|default('<red>XXXXXXXXXX</red>')|raw }} {{ residence.ville.codePostal|default('<red>XXXXX</red>')|raw }} {{ residence.ville.nom|default('<red>XXXXXXX</red>')|raw }}
+        - BATIMENT: {{ logement.batiment|default('')|raw }}</div>
+    <div style="border-bottom: 1px solid black;padding: 3px;">
+        N&deg;APPARTEMENT: {{ logement.numero|default('<red>XXX</red>')|raw }} -
+        ETAGE: {{ logement.etage|default('<red>X&egrave;me</red>')|raw }} - SURFACE
+        HABITABLE: {{ logement.surface|default('<red>XX</red>')|raw }} m&sup2;
+    </div>
+    <div style="padding: 3px;">DATE
+        D'EFFET: {{ contrat.debut|localizeddate('none', 'none', 'fr', null, 'd MMMM Y')|default('<red>XX xxxxxxxx XXXX</red>')|raw }}
+        - DATE DE
+        FIN: {{ contrat.fin|localizeddate('none', 'none', 'fr', null, 'd MMMM Y')|default('<red>XX xxxxxxxx XXXX</red>')|raw }}</div>
+</div>
+<div style="width: 100%;border:2px solid black;margin-top: 10px; padding: 7px;text-align: center">
+    <b>ARTICLE 2 - DUREE DU CONTRAT DE SOUS-LOCATION</b>
+</div>
+<p style="font-size: small">
+    <b> <u>Cette sous-location est consentie pour une dur&eacute;e FERME
+            de {{ contrat.duree|default('<red>XX</red>')|raw }} mois, non renouvelable par tacite reconduction.</u>
+    </b>
+</p>
+<p style="font-size: small">Un nouveau contrat pourra &ecirc;tre &eacute;tabli d'ann&eacute;e en ann&eacute;e sur
+    demande expresse formul&eacute;e par le
+    sous-locataire dans les d&eacute;lais qui seront publi&eacute;s annuellement et apr&egrave;s d&eacute;cision de
+    l'UES MGEL LOGEMENT. En cas de
+    refus de l'UES MGEL LOGEMENT, aucun recours ne sera possible, la d&eacute;cision sera sans appel.
+</p>
+<div style="width: 100%;border: 2px solid black; margin-top: 10px; padding: 7px; text-align: center">
+    <b>ARTICLE 3 : CONDITIONS FINANCIERES</b>
+</div>
+<p style="font-size: small">
+    <b><u>3-1 MONTANT DE LA REDEVANCE :</u></b>
+</p>
+<p style="font-size: small; margin: -10px 0 0 0">La pr&eacute;sente sous-location est consentie et accept&eacute;e
+    moyennant une redevance payable <u>mensuellement &agrave; terme &eacute;chu au plus tard le 10 du mois suivant</u>
+    (le 20 pour la r&eacute;sidence EUROPA) : cette redevance peut &ecirc;tre r&eacute;gl&eacute;e par pr&eacute;l&egrave;vement
+    automatique.
+</p>
+<br>
+<b>Montant de la redevance mensuelle totale:</b>{% if locataire.lastContrat.loyerPerso %}
+{{ locataire.lastContrat.loyerPerso + locataire.lastContrat.chargesPerso + locataire.lastContrat.cotisAccPerso + locataire.lastContrat.CotisServicesPerso }}
+{% else %}
+    {{ locataire.logement.loyerTotal }}
+{% endif %}&euro; d&eacute;taill&eacute;e
+comme suit:
+<br>
+<br>
+<div style="width:60%;margin: 15px auto">
+    <div style="width:50%;border:1px solid black;border-right:none;text-align: left; float: left;padding: 7px;">
+        <b>Loyer hors charges :</b><br>
+        <b>Charges locatives :</b><br>
+        <b>Cotisations accessoires :</b><br>
+        <b>Cotisation services :</b>
+    </div>
+    <div style="width:50%;border:1px solid black;border-left:none;text-align: right; float: right;padding: 7px;">
+        <b>{{ logement.contrat.loyerPerso|default(logement.loyer) }} €</b><br>
+        <b>{{ logement.contrat.chargesPerso|default(logement.charges) }} €</b><br>
+        <b>{{ logement.contrat.cotisAccPerso|default(logement.cotisAcc) }} €</b><br>
+        <b>{{ logement.contrat.cotisServicesPerso|default(logement.cotisServices)|raw }} €</b>
+    </div>
+    <div style="width:100%;border:1px solid black;text-align: left;padding: 7px;">
+        <b>Total loyer:</b>
+        {% if logement.contrat.loyerPerso %}
+            <b style="float: right">{{ logement.contrat.loyerPerso + logement.contrat.chargesPerso + logement.contrat.cotisAccPerso + logement.contrat.cotisServicesPerso }}
+                €</b>
+        {% else %}
+            <b style="float: right">{{ logement.loyerTotal|default('<red>XXX</red>')|raw }} €</b>
+        {% endif %}
+
+    </div>
+</div>
+
+<p style="font-size: small">
+    <b><u>3-2 DEPOT DE GARANTIE :</u></b><br>
+    L'entrée dans les lieux est subordonnée au versement d'un dépôt de garantie <br>
+    Celui-ci s'élève à la somme de {{ residence.garantie|default('<red>XXX</red>')|raw }} €<br>
+    <i style="background: yellow;">Initiales sous-locataire et garant</i>
+
+</p>
+<div style="width: 100%;text-align: right">1/6</div>
+<hr style="visibility: hidden">
+{#PAGE 2#}
+{% if locataire.logement.residence.id == 28 %}
+    <div style="clear:both;margin-top: 30px;font-size: 10.5pt">
+        <strong>3.3 ADRESSE POSTALE</strong><br>
+        Les bâtiments, des résidences Green Park ont leurs adresses postales : <br>
+        <div style="padding: 5px 0 5px 20px;">
+            • Au : 46 avenue de Normandie à STRASBOURG (68100) pour le Bâtiment B <br>
+            • Au : 70, rue du Rhin Tortu à STRASBOURG (68100) pour le Bâtiment C
+        </div>
+        <br>
+        <strong>3.4 DÉFAUT DE PAIEMENT</strong><br>
+        A défaut de paiement et suite aux différentes relances restées infructueuses, l’UES MGEL LOGEMENT mettra en
+        place une procédure de mise en demeure à l’encontre du sous-locataire. L’UES MGEL LOGEMENT se réserve le droit
+        de transmettre le dossier du débiteur à un organisme de recouvrement. Selon l’article 700 du nouveau code de
+        procédure civile, le sous-locataire supportera une indemnité forfaitaire égale à 15% de la totalité des sommes
+        dues.
+        <br>
+        <br>
+        <strong>3.5 PRÉCISIONS SUR LE MOBILIER, L’ÉLECTROMÉNAGER ET LES CHARGES LOCATIVES</strong><br>
+        Chaque sous-locataire disposera de mobilier dans sa chambre et d’électroménager et de mobilier pour les parties
+        communes ainsi qu’un accès à internet. <br>
+        Les sous locataires seront conjointement responsables et solidaires de toutes détériorations pour les matériels
+        et mobiliers mis à leur disposition. <br>
+        A défaut de prise en charge par les assurances de chaque partie respective, les sous-locataires seront appelés
+        conjointement à régler les réparations ou remplacement du matériel. <br>
+        En aucun cas la responsabilité de MGEL LOGEMENT peut être mise en cause. En cas de litige entre sous-locataires,
+        l’UES MGEL LOGEMENT décline toute participation à sa résolution, y compris en cas de procédure ou recours entre
+        les parties.
+        <br>
+        <br>
+        Les sous-locataires sont tenus de se conformer en tout point au règlement intérieur de la résidence affiché dans
+        les communs, fixant les modalités d’utilisation des services collectifs, dont ils reconnaissent avoir pris
+        connaissance à la signature du contrat de sous-location.
+        <br>
+        <br>
+        Les équipements sont inclus dans la redevance mensuelle totale désignée par la cotisation accessoire. Celle-ci
+        est exigible même si le sous-locataire s’abstenait d’utiliser ces équipements : la jouissance du logement étant
+        indivisiblement liée à celle de ces derniers.
+        <br>
+        <br>
+        Charges locatives forfaitaires : Les charges locatives comprennent : le chauffage, l’électricité et l’entretien
+        des parties communes, l’entretien des espaces verts, l’ascenseur, salaires et charges du personnel ainsi que
+        l’eau. <br>
+        Elles comprennent également le chauffage pour les logements de l’immeuble B (article 6-3). <br>
+        L’ouverture du compteur individuel électrique sera à la charge et sous la responsabilité des colocataires. <br>
+        <br>
+        <strong>3.6 CLAUSE DE RÉVISION</strong><br>
+        Le loyer principal sera révisé chaque année au 1er juillet sur la base du 4ème Trimestre de chaque année de
+        l’indice de référence des loyers (IRL). Les autres postes pourront être également révisés à cette même date.
+        Pour l’application de cette disposition, il est précisé que l’indice de référence est le 4ème Trimestre 2018
+        (indice 129,03).
+
+        3.7 IMPÔTS LOCAUX
+        L’occupant de l’appartement au 1er janvier de chaque année s’engage à régler la totalité de la taxe d’habitation
+        correspondant au logement et le cas échéant au parking. Les colocataires s'organiseront et seront solidaires
+        pour la prise en charge de la taxe d’habitation du logement.
+        <br>
+        <br>
+        <strong>3.8 Diagnostics de Performances Énergétiques (DPE) et Risques Naturelles et Technologiques
+            (RNT)</strong><br>
+        Le DPE et l’ERNMT sont disponibles sur votre l’Espace Personnel du sous-locataire via le site
+        www..mgellogement.fr et sont à disposition dès la proposition du logement.
+        <br>
+        <br>
+        <div style="border: 1px solid black;padding: 5px;text-align: center">
+            <strong>ARTICLE 4 : AIDES AU LOGEMENT</strong>
+        </div>
+        <br>
+        Le logement objet des présentes, ouvre droit à l’aide au logement dans les conditions et selon le barème fixé
+        par les textes législatifs et réglementaires en vigueur. Le sous-locataire doit faire lui-même les démarches
+        auprès de la Caisse d’Allocations Familiales. Le dossier de demande d’aides au logement sera rempli sur la seule
+        responsabilité de l’occupant.
+        <strong>En cas d’arrêt du règlement de l'aide au logement (APL ou ALS) et quelles qu’en soient les raisons,
+            l’U.E.S.
+            MGEL LOGEMENT appellera et percevra la totalité du loyer.</strong>
+        <br>
+        <br>
+        <div style="border: 1px solid black;padding: 5px;text-align: center">
+            <strong>ARTICLE 5 : ÉTATS DES LIEUX</strong>
+        </div>
+        <br>
+        <strong> 5.1 ÉTAT DES LIEUX D’ENTRÉE DU SOUS-LOCATAIRE</strong> <br>
+        L’état des lieux d’entrée ne peut être réalisé <strong>qu’à compter du premier jour du contrat de
+            sous-location</strong> (hors
+        samedis, dimanches et jours fériés). Un état des lieux contradictoire sera effectué et contresigné par les deux
+        parties avec, à l’issue, la remise des clés. <br>
+        Le constat d’état des lieux d’entrée consignera l’état du logement, de ses équipements et précisera, le cas
+        échéant, les anomalies constatées, y compris sur les installations et les équipements (électricité, plomberie,
+        sanitaires et autres matériels tels que mobiliers et électroménagers). <br>
+        Toutes anomalies non décelées lors de l’état des lieux d’entrée devront être signalées par le sous-locataire à
+        l’UES MGEL LOGEMENT dans <strong>un délai de 20 jours par Lettre Recommandée avec Accusé de Réception</strong>
+        (passé ce délai,
+        toutes les réclamations seraient sans objet). Après vérification, l’UES MGEL LOGEMENT prendra le cas échéant les
+        mesures nécessaires pour effectuer les réparations.
+        <br>
+        <br>
+        <strong>5.2 ÉTAT DES LIEUX DE SORTIE DU SOUS-LOCATAIRE</strong> <br>
+        A la demande du sous-locataire, une pré-visite contradictoire des lieux sous-loués peut être effectuée en
+        présence d’un représentant de l’UES MGEL LOGEMENT. Cette visite permettra à l’UES MGEL LOGEMENT d’évaluer et de
+        programmer les éventuels travaux de remise en état des lieux. Ces travaux seront alors à la charge financière du
+        sous-locataire. <br>
+
+        <div style="height: 50px"></div>
+
+        L’état des lieux de sortie devra être réalisé dans les 30 jours précédant la date de fin de contrat de
+        sous-location (hors samedis, dimanches et jours fériés) en présence d’un représentant d’UES MGEL LOGEMENT et du
+        sous-locataire. <br>
+        Quelle que soit la date de réalisation de l’état des lieux de sortie, le sous-locataire restera redevable de son
+        loyer jusqu’au terme de son contrat de sous-location.
+        <br>
+        <br>
+        <div style="border: 1px solid black;padding: 5px;text-align: center">
+            <strong>ARTICLE 6 : CONDITIONS GÉNÉRALES DE LA SOUS-LOCATION</strong>
+        </div>
+        <br>
+        <strong>6.1 CONDITIONS D’OCCUPATION</strong><br>
+        Le sous-locataire utilisera les lieux loués à usage exclusif d’habitation, il ne pourra y exercer aucune
+        profession artisanale, commerciale ou libérale. b
+        <r></r>
+        Le logement sous-loué constitue la résidence principale du sous-locataire. Il s’engage à occuper personnellement
+        les lieux. Toute nouvelle sous-location du logement ou cession du bail, même à titre gratuit, est interdite.
+        Le sous-locataire veillera à l’entretien et au nettoyage régulier de son logement.
+        <br>
+        <br>
+        Incidents divers : Dès la première apparition de tous dysfonctionnements ou anomalies, le sous-locataire
+        s’engage à les signaler à l’UES MGEL LOGEMENT pendant toute la période de la sous-location, même en l’absence de
+        dommages apparents. <br>
+        En cas de manquement à cet engagement, le sous-locataire ne pourrait prétendre à aucune indemnité pour le
+        préjudice subi du fait de sa carence, et serait tenu d’indemniser l’UES MGEL LOGEMENT pour l’aggravation du
+        dommage consécutif à l’absence de réparation rapide, ou le refus de prise en charge par l’assureur concerné.
+        <br>
+        <br>
+        Responsabilité de l’UES MGEL LOGEMENT : La responsabilité de l’UES MGEL LOGEMENT ne pourra être recherchée pour
+        les vols, dégradations, accidents ou agressions, pouvant intervenir dans les locaux, ainsi que tout trouble de
+        voisinage ou autres, mais il subroge d’ores et déjà le sous-locataire dans tous ses droits, celui-ci acceptant
+        de faire son affaire personnelle de tout recours éventuel.
+        <br>
+        <br>
+        Travaux d’embellissements et d’aménagements : Tous les travaux d’embellissements et d’aménagements pourront être
+        réalisés sous réserve d’accord de l’UES MGEL LOGEMENT. Les demandes devront être formulées par écrit à l’UES
+        MGEL LOGEMENT. À défaut, le sous-locataire s’exposerait à devoir remettre à ses frais, les lieux dans leur état
+        initial.
+        <br>
+        <br>
+        Visite des lieux : Le sous-locataire devra laisser l’UES MGEL LOGEMENT et toute personne autorisée par ce
+        dernier à pénétrer dans les lieux loués pour constater leur état quand l’UES MGEL LOGEMENT le jugera à propos et
+        ce, sur rendez-vous.
+        <br>
+        <br>
+        <strong>6.2 ASSURANCE</strong> <br>
+        MGEL LOGEMENT souscrira une police d’assurance multirisques habitation contre l’incendie, l’explosion de gaz,
+        les dégâts des eaux, les risques pris en qualité d’usager pour couvrir sa responsabilité civile. Les effets
+        personnels exclusion faite de bijoux, d’objets de valeur seront également couverts dans la limite des conditions
+        fixées au contrat. <br>
+        Cette police demeurera en vigueur pendant toute la durée du contrat de sous-location. La prime d’assurance est
+        comprise dans le coût total du loyer. <br>
+        <br>
+        <strong>6.3 ÉLECTRICITÉ et CHAUFFAGE</strong> <br>
+        <strong>Un contrat d’abonnement sera nécessaire pour ouvrir le compteur électrique dans le bâtiment B et C. <br>
+            Le bâtiment B propose le chauffage inclus dans les charges. La consommation d’électricité sera à la charge
+            et
+            sous la responsabilité des colocataires du bâtiment B. <br>
+            Le bâtiment C propose un chauffage électrique non inclus dans les charges.</strong> <br>
+        En cas d’absence prolongée, le sous-locataire devra diminuer le thermostat, voire le mettre en position hors
+        gel. De même, le thermostat doit être baissé en cas d’ouverture prolongée de la fenêtre. En tout état de cause,
+        la consommation électrique ou de chauffage relevant de ce non-respect sera facturée au contrevenant. Ces sommes
+        seront prélevées directement sur le compte de chaque colocataire.
+        <br>
+        <br>
+        <strong>6.4 TÉLÉPHONE</strong> <br>
+        Chaque logement est équipé d’une prise téléphonique. Les sous-locataires en concertation pourront souscrire le
+        contrat d’abonnement directement avec les services concernés. Les factures seront adressées au titulaire de
+        l’abonnement. Lors du départ du sous-locataire, celui-ci se chargera de toutes les démarches nécessaires à la
+        résiliation du contrat ainsi qu’au règlement des sommes dues. <br>
+        L’UES MGEL LOGEMENT dégage d’ores et déjà son entière responsabilité contre tout litige qui pourrait intervenir
+        entre le sous-locataire et l’opérateur choisi quelle qu’en soit la nature et notamment dans le règlement des
+        factures.
+        <br>
+        <br>
+        <strong>6.5 TÉLÉVISION</strong> <br>
+        Chaque logement est équipé d’une prise télévision. La résidence propose au minimum l’accès aux chaînes de la
+        TNT.
+        <br>
+        <br>
+        <strong>6.6 ÉQUIPEMENTS DES LIEUX LOUÉS</strong> <br>
+        Entrée/Pièces commune en partage : Visiophone, cuisine équipée (évier, placard, plaques électriques,
+        réfrigérateur, micro-ondes, four, lave-vaisselle, lave et sèche-linge, machine à café, fer et planche à
+        repasser, mobilier de salon, table, chaises, console TV, luminaires… <br>
+        Chambre privative : lit sommier, matelas, chevet, bureau, chaise, commode, lampe de bureau, placard… <br>
+        Salle d’eau : WC, douche, lavabo, miroir, meuble colonne. <br>
+        Liste non exhaustive pour exemple (sous réserve de remplacement à l’équivalent)
+        <br>
+        <br>
+        <strong>6.7 SÉCURITÉ</strong> <br>
+        Le sous-locataire s’interdira tout acte pouvant nuire à la sécurité des personnes et des biens. Il n’utilisera
+        pas d’appareils dangereux, ne détiendra pas de produits explosifs ou inflammables autres que ceux d’un usage
+        domestique courant autorisés par les règlements de sécurité. Il n’utilisera ni appareils à pétrole, ni
+        bouteilles de gaz butane ou propane. Il ne stationnera aucun véhicule aux emplacements interdits.
+
+
+        <div style="height: 40px"></div>
+        Il observera les règlements sanitaires départementaux sur la déclaration des maladies contagieuses, la
+        destruction des parasites, le nettoyage et la désinfection. <br>
+        Détecteur de fumée : Dans le cadre de l’article 129-8 de la loi n°2010-238 du 9 mars 2010, le propriétaire a
+        installé un détecteur de fumée dans l’appartement. Le détecteur de type DAAF (Détecteurs Avertisseurs Autonomes
+        de Fumée), doit respecter la norme européenne EN14604 ainsi que porter le marquage CE. Il est installé dans la
+        pièce principale. Il ne doit en aucun cas être ôté, déplacé ou obstrué. Dans le cas d’une dégradation du fait du
+        sous-locataire, celui-ci supportera les frais de remise en état. <br>
+        Le sous-locataire devra informer son assurance qu’un détecteur est installé dans son logement.
+        Le sous-locataire s’engage à veiller à l’entretien et au bon fonctionnement de ce dernier. L’UES MGEL LOGEMENT
+        décline toute responsabilité en cas de non-respect de cette loi. <br>
+        <strong>Le sous-locataire laissera pénétrer chaque fois que nécessaire les représentants de l’UES MGEL LOGEMENT
+            pour des
+            raisons de sécurité et de salubrité. <br>
+            À défaut, il s’exposerait à être mis en demeure de remettre à ses frais les lieux dans leur état
+            initial.</strong>
+        <br>
+        <br>
+        <div style="border: 1px solid black;padding: 5px;text-align: center">
+            <strong>ARTICLE 7 : RÉSILIATION</strong>
+        </div>
+        <br>
+        Le contrat de sous-location pourra être résilié de plein droit dans les conditions suivantes : <br><br>
+        <strong>7.1 DU FAIT DU SOUS-LOCATAIRE A LA DEMANDE DE L’UES MGEL LOGEMENT :</strong> <br>
+        1) A défaut de paiement à son échéance d’un seul terme de loyer, de charges, cotisations services et cotisations
+        accessoires ou à défaut de versement du dépôt de garantie trois mois après envoi d’une Lettre Recommandée avec
+        Accusé de Réception restée infructueuse (après la mise en place du recouvrement par voie légale). <br>
+        2) En cas de méconnaissance grave ou renouvelée des obligations issues du règlement intérieur de la résidence
+        fixant les modalités d’utilisation des salles communes et notamment du mode d’utilisation du chauffage, trois
+        mois après mention du constat de ce non-respect adressé par Lettre Recommandée avec Accusé de Réception.
+        <br>
+        <br>
+        <strong>7.2 DU FAIT DE L’UES MGEL LOGEMENT</strong> <br>
+        À la demande de l’UES MGEL LOGEMENT, si la convention de location signée avec le propriétaire se trouvait être
+        résiliée et ce pour quelques raisons que ce soient, la résiliation sera effective un mois après notification par
+        l’UES MGEL LOGEMENT par Lettre Recommandée avec Accusé de Réception aux sous-locataires.
+        <br>
+        <br>
+        <div style="border: 1px solid black;padding: 5px;text-align: center">
+            <strong>ARTICLE 8 : ELECTION DE DOMICILE</strong>
+        </div>
+        <br>
+        Les parties font élection de domicile attributif de juridiction au siège de l’UES MGEL LOGEMENT. Le
+        sous-locataire reconnaît comme valables toutes significations afférentes aux présentes qui lui seront adressées
+        à l’adresse du local, objet du présent contrat. Le présent contrat n’est pas soumis à enregistrement.
+        Les parties font élection de domicile attributif de juridiction au siège de l’UES MGEL LOGEMENT. Le
+        sous-locataire reconnaît comme valables toutes significations afférentes aux présentes qui lui seront adressées
+        à l’adresse du local, objet du présent contrat. Le présent contrat n’est pas soumis à enregistrement.
+        <br>
+        <br>
+        <div style="border: 1px solid black;padding: 5px;text-align: center">
+            <strong>ARTICLE 9 : SIGNATURE ELECTRONIQUE</strong>
+        </div>
+        <br>
+        Les parties confirment avoir pleinement connaissance de la nature et de l’étendue de l’obligation qu'elle
+        contracte au titre du présent contrat de sous-location et accepte, le cas échéant, la signature électronique
+        comme méthode de signature légale.
+    </div>
+    <div style="height: 360px"></div>
+{% else %}
+    <div style="margin-top: 30px;text-align: justify;line-height: normal!important;font-size: 9.5pt!important;">
+        Ce dépôt de garantie <strong>est encaissé</strong> par l’U.E.S. MGEL LOGEMENT au cours du premier mois de
+        sous-location. Il est non révisable et non productif d’intérêt au profit du sous-locataire. <br>
+        Il est restitué dans un délai d’un mois à partir de la date de fin de contrat, si l’état des lieux de sortie est
+        conforme à l’état des lieux d’entrée ou dans un délai de deux mois si des retenues sont comptabilisées. Le
+        remboursement s’effectuera déduction faite des conséquences financières entraînées par les dégradations
+        éventuellement constatées dans le logement et des sommes restant dues à l’UES MGEL LOGEMENT.
+        <br>
+        <br>
+        <strong><u>3.3 DÉFAUT DE PAIEMENT</u></strong><br>
+        A défaut de paiement et suite aux différentes relances restées infructueuses, l’UES MGEL LOGEMENT mettra en
+        place
+        une procédure de mise en demeure à l’encontre du sous-locataire. L’UES MGEL LOGEMENT se réserve le droit de
+        transmettre le dossier du débiteur à un organisme de recouvrement. Selon l’article 700 du nouveau code de
+        procédure
+        civile, le sous-locataire supportera une indemnité forfaitaire égale à 15% de la totalité des sommes dues.
+        <br>
+        <br>
+        <strong><u>3.4 PRÉCISIONS SUR LES SERVICES ET LES CHARGES LOCATIVES</u></strong><br>
+        <u>Accès aux services :</u> L’UES MGEL LOGEMENT met à disposition des sous-locataires un ensemble de services
+        selon
+        les
+        résidences : salle télévision, salle de sport, salle de détente, buanderie, cafétéria, salle de coworking,
+        espace
+        wellness et local ou abri vélos. Toutes les résidences proposent un accès à Internet. <br>
+        Les sous-locataires sont tenus de se conformer en tout point au règlement intérieur de la résidence (cf. annexe
+        II),
+        fixant les modalités d’utilisation des services collectifs, dont ils reconnaissent avoir pris connaissance à la
+        signature du contrat de sous-location. <br>
+        En devenant résidants MGEL LOGEMENT, les sous-locataires deviennent adhérents MGEL et bénéficient du PASS YAY,
+        dans
+        la mesure où ceux-ci remplissent les conditions d’accès. <br>
+        Ces services sont inclus dans la redevance mensuelle totale désignée par la cotisation services. Celle-ci est
+        exigible même si le sous-locataire s’abstenait d’utiliser ces services : la jouissance du logement étant
+        indivisiblement liée à celle des services et des éléments d’équipements communs.
+        <br>
+        <br>
+        <u>Cotisations accessoires
+            :</u> {% if (locataire.logement.residence.id == 24 or locataire.logement.residence.id == 29 or locataire.logement.residence.id == 18) %}
+            Elles comprennent la mise à disposition des espaces communs.
+        {% else %}Elles comprennent les équipements du logement comme par exemple les plaques
+            électriques,
+            frigo, sommier, rangements, la mise à disposition des espaces communs.
+        {% endif %}
+        <br>
+        <br>
+        <u>Charges locatives forfaitaires :</u> Les charges locatives comprennent, pour les parties communes : le
+        chauffage,
+        l’électricité, l’entretien, les espaces verts, les charges du personnel et l’ascenseur pour les résidences qui
+        en
+        disposent ; et pour le logement : l’eau, la taxe d’enlèvement des ordures ménagères.
+        Elles comprennent également, pour les résidences « Les Grands Moulins », « Paul Cézanne », « Quai 207 », « Les
+        Bulles », « Laudine », «Louise », et « Du Mail » l'électricité et le chauffage de l'appartement.
+        <br>
+        <br>
+        <u><strong>3.5 CLAUSE DE RÉVISION</strong></u> <br>
+        Le loyer principal sera révisé chaque année au 1er juillet sur la base du 4ème Trimestre de chaque année de
+        l’indice
+        de référence des loyers (IRL). Les autres postes pourront être également révisés à cette même date. Pour
+        l’application de cette disposition, il est précisé que l’indice de référence est le 4ème Trimestre 2018 (indice
+        129,03).
+        <br>
+        <br>
+        <strong><u>3.6 IMPOTS LOCAUX</u></strong> <br>
+        L’occupant de l’appartement au 1er janvier de chaque année s’engage à régler la totalité de la taxe d’habitation
+        correspondant au logement et le cas échéant au parking. Pour les logements en colocation, l’annexe Colocation
+        complète l’article 3.6.
+        <br>
+        <br>
+        <strong><u>3.7 Diagnostics de Performances Énergétiques (DPE) et Etats des Risques Naturels, Miniers et
+                Technologiques (ERNMT)</u></strong><br>
+        Le DPE et l’ERNMT sont disponibles sur votre l’Espace Personnel du sous-locataire via le site
+        www..mgellogement.fr et
+        sont à disposition dès la proposition du logement.
+        <br>
+        <br>
+        <div style="border: 1px solid black;padding:5px;text-align: center"><strong>ARTICLE 4 : AIDES AU
+                LOGEMENT</strong>
+        </div>
+        <br>
+        Le logement objet des présentes, ouvre droit à l’aide au logement dans les conditions et selon le barème fixé
+        par
+        les textes législatifs et réglementaires en vigueur. Le sous-locataire doit faire lui-même les démarches auprès
+        de
+        la Caisse d’Allocations Familiales. Le dossier de demande d’aides au logement sera rempli sur la seule
+        responsabilité de l’occupant.
+        <strong>En cas d’arrêt du règlement de l'aide au logement (APL ou ALS) et ce quelle qu’en soit la raison,
+            l’U.E.S. MGEL LOGEMENT appellera et percevra la totalité du loyer.</strong>
+        <br>
+        <br>
+        <div style="border: 1px solid black;padding:5px;text-align: center"><strong>ARTICLE 5 : ÉTATS DES LIEUX</strong>
+        </div>
+        <br>
+        <strong><u>5.1 ÉTAT DES LIEUX D’ENTRÉE DU SOUS-LOCATAIRE</u></strong><br>
+        L’état des lieux d’entrée ne peut être réalisé <strong>qu’à compter du premier jour du contrat de
+            sous-location</strong> (hors
+        samedis, dimanches et jours fériés). Un état des lieux contradictoire sera effectué et contresigné par les deux
+        parties avec, à l’issue, la remise des clés. <br>
+        Le constat d’état des lieux d’entrée consignera l’état du logement, de ses équipements et précisera, le cas
+        échéant,
+        les anomalies constatées, y compris sur les installations et les équipements (électricité, plomberie, sanitaires
+        et
+        autres matériels ou mobiliers).
+        <br>
+        <br>
+        Toutes anomalies non décelées lors de l’état des lieux d’entrée devront être signalées par le sous-locataire à
+        l’UES MGEL LOGEMENT dans un délai de 20 jours par Lettre Recommandée avec Accusé de Réception (passé ce délai,
+        toutes les réclamations seraient sans objet). Après vérification, l’UES MGEL LOGEMENT prendra le cas échéant les
+        mesures nécessaires pour effectuer les réparations.
+        <div style="width: 100%;text-align: right;float: right">2/6</div>
+        <div style="margin-top: 30px">
+            <strong><u>5.2 ÉTAT DES LIEUX DE SORTIE DU SOUS-LOCATAIRE</u></strong> <br>
+            À la demande du sous-locataire, une pré-visite contradictoire des lieux sous-loués peut être effectuée en
+            présence
+            d’un représentant de l’UES MGEL LOGEMENT. Cette visite permettra à l’UES MGEL LOGEMENT d’évaluer et de
+            programmer
+            les éventuels travaux de remise en état des lieux. Ces travaux seront alors à la charge financière du
+            sous-locataire.
+            <br>
+            <br>
+            L’état des lieux de sortie devra être réalisé dans les 30 jours précédant la date de fin de contrat de
+            sous-location
+            (hors samedis, dimanches et jours fériés) en présence d’un représentant d’UES MGEL LOGEMENT et du
+            sous-locataire.
+            Quelle que soit la date de réalisation de l’état des lieux de sortie, le sous-locataire restera redevable de
+            son
+            loyer jusqu’au terme de son contrat de sous-location.
+            <br><br>
+            <div style="border: 1px solid black;padding:5px;text-align: center"><strong>ARTICLE 6 : CONDITIONS GÉNÉRALES
+                    DE
+                    LA SOUS-LOCATION</strong></div>
+            <br>
+            <strong><u>6.1 CONDITIONS D’OCCUPATION</u></strong> <br>
+            Le sous-locataire utilisera les lieux loués à usage exclusif d’habitation, il ne pourra y exercer aucune
+            profession
+            artisanale, commerciale ou libérale. <br>
+            Le logement sous-loué constitue la résidence principale du sous-locataire. Il s’engage à occuper
+            personnellement
+            les
+            lieux. Toute nouvelle sous-location du logement ou cession du bail, même à titre gratuit, est interdite.
+            Le sous-locataire veillera à l’entretien et au nettoyage régulier de son logement.
+            <br>
+            <br>
+            <u>Incidents divers :</u> Dès la première apparition de tous dysfonctionnements ou anomalies, le
+            sous-locataire
+            s’engage à
+            les signaler à l’UES MGEL LOGEMENT pendant toute la période de la sous-location, même en l’absence de
+            dommages
+            apparents.
+            En cas de manquement à cet engagement, le sous-locataire ne pourrait prétendre à aucune indemnité pour le
+            préjudice
+            subi du fait de sa carence, et serait tenu d’indemniser l’UES MGEL LOGEMENT pour l’aggravation du dommage
+            consécutif
+            à l’absence de réparation rapide, ou le refus de prise en charge par l’assureur concerné.
+            <br>
+            <br>
+            <u> Responsabilité de l’UES MGEL LOGEMENT :</u> La responsabilité de l’UES MGEL LOGEMENT ne pourra être
+            recherchée pour les
+            vols, dégradations, accidents ou agressions, pouvant intervenir dans les locaux, ainsi que tout trouble de
+            voisinage
+            ou autres, mais il subroge d’ores et déjà le sous-locataire dans tous ses droits, celui-ci acceptant de
+            faire
+            son
+            affaire personnelle de tout recours éventuel.
+            <br>
+            <br>
+            <u>Travaux d’embellissements et d’aménagements :</u> Tous les travaux d’embellissements et d’aménagements
+            pourront être
+            réalisés sous réserve d’accord de l’UES MGEL LOGEMENT. Les demandes devront être formulées par écrit à l’UES
+            MGEL
+            LOGEMENT. <strong>À défaut, le sous-locataire s’exposerait à devoir remettre à ses frais, les lieux dans
+                leur
+                état
+                initial.</strong>
+            <br>
+            <br>
+            <u> Visite des lieux :</u> Le sous-locataire devra laisser l’UES MGEL LOGEMENT et toute personne autorisée
+            par
+            ce dernier à
+            pénétrer dans les lieux loués pour constater leur état quand l’UES MGEL LOGEMENT le jugera à propos et ce,
+            sur
+            rendez-vous.
+            <br>
+            <br>
+            <strong><u>6.2 ASSURANCE</u></strong> <br>
+            Le sous-locataire contractera une police d’assurance multirisques habitation contre l’incendie, l’explosion
+            de
+            gaz,
+            les dégâts des eaux, les risques pris en qualité d’usager pour couvrir sa responsabilité civile. Cette
+            police
+            devra
+            demeurer en vigueur pendant toute la durée du contrat de sous-location. À ce titre, une attestation
+            d’assurance
+            devra être fournie avant l’état des lieux d’entrée. <br>
+            Passé un délai d’un mois après une mise en demeure envoyée en lettre recommandée avec accusé de réception et
+            à
+            défaut de présentation de l’attestation d’assurance, MGEL LOGEMENT contractera pour le compte du
+            sous-locataire
+            une
+            assurance habitation. La cotisation majorée de 10% sera ensuite à régler par le sous-locataire. Ce dernier
+            devra
+            s’acquitter d’1/12ème de la cotisation majoré chaque mois en même temps que l’échéance du loyer.
+            <br>
+            <br>
+            {% if (locataire.logement.residence.id == 24 or locataire.logement.residence.id == 29 or locataire.logement.residence.id == 18) %}
+                <strong><u>6.3 ÉLECTRICITÉ et CHAUFFAGE</u></strong> <br>
+                La résidence est équipée d’un chauffage collectif au gaz et d’un compteur collectif pour l’électricité. Le sous-locataire reconnaît avoir pris connaissance du mode de fonctionnement des appareils de chauffage et de l’utilisation de l’électricité pour son appartement, indiqués ci-après.
+                <br>
+                Le non-respect de ces consignes d’utilisation (branchement d’un autre système de chauffage ou d’appareils à forte consommation électrique, etc.) peut à la demande de l’UES MGEL LOGEMENT entraîner la résiliation du bail dans les mêmes conditions que celles évoquées à l’article 7-1-2.
+                <br>
+                En cas d’absence prolongée, le sous-locataire devra diminuer le thermostat, voir le mettre en position hors gel. De même, le thermostat doit être baissé en cas d’ouverture prolongée de la fenêtre.
+                <br>
+                En tout état de cause, la consommation électrique ou de chauffage relevant de ce non-respect sera facturée au contrevenant. Ces sommes seront prélevées directement sur le compte du contrevenant. Pour les logements en colocation, l’annexe Colocation complète l’article 6-3.
+            {% else %}
+                <strong><u>6.3 ÉLECTRICITÉ</u></strong> <br>
+                Chaque logement individuel est équipé d’un compteur électrique. Afin de disposer de l’électricité à l’entrée
+                dans le
+                logement, chaque sous-locataire s’engage à souscrire un contrat d’abonnement auprès d’EDF ou de l’UEM (pour
+                Metz).
+                Le non-respect de ce choix d’opérateur entraînera la prise en charge des frais relatifs à la remise en place de
+                l’opérateur initial et les éventuelles pénalités liées au délai de rétablissement du courant. <br>
+                Les factures seront adressées au sous-locataire. Lors de son départ, celui-ci se chargera de toutes les
+                démarches
+                nécessaires à la résiliation du contrat ainsi qu’au règlement des sommes dues. Le compteur ne devra en aucun cas
+                être coupé. <br>
+                L’UES MGEL LOGEMENT dégage d’ores et déjà son entière responsabilité contre tout litige qui pourrait intervenir
+                entre le sous-locataire et le fournisseur (EDF ou UEM), quelle qu’en soit la nature et notamment dans le
+                règlement des
+                factures.
+                Pour les résidences « Les Grands Moulins », « Paul Cézanne », « Quai 207 », « Les Bulles », « Du Mail »
+                l'article
+                6-3 ci-dessus est remplacé par l'annexe III. Pour les logements en colocation, l’annexe Colocation complète
+                l’article 6-3.
+            {% endif %}
+            <br>
+            <br>
+            <strong><u>6.4 TÉLÉPHONE</u></strong> <br>
+            Chaque logement individuel est équipé d’une prise téléphonique. Le sous-locataire pourra souscrire un
+            contrat
+            d’abonnement directement auprès d’un opérateur. Les factures seront adressées à son nom. Lors du départ du
+            sous-locataire, celui-ci se chargera de toutes les démarches nécessaires à la résiliation du contrat ainsi
+            qu’au
+            règlement des sommes dues. <br>
+            L’UES MGEL LOGEMENT dégage d’ores et déjà son entière responsabilité contre tout litige qui pourrait
+            intervenir
+            entre le sous-locataire et l’opérateur choisi quelle qu’en soit la nature et notamment dans le règlement des
+            factures.
+            <br>
+            <br>
+            <strong><u> 6.5 TÉLÉVISION</u></strong> <br>
+            Chaque logement est équipé d’une prise télévision. Les résidences proposent au minimum l’accès aux chaînes
+            de la
+            TNT.
+            <div style="width: 100%;text-align: right;float: right">3/6</div>
+            <br>
+            <br>
+            <br>
+            <div style="clear: both">
+                <br>
+                <br>
+            </div>
+            <strong><u>6.6 ÉQUIPEMENTS DES LIEUX LOUÉS</u></strong><br>
+            {% if (locataire.logement.residence.id == 24 or locataire.logement.residence.id == 29 or locataire.logement.residence.id == 18) %}
+                <u>Entrée/Pièces Principale
+                    :</u> Visiophone (sauf Louise), kitchenette équipée (évier, placard, 2 plaques électriques, réfrigérateur), rangements divers, lit 1 ou 2 place(s) avec matelas, plan de travail, table d’appoint (sauf Laudine), fauteuil ou chaise.
+                <br>
+                <u>Salle d’eau :</u> WC, douche, lavabo ou meuble vasque, miroir.
+            {% else %}
+                <u> Entrée/Pièce Principale
+                    :</u> interphone ou visiophone (sauf Ulysse), kitchenette équipée (évier, placard, 2
+                          plaques
+                          électriques, réfrigérateur), placard avec penderie et étagères, sommier 1 ou 2 places (sauf Ulysse), plan de
+                          travail ou bureau. <br>
+                <u>Salle d’eau :</u> WC, douche ou baignoire, lavabo ou meuble vasque, miroir.
+            {% endif %}
+            <br>
+            <br>
+            <strong><u>6.7 SÉCURITÉ</u></strong> <br>
+            Le sous-locataire s’interdira tout acte pouvant nuire à la sécurité des personnes et des biens. Il
+            n’utilisera
+            pas d’appareils dangereux, ne détiendra pas de produits explosifs ou inflammables autres que ceux d’un usage
+            domestique courant autorisés par les règlements de sécurité. <br>
+            Il n’utilisera ni appareils à pétrole, ni bouteilles de gaz butane ou propane. Il ne stationnera aucun
+            véhicule
+            aux emplacements interdits. <br>
+            Il observera les règlements sanitaires départementaux sur la déclaration des maladies contagieuses, la
+            destruction des parasites, le nettoyage et la désinfection.
+            <br>
+            <br>
+            <u>Détecteur de fumée :</u> Dans le cadre de l’article 129-8 de la loi n°2010-238 du 9 mars 2010, le
+            propriétaire a
+            installé un détecteur de fumée dans l’appartement. Le détecteur de type DAAF (Détecteurs Avertisseurs
+            Autonomes
+            de Fumée), doit respecter la norme européenne EN14604 ainsi que porter le marquage CE. Il est installé dans
+            la
+            pièce principale. Il ne doit en aucun cas être ôté, déplacé ou obstrué. Dans le cas d’une dégradation du
+            fait du
+            sous-locataire, celui-ci supportera les frais de remise en état ou de remplacement. <br>
+            Le sous-locataire devra informer son assurance qu’un détecteur est installé dans son logement. <br>
+            Le sous-locataire s’engage à veiller à l’entretien et au bon fonctionnement de ce dernier. L’UES MGEL
+            LOGEMENT
+            décline toute responsabilité en cas de non-respect de cette loi.
+            <br>
+            <br>
+            <strong>Le sous-locataire laissera pénétrer, dans son logement, chaque fois que nécessaire les représentants
+                de
+                l’UES MGEL LOGEMENT pour des raisons de sécurité et de salubrité.</strong>
+            <br><br>
+            <div style="border: 1px solid black;padding:5px;text-align: center"><strong>ARTICLE 7 : RÉSILIATION</strong>
+            </div>
+            <br>
+            Le contrat de sous-location pourra être résilié de plein droit dans les conditions suivantes :
+            <br>
+            <br>
+            <strong><u>7.1 DU FAIT DU SOUS-LOCATAIRE A LA DEMANDE DE L’UES MGEL LOGEMENT :</u></strong><br>
+            1. A défaut de paiement à son échéance d’un seul terme de loyer, de charges, cotisations services et
+            cotisations
+            accessoires ou à défaut de versement du dépôt de garantie trois mois après envoi d’une lettre recommandée
+            avec
+            accusé de réception restée infructueuse (après la mise en place du recouvrement par voie légale). <br>
+            2. En cas de comportement nuisant à la tranquillité des autres sous-locataires ou de méconnaissance grave ou
+            renouvelée des obligations issues du règlement intérieur de la résidence fixant les modalités d’utilisation
+            des
+            salles communes et notamment du mode d’utilisation du chauffage (concerne uniquement les résidences « Les
+            Grands
+            Moulins », « Quai 207 », « Les Bulles », « Du Mail », et « Paul Cézanne ») trois mois après mention du
+            constat
+            de ce
+            non-respect adressé par d’une lettre recommandée avec accusé de réception (cf. annexe III). <br>
+            <br>
+            <strong><u>7.2 DU FAIT DE L’UES MGEL LOGEMENT</u></strong><br>
+            À la demande de l’UES MGEL LOGEMENT, si la convention de location signée avec le propriétaire se trouvait
+            être
+            résiliée et ce pour quelques raisons que ce soient, la résiliation sera effective un mois après notification
+            par
+            l’UES MGEL LOGEMENT par une lettre recommandée avec accusé de réception aux sous-locataires.
+            <br>
+            <br>
+            <div style="border: 1px solid black;padding:5px;text-align: center"><strong> ARTICLE 8 : ÉLECTION DE
+                    DOMICILE</strong></div>
+            <br>
+            Les parties font élection de domicile attributif de juridiction au siège de l’UES MGEL LOGEMENT. Le
+            sous-locataire
+            reconnaît comme valables toutes significations afférentes aux présentes qui lui seront adressées à l’adresse
+            du
+            local, objet du présent contrat. Le présent contrat n’est pas soumis à enregistrement.
+            <br><br>
+            <div style="border: 1px solid black;padding:5px;text-align: center"><strong>ARTICLE 9 : SIGNATURE
+                    ELECTRONIQUE</strong></div>
+            <br>
+            Les parties confirment avoir pleinement connaissance de la nature et de l’étendue de l’obligation qu'elle
+            contracte au titre du présent contrat de sous-location et accepte, le cas échéant, la signature électronique
+            comme méthode
+            de signature légale.
+        </div>
+        <div style="height: 90px"></div>
+    </div>
+{% endif %}
+{#END CONTRAT#}
+{#<div style="width: 100%;text-align: right">1/4</div>#}
+</body>
+</html>

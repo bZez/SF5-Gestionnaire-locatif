@@ -1,0 +1,34 @@
+<!-- Modal -->
+<div class="modal fade" id="modifVoeuModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-info-circle"></i> Mon voeu pour {{ 'now'|date('Y')+1 }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="#" method="post" name="editUser">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="telFixeIcon"><i class="fas fa-info-circle"></i></span>
+                        </div>
+                        <select name="voeu" id="" class="form-control">
+                            <option value="PDR">Pas de réponse</option>
+                            <option value="NSP">Je ne sais pas</option>
+                            <option value="Reste">Je reste</option>
+                            <option value="Part">Je part</option>
+                        </select>
+                       {# <input class="form-control" type="text" name="voeu"
+                               value="{{ locataire.voeu.valeur }}" aria-label="telFixe" aria-describedby="telFixeIcon">#}
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

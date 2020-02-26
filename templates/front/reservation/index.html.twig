@@ -1,0 +1,120 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Résidences étudiantes avec services à Nancy, Mulhouse, Metz et Reims{% endblock %}
+
+{% block body %}
+
+    {#LANDING PAGE#}
+    <section class="section-ter row" id="landing">
+        <div class="landing-bg reservation">
+            <div class="cta-landing text-center">
+                <h1 class="orange">Réserver mon logement étudiant</h1>
+                <br>
+                <p class="text-black-50">Réserver votre logement étudiant en <u><strong>4 étapes</strong></u></p>
+                <br>
+                <a href="{{ path('accueil') }}">
+                    <button class="btn-rounded btn-rounded-dark border-0">
+                       Voir nos résidences
+                    </button>
+                </a>
+                <a href="{{ path('demande-logement') }}">
+                    <button class="btn-rounded">
+                        Réserver un logement
+                    </button>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    {#DECOUVRIR MGEL#}
+    <section>
+        <div class="section-ter container">
+            <div class="row">
+                <div class="col-md-12 text-center mt-5 mb-4">
+                    <div class="row">
+                        <div class="col-md-3 text-center mt-3">
+                            <div style="width: 100px;height: 100px ;line-height: 100px; font-size:50px;" class="bg-step rounded-circle m-auto text-center text-white"><b>1</b></div>
+                            <hr class="profil">
+                            <strong>Compléter le formulaire en ligne</strong>
+                        </div>
+                        <div class="col-md-3 text-center mt-3">
+                            <div style="width: 100px;height: 100px ;line-height: 100px; font-size:50px;" class="bg-step rounded-circle m-auto text-center text-white"><b>2</b></div>
+                            <hr class="profil">
+                            <strong>Transférer vos documents</strong>
+                        </div>
+                        <div class="col-md-3 text-center mt-3">
+                            <div style="width: 100px;height: 100px ;line-height: 100px; font-size:50px;" class="bg-step rounded-circle m-auto text-center text-white"><b>3</b></div>
+                            <hr class="profil">
+                            <strong>Nous étudios votre demande</strong>
+                        </div>
+                        <div class="col-md-3 text-center mt-3">
+                            <div style="width: 100px;height: 100px ;line-height: 100px; font-size:50px;" class="bg-step rounded-circle m-auto text-center text-white"><b>4</b></div>
+                            <hr class="profil">
+                            <strong>Nous vous proposons un logement</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-dark-light pb-5" style="margin-top:-1rem;">
+        <div class="container pt-5 pb-5">
+            <div class="row mt-lg-5">
+                <div class="col-md-6">
+                    <img class="w-100 shadow-lg rounded" src="{{ asset('assets/img/soultz.jpg') }}" alt="">
+                </div>
+                <div class="col-md-6 text-black-50 mt-5 mt-lg-0">
+                    <div class="col-md-11 offset-lg-1">
+                        <h1 class="font-weight-bold text-center text-lg-left">Location classique</h1>
+                        <hr class="profil ml-lg-5">
+                        <p class="text-justify">Pour intégrer nos résidences, vous devez constituer votre dossier de
+                            demande
+                            de logement, en complétant notre formulaire et en nous communicant vos documents. Nous
+                            étudierons votre demande.
+                            Une fois votre dossier accepté par nos services, nous serrons en mesure de vous proposer un
+                            logement en fonction de nos disponibilités. <br> <br>
+                        <div class="row">
+                                <a href="{{ path('nos-residences') }}" class="btn-rounded col-lg-5 col-md-12 text-center btn-rounded-dark pt-1 border-0 mt-3">Voir nos résidences</a>
+                            <a href="{{ path('demande-logement') }}"  class="btn-rounded col-lg-6 offset-lg-1 col-md-12 text-center pt-1 mt-3 mb-3">Réserver un logement</a>
+                        </div>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+            <hr class="invisible mb-5 mt-5 mobile">
+            <div class="row mt-5">
+                <div class="col-md-6 text-black-50 ">
+                    <div class="col-md-11">
+                        <h1 class="font-weight-bold text-center text-lg-right">Court séjour</h1>
+                        <hr class="profil mr-lg-5">
+                        <p class="text-justify">Nous vous proposons des séjours à la nuitée dans nos résidences
+                            hôtelières
+                            de Reims et de Strasbourg.
+                            <br><br>
+                            Besoin d'un hébergement temporaire pour un ou plusieurs mois ? <br>
+                            Nous vous proposons également des logements dans nos autres résidences. Pour cela nous
+                            adaptons
+                            nos logements en mettant à disposition des équipements supplémentaires afin de faciliter
+                            votre
+                            emménagement.
+                            <br>
+                            <div class="row">
+                            <a href="{{ path('courts-sejours') }}"  class="btn-rounded col-md-12 text-center pt-1 mt-3 mb-3"><i class="fa fas fa-paper-plane"></i> Contactez-nous</a>
+                        </div>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <img class="w-100 shadow-lg rounded" src="{{ asset('assets/img/salon.jpg') }}" alt="">
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

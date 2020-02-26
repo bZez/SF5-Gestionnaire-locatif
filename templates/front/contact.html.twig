@@ -1,0 +1,109 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contactez-nous{% endblock %}
+
+{% block body %}
+    {#<div class="col-md-12 shadow-big bg-orange-faq w-90 ml-auto mr-auto mt-5 block p-2 pl-4 pr-4 mb-5 pb-4 text-center" id="faq">
+        <span class="liseret"></span>
+        <div class="float-right" id="min">
+            <h1>-</h1>
+        </div>
+    <h1 class="mt-3">Une question ?</h1>
+    </div>#}
+    <div class="container mt-5">
+        <span class="liseret"></span>
+        <div class="row">
+            <div class="col-md-12 m-4">
+                <h3 class="mt-2"><i class="fas fa-envelope"></i> Prenez contact avec nos équipe</h3>
+                <hr>
+                <form name="contact" method="post" class="mt-3">
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="userIcon"><i class="fas fa-user"></i></span>
+                                </div>
+                                <input type="text" id="contact_nom" name="contact[nom]" required="required"
+                                       maxlength="255"
+                                       class="form-control" aria-describedby="userIcon"
+                                       placeholder="Nom de famille...">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="user2Icon"><i class="fas fa-user"></i></span>
+                                </div>
+                                <input type="text" id="contact_prenom" name="contact[prenom]" required="required"
+                                       maxlength="255"
+                                       class="form-control" aria-describedby="user2Icon"
+                                       placeholder="Prénom...">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row mt-2">
+                        <div class="col-md-6">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="mailIcon"><i class="fas fa-at"></i></span>
+                                </div>
+                                <input class="form-control" type="email" id="contact_email"
+                                       name="contact[email]" aria-label="telephone" aria-describedby="mailIcon"
+                                       placeholder="Adresse mail..." required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="telIcon"><i class="fas fa-phone"></i></span>
+                                </div>
+                                <input class="form-control" type="tel" pattern="[0-9]{10}" id="contact_telephone"
+                                       name="contact[telephone]" aria-label="telephone" aria-describedby="telIcon"
+                                       placeholder="Numéro de téléphone...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row mt-2">
+                        <div class="col-md-12">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="subIcon"><i class="fas fa-question"></i></span>
+                                </div>
+                                <input class="form-control" type="text" id="contact_sujet"
+                                       name="contact[sujet]" aria-label="sujet" aria-describedby="subIcon"
+                                       placeholder="Objet de votre message..." required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row mt-2">
+                        <div class="col-md-12">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="msgIcon"><i class="fas fa-envelope"></i></span>
+                                </div>
+                                <textarea style="resize: none" rows="10" id="contact_message" name="contact[message]"
+                                          required="required" maxlength="255"
+                                          class="form-control" aria-label="sujet" aria-describedby="msgIcon"
+                                          placeholder="Corps de votre message..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn-rounded border-0 mt-2">
+                                <i class="fas fa-paper-plane"></i> Envoyer
+                            </button>
+                            <span class="float-right small text-black-50">Votre adresse ip <b>{{ userIp }}</b> sera conservée en cas d'abus.</span>
+                        </div>
+                    </div>
+
+                    {{ form_row(form._token) }}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+{% endblock %}

@@ -1,0 +1,9 @@
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+
+<h4><i class="fa fas fa-plus"></i> Ajout mulitple ?<h6 class="small text-danger">Si vous choisissez l'option multiple les numéros de parking se suivront automatiquement et les situtations seront identiques !</h6></h4>
+<input type="number" name="parkingNbr" class="form-control" placeholder="Selectionnez le nombre de garages à ajouter...">
+<button class="btn btn-sm btn-success mt-3">
+    <i class="fa fas fa-edit"></i> {{ button_label|default('Enregistrer') }}</button>
+
+{{ form_end(form) }}

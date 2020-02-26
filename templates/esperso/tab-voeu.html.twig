@@ -1,0 +1,53 @@
+<div class="col-md-10" id="page" style="min-height: 50vh">
+    <div class="col-md-12 p-5">
+        <div class="row">
+            <div class="col-md-12">
+                <h3><i class="fas fa-building"></i> Mon voeu pour la rentrée</h3>
+                <hr class="profil float-left ml-5">
+            </div>
+        </div>
+        <div class="row mt-4 mb-5">
+            <div class="col-md-8 offset-sm-1">
+                <div class="row">
+                    <div class="col-md-6 offset-sm-3">
+                       {% if locataire.logement.voeu %}
+                           {% set dateActu = "now"|date("m") %}
+                           {% if dateActu in range(03,08) %}
+                               <h3 class="card-title"><i class="fas fa-question-circle"></i> Mon voeu
+                                   pour {{ locataire.logement.voeu.annee }}</h3>
+                               <hr>
+                               {% if locatairelogement..voeu.souhait is same as('NSP') %}
+                                   Ne sais pas pour la rentrée {{ locataire.voeu.annee }}
+                               {% elseif locataire.voeu.souhait is same as('PDR') %}
+                                   Je n'ai pas donné de réponse pour {{ locataire.voeu.annee }}
+                               {% elseif locataire.voeu.souhait is same as('Reste') %}
+                                   Je souhaite rester pour l'année {{ locataire.voeu.annee }}
+                               {% else %}
+                                   Je souhaite partir pour l'année {{ locataire.voeu.annee }}
+                               {% endif %}
+                               <br>
+                               <button data-toggle="modal" data-target="#modifVoeuModal"
+                                       class="btn btn-sm btn-success">Modifier mon voeu
+                               </button>
+                               {% include 'modal/modif-voeu.html.twig' %}
+                           {% else %}
+                               <div class="w-100 text-center m-5">
+                                   La saisie de votre vœu pour la prochaine rentrée n'est pas encore disponible. <br> Vous pourrez effectuer votre demande à compter du 1 mars.
+                               </div>
+                           {% endif %}
+                           {% else %}
+                               <div class="w-100 text-center m-5">Vous n'avez encore prononcer aucun voeu <br>
+                                   <button data-toggle="modal" data-target="#modifVoeuModal"
+                                           class="btn btn-sm btn-success">Modifier mon voeu
+                                   </button>
+                                   {% include 'modal/modif-voeu.html.twig' %}</div>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>

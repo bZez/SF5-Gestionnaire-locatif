@@ -1,0 +1,13 @@
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+<h3>Information du garant</h3>
+<hr>
+    {{ form_start(formGarant) }}
+    {{ form_end(formGarant) }}
+<a href="{{ path('locataire_index') }}">
+    <button class="btn btn-sm btn-primary small"><i
+                class="fas fa-backward"></i> Retour à la liste
+    </button>
+</a>
+    <button class="btn btn-success btn-sm float-right" onclick="$('form[name=locataire]').submit()">{{ button_label|default('Enregistrer') }}</button>
+{{ form_end(form) }}

@@ -1,0 +1,74 @@
+{% extends 'gestionnaire/base.html.twig' %}
+
+{% block title %}Locataire index{% endblock %}
+
+{% block body %}
+    <h1>Listes des locataires pour <span class="text-info">{{ residenceChoisie ? residenceChoisie.nom : 'toutes les résidences' }}</span>
+    <span class="float-right"> <a href="{{ path('locataire_new') }}">
+        <button class="btn btn-sm btn-primary"><i class="fas fa-plus-square"></i> Ajouter un nouveau locataire</button>
+    </a></span></h1>
+    <hr>
+    <select name="resid" id="resid" onchange="window.location.href='/locataire/'+$(this).val()" class="form-control">
+        <option value="tous">Toutes les résidences</option>
+        {% for residence in residences %}
+            <option value="{{ residence.nom }}" {% if residenceChoisie.nom is defined and residenceChoisie.nom is same as (residence.nom) %}selected{% endif %}>{{ residence.nom }}</option>
+
+        {% endfor %}
+    </select>
+    <hr>
+    <table class="table table-sm table-hover text-center">
+        <thead class="table-dark">
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Commentaire</th>
+                <th>Email</th>
+                <th>Date_record</th>
+                <th class="text-right">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for locataire in locataires %}
+            <tr>
+                <td>{{ locataire.id }}</td>
+                <td>{% if locataire.colocation %}
+                        <button class="btn btn-sm btn-primary">
+                            <i class="fa fas fa-user-friends"></i>
+                        </button>
+                    {% endif %}{{ locataire.nomComplet }}</td>
+                <td>{{ locataire.commentaire }}</td>
+                <td><a href="mailto:{{ locataire.email }}">{{ locataire.email }}</a></td>
+                <td>{{ locataire.dateRecord ? locataire.dateRecord|date('d/m/Y'): ''}}</td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <a href="{{ path('locataire_show', {'resid':locataire.logement.residence.nom,'id': locataire.id}) }}">
+                            <button class="btn btn-info btn-sm"><i class="fas fa-eye"></i></button>
+                        </a>&nbsp;
+                        {% if locataire.parking %}
+                            <a href="{{ path('parking_show', {'resid':locataire.parking.residence.nom,'id': locataire.parking.id}) }}">
+                                <button class="btn btn-sm btn-primary">
+                                    <i class="fa fas fa-parking"></i>
+                                </button>
+                            </a>
+                            &nbsp;
+                        {% endif %}
+
+                        <a href="{{ path('locataire_edit', {'resid':locataire.logement.residence.nom,'id': locataire.id}) }}">
+                            <button class="btn btn-success btn-sm"><i class="fas fa-edit"></i></button>
+                        </a>&nbsp;
+                        {{ include('gestionnaire/locataire/_delete_form.html.twig') }}
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="26">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('locataire_new') }}">
+        <button class="btn btn-sm btn-primary"><i class="fas fa-plus-square"></i> Ajouter un nouveau locataire</button>
+    </a>
+{% endblock %}

@@ -1,0 +1,25 @@
+<!-- Modal -->
+<div class="modal fade" id="demandeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form action="#" method="post" name="demandeTravaux">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="telFixeIcon"><i class="fas fa-phone"></i></span>
+                        </div>
+                        <select name="typeTravaux" aria-describedby="telFixeIcon" class="form-control">
+                            <option value="Elec">Problème électrique</option>
+                            <option value="Eau">Problème d'eau</option>
+                        </select>
+                    </div>
+                    <textarea name="comTravaux" rows="10" class="form-control" placeholder="Détail de votre demande d'intervention..." style="resize: none"></textarea>
+                    <div class="mt-2">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Envoyer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+<footer class="bg-footer-dark footer text-white " style="position: relative;bottom: 0;width: 100%">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="{{ asset('assets/img/logo-mgel-logement.svg') }}" class="mt-5" width="150">
+                <p class="mt-3 small">Satisfaction et bien être sont notre priorité.</p>
+            </div>
+            <div class="col-md-8">
+                <h5 class="mt-5 mb-4">Vous souhaitez recevoir les actualités de nos résidences, nos offres d’emplois ? <br>Inscrivez-vous à la newsletter</h5>
+                <div class="bg-white rounded-input col-md-12 pr-1">
+                    <input id="nl-email" type="email" class="small float-left h-100 border-0 bg-transparent" name="email" placeholder="Votre adresse email...">
+                    <button id="nl-submit" class="btn-rounded sm border-0 float-right mt-2 mr-2"><small>Je m'inscris</small></button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mt-3">
+                <h5>Accès rapide</h5>
+            </div>
+        </div>
+        <div class="row acces-rapide">
+            <div class="col-md small">
+                <a href="https://www.mgellogement.fr/mentions-legales.php">Mentions légales</a>
+            </div>
+            <div class="col-md small">
+                <a href="{{ path('nos-residences') }}">Nos résidences</a>
+            </div>
+            <div class="col-md text-right">
+                <a href="https://www.facebook.com/mgelogement/">
+                    <img src="{{ asset('assets/img/icones/facebook.jpg') }}" width="50">
+                </a>
+                <a href="#">
+                    <img src="{{ asset('assets/img/icones/instagram.jpg') }}" width="50">
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid bg-footer-semi-dark">
+        <div class="container">
+            <small>2019 MGEL Logement</small>
+        </div>
+    </div>
+</footer>

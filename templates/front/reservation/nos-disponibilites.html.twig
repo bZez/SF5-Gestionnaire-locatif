@@ -1,0 +1,273 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos Résidences{% endblock %}
+
+{% block body %}
+    <section class="h-50 row" id="landing">
+        <div class="landing-bg reservation">
+            <div class="cta-landing text-center" style="top:0;">
+                <h1 class="text-orange">Les courts séjours</h1>
+                <br>
+                <a href="#form-sejour" class="btn-rounded btn pt-1">Accéder au formulaire</a>
+            </div>
+            {#<div class="row bg-semi-dark pt-4 search-landing">
+                <div class="container">
+                    <h1 class="text-white text-center">Nos disponibilités</h1>
+                    <form name="disponibilite" method="post" class="col-md-12">
+                        <div class="form-row">
+                            <div class="col-md">
+                                <select name="ville" id="ville" class="form-control">
+                                    {% for ville in listevilles %}
+                                        <option value="{{ ville.id }}">{{ ville.nom }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-inline">
+                                <select name="jourEntree" class="form-control col-md-3">
+                                    {% for i in 1..31 %}
+                                        <option value="{{ i }}">{{ i }}</option>
+                                    {% endfor %}
+                                </select>
+                                <select name="moisEntree" class="form-control col-md-6">
+                                    <option value="janvier">Janvier</option>
+                                    <option value="fevrier">Février</option>
+                                    <option value="mars">Mars</option>
+                                    <option value="avril">Avril</option>
+                                    <option value="mai">Mai</option>
+                                    <option value="juin">Juin</option>
+                                    <option value="juillet">Juillet</option>
+                                    <option value="aout">Août</option>
+                                    <option value="septembre">Septembre</option>
+                                    <option value="octobre">Octobre</option>
+                                    <option value="novembre">Novembre</option>
+                                    <option value="decembre">Décembre</option>
+                                </select>
+                                <input type="text" class="form-control col-md-3" name="anneeEntree">
+                            </div>
+                            <div class="col-md-auto text-center">
+                                <b>à</b>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-inline">
+                                    <select name="jourSortie" class="form-control col-md-3">
+                                        {% for i in 1..31 %}
+                                            <option value="{{ i }}">{{ i }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <select name="moisSortie" class="form-control col-md-6">
+                                        <option value="janvier">Janvier</option>
+                                        <option value="fevrier">Février</option>
+                                        <option value="mars">Mars</option>
+                                        <option value="avril">Avril</option>
+                                        <option value="mai">Mai</option>
+                                        <option value="juin">Juin</option>
+                                        <option value="juillet">Juillet</option>
+                                        <option value="aout">Août</option>
+                                        <option value="septembre">Septembre</option>
+                                        <option value="octobre">Octobre</option>
+                                        <option value="novembre">Novembre</option>
+                                        <option value="decembre">Décembre</option>
+                                    </select>
+                                    <input type="text" class="form-control col-md-3" name="anneeSortie">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="submit" value="Rechercher" class="btn btn-rounded border-0 col-md-12">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>#}
+        </div>
+    </section>
+    <section>
+        <div class="container mb-5">
+            {#{% if dispos is defined %}
+                {% for dispo in dispos %}
+                    {% for disp in dispo %}
+                        {% set residence = disp.residence %}
+                        {% if loop.index is odd %}
+                            <div class="row mt-5">
+                                <div class="col-md-6">
+                                    <img class="w-100 h-100 shadow-lg rounded"
+                                         src="{{ asset('_src_/_img/'~residence.couverture) }}" alt="">
+                                </div>
+                                <div class="col-md-6 text-black-50 ">
+                                    <h1 class="mt-2 font-weight-bold">{{ residence.nom }}</h1> <br>
+                                    <p class="text-justify">{{ residence.intro }}<br> <br>
+                                        <b>
+                                            {% if residence.typeMin is same as(residence.typeMax) %}
+                                                {{ residence.typeMin }}
+                                            {% else %}
+                                                {{ residence.typeMin }} à {{ residence.typeMax }}
+                                            {% endif %}
+                                        </b>
+                                        <small>Surface de {{ residence.surfaceMin }} à {{ residence.surfaceMax }}m²
+                                        </small>
+                                        <br>
+                                        <b>Loyer</b>
+                                        <small> de {{ residence.loyerMin }} à {{ residence.loyerMax }} €</small>
+                                        <br> <br>
+                                        {% include 'extra/service.html.twig' %}
+                                        <br>
+                                        {% if courtSejour is defined %}
+                                            <a href="{{ path('demande-logement',{r:residence.nom,cs:true}) }}">
+                                                <button class="btn-rounded border-0 mt-3">
+                                                    Demande de réservation
+                                                </button>
+                                            </a>
+                                        {% else %}
+                                            <a href="{{ path('infos_residence',{ville:residence.ville.nom,nom:residence.nom}) }}">
+                                                <button class="btn-rounded border-0 mt-3">Visiter</button>
+                                            </a>
+                                        {% endif %}
+                                    </p>
+
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="row mt-5">
+                                <div class="col-md-6 text-black-50 text-right ">
+                                    <h1 class="mt-2 font-weight-bold">{{ residence.nom }}</h1> <br>
+                                    <p class="text-right text-justify">{{ residence.intro }}<br> <br>
+                                        <b>
+                                            {% if residence.typeMin is same as(residence.typeMax) %}
+                                                {{ residence.typeMin }}
+                                            {% else %}
+                                                {{ residence.typeMin }} à {{ residence.typeMax }}
+                                            {% endif %}
+                                        </b>
+                                        <small>Surface de {{ residence.surfaceMin }} à {{ residence.surfaceMax }}m²
+                                        </small>
+                                        <br>
+                                        <b>Loyer</b>
+                                        <small> de {{ residence.loyerMin }} à {{ residence.loyerMax }} €</small>
+                                        <br> <br>
+                                        {% include 'extra/service.html.twig' %}
+                                        <br>
+                                        {% if courtSejour is defined %}
+                                            <a href="{{ path('demande-logement',{r:residence.nom,cs:true}) }}">
+                                                <button class="btn-rounded border-0 mt-3">
+                                                    Demande de réservation
+                                                </button>
+                                            </a>
+                                        {% else %}
+                                            <a href="{{ path('infos_residence',{ville:residence.ville.nom,nom:residence.nom}) }}">
+                                                <button class="btn-rounded border-0 mt-3">Visiter</button>
+                                            </a>
+                                        {% endif %}
+                                    </p>
+                                </div>
+                                <div class="col-md-6">
+                                    <img class="w-100 h-100 shadow-lg rounded"
+                                         src="{{ asset('_src_/_img/'~residence.couverture) }}" alt="">
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            {% else %}
+
+            {% endif %}#}
+            <div class="row mt-5">
+                <div class="col-md-6">
+                    <img class="w-100 h-100 shadow-lg rounded" src="https://via.placeholder.com/500x300" alt="">
+                </div>
+                <div class="col-md-6 text-black-50 pt-5 pt-lg-0 pt-xl-0">
+                    <h1 class="mt-2 font-weight-bold">Besoin d'un hébergement temporaire pour un ou plusieurs mois
+                        ?</h1>
+                    <hr class="profil ml-lg-5">
+                    <p class="text-justify">Nos résidences, bien que plus axées sur la location longue durée,
+                        peuvent répondre à un besoin de loger des personnes de façon temporaire. Durant votre court
+                        séjour vous pourrez bénéficier des services de la résidence qui sont inclus dans le
+                        loyer. </p>
+                    <br>
+                    <h4 class="text-black-50">Services</h4>
+                    <img src="{{ asset('assets/img/icones/servicebar.png') }}" class="w-100" alt="">
+                </div>
+            </div>
+        </div>
+    </section>
+    <hr class="mt-5 mb-5 mobile invisible">
+    <section class=" mb-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 mt-lg-5" id="form-sejour">
+                    <h1 class="font-weight-bold text-center text-black-50">Faire une demande de court séjour</h1>
+                    <hr class="profil">
+                    {{ form_start(form) }}
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            {{ form_widget(form.nom) }}
+                        </div>
+                        <div class="col-md-6 mt-3 mt-lg-0 mt-xl-0">
+                            {{ form_widget(form.prenom) }}
+                        </div>
+                    </div>
+                    <div class="form-row mt-3">
+                        <div class="col-md-6">
+                            {{ form_widget(form.email) }}
+                        </div>
+                        <div class="col-md-6 mt-3 mt-lg-0 mt-xl-0">
+                            {{ form_widget(form.mobile) }}
+                        </div>
+                    </div>
+                    <div class="form-row mt-3">
+                        <div class="col-md-6">
+                            {{ form_widget(form.ville) }}
+                        </div>
+                        <div class="col-md-6 mt-3 mt-lg-0 mt-xl-0">
+                            {{ form_widget(form.residence) }}
+                        </div>
+                    </div>
+                    <div class="form-row mt-3">
+                        <div class="col-md-6">
+                            {{ form_widget(form.date_entree) }}
+                        </div>
+                        <div class="col-md-6 mt-3 mt-lg-0 mt-xl-0">
+                            {{ form_widget(form.date_sortie) }}
+                        </div>
+                    </div>
+                    <div class="form-row mt-5">
+                        <div class="col-md-12 text-center">
+                            <button type="submit"  id="submitter" class="btn-rounded" disabled><i class="fa fas fa-paper-plane"></i>
+                                Envoyer
+                            </button>
+                        </div>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block javascripts %}
+    <script>
+
+        $('#court_sejour_ville').on('change', function () {
+            var item = $('#court_sejour_ville option:selected');
+            var txt = item.text();
+            var res = $('#court_sejour_residence');
+            res.find('optgroup').hide();
+            res.find('optgroup[label=' + txt + ']').show();
+            res.find('option:visible:eq(0)').prop('selected',true);
+            res.removeAttr('disabled');
+        });
+        $('form[name="court_sejour"]').on('change',function () {
+            var empty = true;
+            $('form[name="court_sejour"] input').each(function(){
+                if($(this).val()!=""){
+                    empty =false;
+                    $('#submitter').removeAttr('disabled');
+                    return false;
+                }
+            });
+        })
+    </script>
+{% endblock %}
+{#
+<div class="row">
+
+</div>
+
+#}

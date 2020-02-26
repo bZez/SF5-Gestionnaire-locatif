@@ -1,0 +1,62 @@
+<!-- Modal -->
+<div class="modal fade" id="modalSetSepa" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle"><i class="fas fa-exclamation-triangle"></i> Veuillez remplir vos informations bancaire</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ path('update_sepa') }}" name="sepa" id="setSepa" method="post">
+                    <div>
+                        <div class="row">
+                            <small class="pl-3 col-md-12 font-weight-bold">Compte a débiter</small>
+                            <small class="pl-3 text-black-50 col-md-12 font-italic">Numéro d’identification international du compte bancaire – IBAN </small>
+                        </div>
+                        <input type="text" name="sepa[iban]" class="input inputIban border rounded input-black w-100 pl-3" placeholder="IBAN (ex: FR52 XXXX XXXX XXXX XXXX XXXXXXX)" required>
+                    </div>
+                    <div class="mt-2">
+                        <div class="row">
+                            <small class="pl-3 text-black-50 col-md-12 font-italic">Numéro d’identification international de la banque – BIC </small>
+                        </div>
+                        <input type="text" name="sepa[bic]" class="input inputBic border rounded input-black w-100 pl-3" placeholder="BIC (ex: FPELFR21)" required>
+                    </div>
+                    <div class="row mt-2">
+                        <small class="pl-3 col-md-12 font-weight-bold">Titulaire du compte à débiter</small>
+                        <small class="pl-3 text-black-50 col-md-12 font-italic">Etes-vous titulaire du compte bancaire à débiter ? </small>
+                    </div>
+                    <div class="btn-group w-100">
+                       <button type="submit" value="1" class="btn btn-success w-50"><i class="fa fas fa-check"></i></button>
+                       <button class="btn btn-danger w-50" name="sepa[titulaire]" data-toggle="collapse" data-target="#collapseTitulaire" onclick="isNotTitulaire()"><i class="fa fas fa-times"></i></button>
+                    </div>
+                    <input type="text" id="sepa_titulaire" name="sepa[titulaire]" value="1" hidden>
+                    <div id="collapseTitulaire" class="collapse">
+                        <div class="mt-2">
+                            <div class="row">
+                                <small class="pl-3 text-black-50 col-md-12 font-italic">Nom & Prénom du titulaire</small>
+                            </div>
+                            <input type="text" name="sepa[titulaire][nom]" class="titulaire input border rounded input-black w-100 pl-3" placeholder="NOM Prénom du titulaire...">
+                        </div>
+                        <div class="mt-2">
+                            <div class="row">
+                                <small class="pl-3 text-black-50 col-md-12 font-italic">Adresse postale du titulaire</small>
+                            </div>
+                            <input type="text" name="sepa[titulaire][adresse]" class="titulaire input border rounded input-black w-100 pl-3" placeholder="Adresse du titulaire......" >
+                            <div class="row mt-2">
+                                <small class="pl-3 text-black-50 col-md-5 font-italic">Code postal</small>
+                                <small class="pl-3 text-black-50 col-md-7 font-italic pl-5">Ville</small>
+                            </div>
+                            <div class="input-group w-100 ">
+                                <input type="text" name="sepa[titulaire][cp]" class="titulaire form-control input inputZip input-black border w-50" placeholder="Code postal...">
+                                <input type="text" name="sepa[titulaire][ville]" class="titulaire form-control input input-black border w-50" placeholder="Ville...">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

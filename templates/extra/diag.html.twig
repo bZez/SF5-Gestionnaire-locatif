@@ -1,0 +1,50 @@
+<link rel="stylesheet" href="{{ asset('assets/css/diag.css') }}">
+<small><i class="fas fa-bolt"></i></small> Diagnostic de Performance Energétique :
+<div class="rounded bg-light border p-2 pb-3 text-center">
+    <div class="row">
+        <div class="col-6">
+            <small>Consommation énergétique:</small>
+            <br>
+            {% if consoEner > 450 %}
+                <button class="rounded border-0 energie-g">G</button>
+            {% elseif consoEner > 331 %}
+                <button class="rounded border-0 energie-f">F</button>
+            {% elseif consoEner > 231 %}
+                <button class="rounded border-0 energie-e">E</button>
+            {% elseif consoEner > 151 %}
+                <button class="rounded border-0 energie-d">D</button>
+            {% elseif consoEner > 91 %}
+                <button class="rounded border-0 energie-c">C</button>
+            {% elseif consoEner > 51 %}
+                <button class="rounded border-0 energie-b">B</button>
+            {% elseif consoEner < 0 %}
+                <button class="rounded border-0 energie-b">EN COURS</button>
+            {% else %}
+                <button class="rounded border-0 energie-a">A</button>
+            {% endif %}
+            {{ consoEner }} KWh/m².an
+        </div>
+        <div class="col-6">
+            <small>Emission de GES:</small>
+            <br>
+            {% if emiGaz > 80 %}
+                <button class="rounded border-0 ges-g">G</button>
+            {% elseif emiGaz > 56 %}
+                <button class="rounded border-0 ges-f">F</button>
+            {% elseif emiGaz > 36 %}
+                <button class="rounded border-0 ges-e">E</button>
+            {% elseif emiGaz > 21 %}
+                <button class="rounded border-0 ges-d">D</button>
+            {% elseif emiGaz > 11 %}
+                <button class="rounded border-0 ges-c">C</button>
+            {% elseif emiGaz > 6 %}
+                <button class="rounded border-0 ges-b">B</button>
+            {% elseif emiGaz < 0 %}
+                <button class="rounded border-0 ges-b">EN COURS</button>
+            {% else %}
+                <button class="rounded border-0 ges-a">A</button>
+            {% endif %}
+            {{ emiGaz }} KGé/m².an
+        </div>
+    </div>
+</div>

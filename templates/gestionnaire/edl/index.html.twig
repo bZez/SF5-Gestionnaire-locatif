@@ -1,0 +1,73 @@
+{% extends 'gestionnaire/base.html.twig' %}
+
+{% block title %}EDL index{% endblock %}
+
+{% block body %}
+    <h1>Etats des lieux pour {{ residenceChoisie ? residenceChoisie.nom : 'toutes les résidences' }}
+    <span class="float-right">
+        <a href="{{ path('e_d_l_new') }}">
+        <button class="btn btn-sm btn-primary"><i class="fas fa-plus-square"></i> Planifier un nouvel EDL</button>
+    </a>
+    </span></h1>
+    <hr>
+    <select name="resid" id="resid" onchange="window.location.href='/etat-des-lieux/{% if manquant is defined %}manquant/{% endif %}'+$(this).val()" class="form-control">
+        <option value="tous">Selectionnez une résidence...</option>
+        {% for residence in residences %}
+            <option value="{{ residence.nom }}" {% if residenceChoisie.nom is defined and residenceChoisie.nom is same as (residence.nom) %}selected{% endif %}>{{ residence.nom }}</option>
+        {% endfor %}
+    </select>
+
+    <hr>
+    <table class="table table-sm table-hover text-center">
+        <thead class="table-dark">
+            <tr>
+                <th>Id</th>
+                <th>Type</th>
+                <th>Logement</th>
+                <th>Date</th>
+                <th class="text-right">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for e_d_l in e_d_ls %}
+            {% set endDate = e_d_l.date|date('Y-m-d') %}
+            {% set startDate = "now"|date('Y-m-d') %}
+            {% set difference = date(endDate).diff(date(startDate)) %}
+            {% set leftDays = difference.days %}
+            <tr class="{% if leftDays < 10 %}
+                bg-warning
+            {% endif %}">
+                <td class="align-middle">{{ e_d_l.id }}</td>
+                <td class="align-middle">{{ e_d_l.type }}</td>
+                <td class="align-middle"><a href="{{ path('logement_show',{'resid':e_d_l.logement.residence.nom,'id':e_d_l.logement.id }) }}" class="text-dark">
+                        {{ e_d_l.logement.infos|raw }}
+                    </a></td>
+                <td class="align-middle">{{ e_d_l.date ? e_d_l.date|date('d-m-Y à H:i:s') : '' }}</td>
+                <td class="text-right align-middle pb-2">
+                    <div class="btn-group">
+                        <a href="{{ path('e_d_l_show', {'resid':e_d_l.logement.residence.nom,'id': e_d_l.id}) }}">
+                            <button class="btn btn-sm btn-info">
+                                <i class="fa fas fa-eye"></i>
+                            </button>
+                        </a> &nbsp;
+                        <a href="{{ path('e_d_l_edit', {'resid':e_d_l.logement.residence.nom,'id': e_d_l.id}) }}">
+                            <button class="btn btn-sm btn-success">
+                                <i class="fa fas fa-edit"></i>
+                            </button>
+                        </a> &nbsp;
+                        {{ include('gestionnaire/edl/_delete_form.html.twig') }}
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <hr>
+    <a href="{{ path('e_d_l_new') }}">
+        <button class="btn btn-sm btn-primary"><i class="fas fa-plus-square"></i> Planifier un nouvel EDL</button>
+    </a>
+{% endblock %}

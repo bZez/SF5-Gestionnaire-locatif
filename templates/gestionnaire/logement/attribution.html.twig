@@ -1,0 +1,126 @@
+{% extends 'gestionnaire/base.html.twig' %}
+
+{% block title %}Logement{% endblock %}
+
+{% block body %}
+    <h1>Attribution de logement</h1>
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ logement.id }}</td>
+        </tr>
+        <tr>
+            <th>Situation</th>
+            <td>{{ logement.situation }}</td>
+        </tr>
+        <tr>
+            <th>Type_lit</th>
+            <td>{{ logement.typeLit }}</td>
+        </tr>
+        <tr>
+            <th>Type_logement</th>
+            <td>{{ logement.typeLogement }}</td>
+        </tr>
+        <tr>
+            <th>Etage</th>
+            <td>{{ logement.etage }}</td>
+        </tr>
+        <tr>
+            <th>Batiment</th>
+            <td>{{ logement.batiment }}</td>
+        </tr>
+        <tr>
+            <th>Numero</th>
+            <td>{{ logement.numero }}</td>
+        </tr>
+        <tr>
+            <th>Categorie</th>
+            <td>{{ logement.categorie }}</td>
+        </tr>
+        <tr>
+            <th>Surface</th>
+            <td>{{ logement.surface }}</td>
+        </tr>
+        <tr>
+            <th>Loyer</th>
+            <td>{{ logement.loyer }}</td>
+        </tr>
+        <tr>
+            <th>Charges</th>
+            <td>{{ logement.charges }}</td>
+        </tr>
+        <tr>
+            <th>Cotis_acc</th>
+            <td>{{ logement.cotisAcc }}</td>
+        </tr>
+        <tr>
+            <th>Cotis_services</th>
+            <td>{{ logement.cotisServices }}</td>
+        </tr>
+        <tr>
+            <th>Tva</th>
+            <td>{{ logement.tva }}</td>
+        </tr>
+        <tr>
+            <th>Date_blocage</th>
+            <td>{{ logement.dateBlocage ? logement.dateBlocage|date('Y-m-d') : '' }}</td>
+        </tr>
+        <tr>
+            <th>Motif_blocage</th>
+            <td>{{ logement.motifBlocage }}</td>
+        </tr>
+        <tr>
+            <th>Cle_dispo</th>
+            <td>{{ logement.cleDispo ? 'Yes' : 'No' }}</td>
+        </tr>
+        <tr>
+            <th>Ref_cle</th>
+            <td>{{ logement.refCle }}</td>
+        </tr>
+        <tr>
+            <th>Qte_cle</th>
+            <td>{{ logement.qteCle }}</td>
+        </tr>
+        <tr>
+            <th>Qte_cle_bal</th>
+            <td>{{ logement.qteCleBal }}</td>
+        </tr>
+        <tr>
+            <th>Ref_cle_bal</th>
+            <td>{{ logement.refCleBal }}</td>
+        </tr>
+        <tr>
+            <th>Ref_cle_badge</th>
+            <td>{{ logement.refCleBadge }}</td>
+        </tr>
+        <tr>
+            <th>Cle_residence</th>
+            <td>{{ logement.cleResidence }}</td>
+        </tr>
+        <tr>
+            <th>Cle_local_velo</th>
+            <td>{{ logement.cleLocalVelo }}</td>
+        </tr>
+        <tr>
+            <th>Cle_salle_commune</th>
+            <td>{{ logement.cleSalleCommune }}</td>
+        </tr>
+        <tr>
+            <th>Cle_commentaire</th>
+            <td>{{ logement.cleCommentaire }}</td>
+        </tr>
+        <tr>
+            <th>Date_maj_cle</th>
+            <td>{{ logement.dateMajCle ? logement.dateMajCle|date('Y-m-d') : '' }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('logement_index') }}">back to list</a>
+
+    <a href="{{ path('logement_edit', {'id': logement.id}) }}">edit</a>
+
+    {{ include('gestionnaire/logement/_delete_form.html.twig') }}
+{% endblock %}

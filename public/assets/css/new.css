@@ -1,0 +1,143 @@
+.landing-ctn {
+    min-height: 75vh;
+}
+.resid-ctn {
+    margin-top: 30vh;
+    min-height: 65vh;
+}
+.h1-resid {
+    font-size: 2em;
+}
+.resid-intro {
+    font-size: 1em;
+    line-height: 2em;
+}
+.resid-desc{
+    margin-top: 20%;
+}
+.btn-orange-1 {
+    background: #EF7A05;
+    padding: 10px 30px;
+    color: white;
+}
+.center-ctn {
+    min-height: 50vh;padding-top: 25vh!important;
+}
+.bg-where {
+    height: 300px;
+    margin-top: 100px;
+    padding-top: 100px;
+    background: url("../img/icones/bg-where.png") no-repeat center center ;
+}
+
+/*NAV*/
+.navbar-top {
+    width: 100%!important;
+    height: 7vh;
+    padding-left: 20% !important;
+    color: white!important;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+.navbar-toggler {
+    position:absolute;
+    left: 5vw;
+}
+.section-black {
+    background:url("../img/circle.svg") no-repeat, #272c44;
+    background-position:-25vh 0vh;
+    background-size: 50%;
+    height: 50vh;
+}
+.centered {
+    height: calc(10vh + 100px);
+    padding-top: calc(20vh - 75px);
+}
+.navbar-top a {
+    color: white;
+}
+.navbar-nav {
+    width: 100%!important;
+}
+.section-full.last {
+    height: calc(100vh - 50px);
+}
+.bg-orange-service {
+    background: linear-gradient(181deg, #ffaf18 10%, #EF7A05 10.5%, #ffaf18) no-repeat;
+    background-size: 100% 75%;
+}
+.navbar-top .nav-item {
+    font-size: 1.3vh;
+}
+.nav-item {
+    width: 16.5%;
+}
+.nav-item.lg {
+    width: 20%;
+}
+.nav-item.sm {
+    width: 13.5%;
+}
+.dropdown-menu a {
+    color: unset;
+}
+.dropdown-menu {
+    width: fit-content;
+    border: none!important;
+    box-shadow: 3px 3px 15px rgb(255, 108, 34,.5);
+}
+.dropdown-item  {
+ border-radius: 5px;
+    transition:.3s ease ;
+}
+.dropdown-item:hover {
+    transform: scale(1.1);
+}
+
+
+.hr-nav {
+    background: white;
+    opacity: .3;
+    margin-top: 0;
+}
+
+
+.btn-white.outline {
+    box-shadow: inset 0 0 0 2px #fff;
+}
+.text-justify-center
+{
+    text-align: justify;
+    text-align-last: center;
+}
+.reduce-icon img {
+    transform: scale(0.8);
+}
+
+.big-menu {
+    z-index: 99999;
+    position: absolute;
+    top:0;
+    left: 0;
+    text-align: center;
+    background: rgba(255,255,255,.95);
+    height: 100vh;
+    width: 100%;
+    color: black;
+}
+.big-menu-content {
+    padding-top: 10vh;
+    font-size: x-large;
+}
+.big-menu-content a {
+    color: black;
+    height: 15vh
+}
+.big-menu-content i {
+    color: #EA660A;
+}
+.closer {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+}

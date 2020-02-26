@@ -1,0 +1,15 @@
+{% extends 'gestionnaire/base.html.twig' %}
+
+{% block title %}Edit Logement{% endblock %}
+
+{% block body %}
+    <h1>Modification du logement N°{{ logement.numero }}
+    <span class="float-right">
+        <a href="{{ path('logement_index') }}"><button class="btn btn-info"><i class="fas fa-backward"></i> Retour liste</button></a>
+    </span></h1>
+    <hr>
+    {{ include('gestionnaire/logement/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+&nbsp;
+ {{ include('gestionnaire/logement/_delete_form.html.twig') }}</div>
+{% endblock %}

@@ -1,0 +1,335 @@
+{% set current_path = app.request.get('_route') %}
+{#TODO RECHERCHER PAR EMAIL,NOM,TELEPHONE DANS PROSPECT, LOC ET GARANT #}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Gestionnaire MGEL Logement">
+    <meta name="author" content="Sam BZEZ">
+    <title>Gestionnaire MGEL Logement {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    {% block stylesheets %}{% endblock %}
+</head>
+<body class="bg-light">
+<div class="page-wrapper chiller-theme toggled">
+    <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+        <i class="fas fa-bars"></i>
+    </a>
+    <nav id="sidebar" class="sidebar-wrapper">
+        <div class="sidebar-content">
+            <div class="sidebar-brand text-center">
+                <a href="#">
+                    <img src="{{ asset('assets/img/logo-mgel-logement-white.png') }}" alt="Logo MGEL Logement" width="100" class="mb-3">
+                </a>
+                <div id="close-sidebar">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+            <div class="sidebar-header">
+                <div class="user-info">
+          <span class="user-name">
+              <strong>{{ app.user.login }}</strong>
+          </span>
+                    <span class="user-role">{{ app.user.roles[0] }}</span>
+                    <span class="user-status">
+            <i class="fa fa-circle"></i>
+            <span>Online</span>
+          </span>
+                </div>
+            </div>
+            <!-- sidebar-header  -->
+            <div class="sidebar-search">
+                <div>
+                    <div class="input-group">
+                        <input type="text" class="form-control search-menu" placeholder="Search...">
+                        <div class="input-group-append">
+              <span class="input-group-text" onclick="alert('Recherche')">
+                <i class="fa fa-search" aria-hidden="true"></i>
+              </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- sidebar-search  -->
+            <div class="sidebar-menu">
+                <ul>
+                    <li class="header-menu">
+                        <span>General</span>
+                    </li>
+                    <li>
+                        <a href="{{ path('home_gest') }}">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Tableau de bord</span></a>
+                    </li>
+                    <li class="sidebar-dropdown {% if 'prospect_' in current_path %} active{% endif %}">
+                        <a href="#">
+                            <i class="fa fas fa-user-plus"></i>
+                            <span>Prospects</span>
+                            <span class="badge badge-pill badge-warning">{{ prospect_count.getNew }}</span>
+                        </a>
+                        <div class="sidebar-submenu" {% if 'prospect_' in current_path %} style="display:block;"{% endif %}>
+                            <ul>
+                                <li>
+                                    <a href="{{ path('prospect_index') }}">Liste de prospects
+                                        {#<span class="badge badge-pill badge-success">Pro</span>#}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('prospect_new') }}">Ajouter un prospect</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <li class="sidebar-dropdown {% if 'locataire_' in current_path or 'voeu_' in current_path %} active{% endif %}">
+                        <a href="#">
+                            <i class="fa fas fa-user-plus"></i>
+                            <span>Locataires</span>
+                            {#<span class="badge badge-pill badge-danger">3</span>#}
+                        </a>
+                        <div class="sidebar-submenu"{% if 'locataire_' in current_path  or 'voeu_' in current_path %} style="display:block;"{% endif %} >
+                            <ul>
+                                <li>
+                                    <a href="{{ path('locataire_new') }}">Nouveau locataire</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('locataire_index') }}">Liste</a>
+                                </li>
+
+                                <li>
+                                    <a href="{{ path('voeu_index') }}">Gestion des voeux</a>
+                                </li>
+
+{#                                <li>
+                                    <a href="#">Credit cart</a>
+                                </li>#}
+                            </ul>
+                        </div>
+                    </li>
+                        <li class="sidebar-dropdown {% if 'contrat_' in current_path %} active{% endif %}">
+                            <a href="#">
+                                <i class="fa fas fa-file-contract"></i>
+                                <span>Contrats</span>
+                                {#<span class="badge badge-pill badge-danger">3</span>#}
+                            </a>
+                            <div class="sidebar-submenu"{% if 'contrat_' in current_path  %} style="display:block;"{% endif %} >
+                                <ul>
+                                    <li>
+                                        <a href="{{ path('contrat_index') }}">Signature de contrat</a>
+                                    </li>
+
+                                    {#                                <li>
+                                                                        <a href="#">Credit cart</a>
+                                                                    </li>#}
+                                </ul>
+                            </div>
+                        </li>
+                    {% endif %}
+                    <li class="sidebar-dropdown{% if 'residence_' in current_path or 'logement_' in current_path %} active{% endif %}">
+                        <a href="#">
+                            <i class="fas fa-hotel"></i>
+                            <span>Résidences</span>
+                        </a>
+                        <div class="sidebar-submenu"{% if 'residence_' in current_path or 'logement_' in current_path %} style="display:block;"{% endif %}>
+                            <ul>
+                                <li>
+                                    <a href="{{ path('residence_index') }}">Gestion des résidences</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('logement_index') }}">Gestion des logements</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('type_logement_tarif_index') }}">Gestion des tarifs</a>
+                                </li>
+{#                                <li>
+                                    <a href="#">Tables</a>
+                                </li>
+                                <li>
+                                    <a href="#">Icons</a>
+                                </li>
+                                <li>
+                                    <a href="#">Forms</a>
+                                </li>#}
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="sidebar-dropdown {% if 'e_d_l_' in current_path %} active{% endif %}">
+                        <a href="#">
+                            <i class="fa fa-chart-line"></i>
+                            <span>Etats des lieux</span>
+                            <span class="badge badge-pill badge-warning ">{{ edl_count.getNew }}</span>
+                        </a>
+                        <div class="sidebar-submenu" {% if 'e_d_l_' in current_path %} style="display:block;"{% endif %}>
+                            <ul>
+                                <li>
+                                    <a href="{{ path('e_d_l_index_a_prendre') }}">RDV d'EDL à prendre</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('e_d_l_index') }}">EDL à effectuer</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('e_d_l_index_history') }}">Historique EDL</a>
+                                </li>
+                               {# <li>
+                                    <a href="{{ path('e_d_l_index_manquant') }}/tous">Docs manquants</a>
+                                </li>#}
+                           {#     <li>
+                                    <a href="#">Bar chart</a>
+                                </li>
+                                <li>
+                                    <a href="#">Histogram</a>
+                                </li>#}
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="sidebar-dropdown  {% if 'parking_' in current_path %} active{% endif %}">
+                        <a href="#">
+                            <i class="fas fa-parking"></i>
+                            <span>Parkings</span>
+                        </a>
+                        <div class="sidebar-submenu" {% if 'parking_' in current_path %} style="display:block;"{% endif %}>
+                            <ul>
+                                <li>
+                                    <a href="{{ path('parking_index') }}">Etat</a>
+                                </li>
+                                <li>
+                                    <a href="#">Open street map</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <li class="header-menu">
+                        <span>Extra</span>
+                    </li>
+                    <li>
+                        <a href="{{ path('liste-faq') }}">
+                            <i class="fa fa-book"></i>
+                            <span>Foire aux questions</span>
+                            <span class="badge badge-pill badge-primary">Beta</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ path('user_index') }}">
+                            <i class="fa fa-user-shield"></i>
+                            <span>Gestion des utilisateurs</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('echeance') }}">
+                            <i class="fa fa-upload"></i>
+                            <span>Envoi d'échéances</span>
+                        </a>
+                    </li>
+                        <li class="header-menu">
+                            <span>Statistiques</span>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-calendar-day"></i>
+                                <span>Du jour</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-calendar-week"></i>
+                                <span>Du Mois</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>De l'année</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+            <!-- sidebar-menu  -->
+        </div>
+        <!-- sidebar-content  -->
+        <div class="sidebar-footer">
+            <a href="#">
+                <i class="fa fa-bell"></i>
+                <span class="badge badge-pill badge-warning notification">3</span>
+            </a>
+            <a href="#">
+                <i class="fa fa-envelope"></i>
+                <span class="badge badge-pill badge-success notification">7</span>
+            </a>
+            <a href="#">
+                <i class="fa fa-cog"></i>
+                <span class="badge-sonar"></span>
+            </a>
+            <a href="{{ path('app_logout') }}">
+                <i class="fa fa-power-off"></i>
+            </a>
+        </div>
+    </nav>
+    <main class="page-content">
+        <div class="container-fluid">
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ label }}">
+                        {{ message|raw }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            <div class="loader"></div>
+            {% block body %}{% endblock %}
+        </div>
+
+    </main>
+    <!-- page-content" -->
+</div>
+<script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+<script src="{{ asset('assets/js/bootstrap.js') }}"></script>
+<script src="{{ asset('assets/js/fS.js') }}"></script>
+<script>
+    $(document).delegate(':file', 'change', function() {
+        $(this).next('label').text(this.value);
+    });
+    $(function () {
+        $(".loader").fadeOut("fast");
+        $(':file').removeAttr('required')
+        $(".sidebar-dropdown > a").click(function () {
+            $(".sidebar-submenu").slideUp(200);
+            if (
+                $(this)
+                    .parent()
+                    .hasClass("active")
+            ) {
+                $(".sidebar-dropdown").removeClass("active");
+                $(this)
+                    .parent()
+                    .removeClass("active");
+            } else {
+                $(".sidebar-dropdown").removeClass("active");
+                $(this)
+                    .next(".sidebar-submenu")
+                    .slideDown(200);
+                $(this)
+                    .parent()
+                    .addClass("active");
+            }
+        });
+
+        $("#close-sidebar").click(function () {
+            $(".page-wrapper").removeClass("toggled");
+        });
+        $("#show-sidebar").click(function () {
+            $(".page-wrapper").addClass("toggled");
+        });
+
+
+    });
+
+</script>
+
+{% block javascripts %}{% endblock %}
+</body>
+</html>

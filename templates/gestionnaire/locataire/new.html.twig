@@ -1,0 +1,17 @@
+{% extends 'gestionnaire/base.html.twig' %}
+
+{% block title %}New Locataire{% endblock %}
+
+{% block body %}
+    <h1>Création d'un nouveau locataire <span class="float-right">
+            <div class="btn-group">
+                <a href="{{ path('locataire_index') }}">
+                    <button class="btn btn-sm btn-primary small"><i
+                                class="fas fa-backward"></i> Retour à la liste
+                    </button>
+                </a> &nbsp;
+            </div>
+        </span></h1>
+    <hr>
+    {{ include('gestionnaire/locataire/_form.html.twig') }}
+{% endblock %}

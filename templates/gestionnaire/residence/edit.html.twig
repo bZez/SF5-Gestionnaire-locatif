@@ -1,0 +1,22 @@
+{% extends 'gestionnaire/base.html.twig' %}
+
+{% block title %}Edition infos résidence {{ residence.nom }}{% endblock %}
+
+{% block body %}
+    <h1>Edition infos résidence <span class="text-info">{{ residence.nom }}</span><span class="btn-group float-right"><a href="{{ path('residence_index') }}">
+        <button class="btn btn-sm btn-info"><i class="fa fas fa-backward"></i></button>
+    </a>
+&nbsp;
+    {{ include('gestionnaire/residence/_delete_form.html.twig') }}</span></h1>
+    <hr>
+        {{ include('gestionnaire/residence/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+    &nbsp;
+        <a href="{{ path('residence_index') }}">
+            <button class="btn btn-sm btn-info">
+                <i class="fa fas fa-backward"></i>
+            </button>
+        </a>
+    &nbsp;
+        {{ include('gestionnaire/residence/_delete_form.html.twig') }}
+    </div>
+{% endblock %}

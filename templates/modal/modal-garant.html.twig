@@ -1,0 +1,55 @@
+<!-- Modal -->
+<div class="modal fade" id="modalGarant" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle"><i class="fas fa-exclamation-triangle"></i> Profil
+                    garant imcomplet !</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ path('update_garant') }}" name="garant" id="updateGarant" method="post">
+                    <div>
+                        <div class="row">
+                            <small class="pl-3 text-black-50 col-md-6">Nom du garant</small>
+                            <small class="pl-3 text-black-50 col-md-6">Prénom du garant</small>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" name="nomGarant" value="{{ locataire.nomGarant }}"
+                                   class="input rounded-left pl-3 w-50" placeholder="A renseigner !" required>
+                            <input type="text" name="prenomGarant" value="{{ locataire.prenomGarant }}"
+                                   class="input rounded-right pl-3 w-50" placeholder="A renseigner !" required>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <small class="text-black-50">Email du garant</small>
+                        <input type="email" name="emailGarant" value="{{ locataire.emailGarant }}"
+                               class="input rounded pl-3 w-100" placeholder="A renseigner !" required>
+
+                    </div>
+                    <div class="mt-2">
+                        <small class="text-black-50">Telephone du garant</small>
+                        <input type="tel" name="telephoneGarant" value="{{ locataire.telephoneGarant }}"
+                               class="input rounded pl-3 w-100" placeholder="A renseigner !" required>
+                    </div>
+                    <div class="mt-2">
+                        <div class="row">
+                            <small class="pl-3 text-black-50 col-md-6">Adresse du garant</small>
+                            <small class="pl-3 text-black-50 col-md-3">Code postal</small>
+                            <small class="pl-3 text-black-50 col-md-3">Ville du garant</small>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" name="adresseGarant" class="input rounded-left pl-3 w-50" value="{{ locataire.adresseGarant }}" placeholder="A renseigner !" required>
+                            <input type="text" name="codePostalGarant" class="input w-25" value="{{ locataire.codePostalGarant }}" placeholder="A renseigner !" required>
+                            <input type="text" name="villeGarant" class="input w-25 rounded-right" value="{{ locataire.villeGarant }}" placeholder="A renseigner !" required>
+                        </div>
+                    </div>
+                    <input type="submit" class="btn btn-orange bg-transparent mt-3 w-100">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

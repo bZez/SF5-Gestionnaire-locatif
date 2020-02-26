@@ -1,0 +1,99 @@
+{% extends 'gestionnaire/base.html.twig' %}
+
+{% block body %}
+    <h3><i class="fas fa-question-circle"></i> Gestion des questions / réponses de la FAQ</h3>
+    <hr>
+ <div class="text-center">
+     <div class="btn-group">
+         <a href="{{ path('add-category') }}">
+             <button class="btn btn-sm btn-success">
+                 <i class="fa fas fa-plus-square"></i> Ajouter une nouvelle catégorie
+             </button>
+         </a>
+         &nbsp;
+         <a href="{{ path('add-question') }}">
+             <button class="btn btn-sm btn-primary">
+                 <i class="fa fas fa-plus-square"></i> Ajouter une nouvelle question
+             </button>
+         </a>
+     </div>
+ </div>
+    <hr>
+            <div class="row">
+                {% if newQuestion|length is not same as(0) %}
+                    {#A TRAITEES#}
+                    <div class="col-md-6">
+                        <div class="col-md-12 rounded border p-0 m-0 shadow">
+                            <div class="bg-danger rounded-top p-3">
+                                <h4 class="text-white"><i class="fas fa-clock"></i> Questions à traiter</h4>
+                            </div>
+
+                            <div class="bg-dark-light pl-3 pr-3 rounded">
+                                {% for q in newQuestion %}
+                                    <form name="faq" method="post">
+                                        <div class="pb-3 pt-3 input font-weight-bold text-danger" data-toggle="collapse"
+                                             data-target="#nq-{{ q.id }}">
+
+                                            <input type="text" value="{{ q.question }}" name="faq[question]"
+                                                   id="faq_question"
+                                                   class="h3 bg-transparent border-0 w-90">
+                                            <span class="float-right h3"><i class="fa fas fa-angle-down"></i></span>
+                                        </div>
+                                        <div id="nq-{{ q.id }}" class="collapse pb-3">
+                                            {{ form_row(form.categorie,{'label':false,'attr':{'class':'w-100 bg-light border-0 font-weight-bold h4 text-danger text-center'}}) }}
+                                            {{ form_row(form.reponse,{'label':false}) }}
+                                            <button type="submit" class="btn-rounded border-0 mt-3 w-100">Répondre</button>
+                                            {{ form_row(form._token) }}
+                                            <input type="hidden" value="{{ q.id }}" name="idToRemove">
+                                        </div>
+                                    </form>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {#EXISTANTES#}
+                <div class="{% if newQuestion|length is not same as(0) %}col-md-6{% else %}col-md-12{% endif %}">
+                    <div class="col-md-12  rounded border p-0 m-0 shadow">
+                        <div class="bg-dark rounded-top p-3">
+                            <h4 class="text-white"><i class="fas fa-check"></i> Questions existantes</h4>
+                        </div>
+
+                        <div class="bg-white pl-3 pr-3 rounded ">
+                            {% for cat in categories %}
+                                <div class="pb-3 pt-3 input font-weight-bold " data-toggle="collapse"
+                                     data-target="#c-{{ cat.id }}"><h3>{{ cat.libelle }}
+                                        <span class="float-right">
+                <a class="m-2" href="{#{{ path('edit-cat',{id:cat.id}) }}#}">
+                    <i class="fa fas fa-edit"></i>
+                </a>
+                 <a class="text-danger m-2" href="{{ path('delete-cat',{id:cat.id}) }}">
+                    <i class="fa fas fa-times"></i>
+                </a>
+            </span></h3>
+                                </div>
+                                <div id="c-{{ cat.id }}" class="collapse ml-4">
+                                    {% for q in questions[cat.nom] %}
+                                        <div class="input" data-toggle="collapse"
+                                             data-target="#q-{{ q.id }}">{{ q.question }}
+                                            <span class="float-right">
+                <a class="m-2" href="{{ path('edit-question',{id:q.id}) }}">
+                    <i class="fa fas fa-edit"></i>
+                </a>
+                 <a class="text-danger m-2" href="{{ path('delete-question',{id:q.id}) }}">
+                    <i class="fa fas fa-times"></i>
+                </a>
+            </span>
+                                        </div>
+                                        <div class="collapse" id="q-{{ q.id }}">{{ q.reponse|raw }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<!-- Created by pdf2htmlEX (https://github.com/coolwanglu/pdf2htmlex) -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="generator" content="pdf2htmlEX"/>
+    <meta http-equiv="X-UA-Compatible" content="|E=edge,chrome=1"/>
+    <title>Autorisation de prélèvement SEPA</title>
+    <style>
+        html, body, * {
+            font-size: 9pt;
+        }
+    </style>
+<body>
+
+<img src="{{ logo }}" width="18%" style="float: left">
+<div style="width:280px;margin-top: 50px!important;border:1px solid black;text-align: center;margin-left: auto;margin-right:auto;float: right;font-size: 11pt">
+    <strong>MANDAT DE PRELEVEMENT SEPA</strong>
+</div>
+
+
+<div style="clear: both">
+    {% set rum = locataire.sepa.rum %}
+    <span><strong><u>Référence unique du mandat</u></strong> <u>| P | R | V | - | M | G | E | L | - | L | G | T | - |</u><u> {{ rum[13:1] }} </u>|<u> {{ rum[14:1] }} </u>|<u> {{ rum[15:1] }} </u>|<u> {{ rum[16:1] }} </u>|<u> {{ rum[17:1] }} </u>|<u> {{ rum[18:1] }} </u>|<u> {{ rum[19:1] }} </u>|<u> {{ rum[20:1] }} </u>|<u> {{ rum[21:1] }} </u>|<u> {{ rum[22:1] }} </u>|<u> {{ rum[23:1] }} </u>|<u> {{ rum[24:1] }} </u>|<u> {{ rum[25:1] }} </u>|<u> {{ rum[26:1] }} </u>|<u> {{ rum[27:1] }} </u>|</span><br><br>
+    En signant ce formulaire de mandat, vous autorisez l’U.E.S. MGEL LOGEMENT à envoyer des instructions à votre banque
+    pour débiter votre compte, conformément aux instructions de l’U.E.S. MGEL LOGEMENT.
+    <br><br>
+    Vous bénéficiez du droit d’être remboursé par votre banque dans les conditions décrites dans la convention que vous
+    avez passée avec elle. Une demande de remboursement doit être présentée :
+    <ul style="list-style: none">
+        <li>- Dans les 8 semaines suivant la date de débit de votre compte pour un prélèvement autorisé</li>
+        <li>- Sans tarder et au plus tard dans les 13 mois en cas de prélèvement non autorisé.</li>
+    </ul>
+    <br>
+    {% set ss = locataire.codeInsee %}
+    <strong><u>SOUS-LOCATAIRE</u></strong><br>
+    <div style="margin-top: 5px;">{{ locataire.civilite }}
+        . {{ locataire.nom|upper }} {{ locataire.prenom|capitalize }}</div>
+    <div style="width: 375px">
+        Numéro de Sécurité Sociale :
+        <div style="background: yellow;width: 230px;float: right;text-align: center">
+            |<u> {{ ss[:1] }} </u>|<u> {{ ss[1:1] }} </u>|<u> {{ ss[2:1] }} </u>|<u> {{ ss[3:1] }} </u>|<u> {{ ss[4:1] }} </u>|<u> {{ ss[5:1] }} </u>|<u> {{ ss[6:1] }} </u>|<u> {{ ss[7:1] }} </u>
+            |<u> {{ ss[8:1] }} </u>|<u> {{ ss[9:1] }} </u>|<u> {{ ss[10:1] }} </u>|<u> {{ ss[11:1] }} </u>|<u>{{ ss[12:1] }}</u>|&nbsp;&nbsp;|<u> {{ ss[13:1] }} </u>|<u> {{ ss[14:1] }} </u>|
+        </div>
+    </div>
+    <br>
+
+    Résidant à la résidence <strong>{{ locataire.residence.nom }}</strong> – Apt N° {{ locataire.logement.numero }}
+    – {{ locataire.residence.adresse }}
+    , {{ locataire.residence.ville.codePostal }} {{ locataire.residence.ville.nom|upper }}
+    <br>
+    <br>
+    <strong><u>COMPTE A DEBITER</u></strong><br>
+    {% set iban = locataire.sepa.iban %}
+    Numéro d’identification international du compte bancaire – IBAN :<br>
+    <div style="background-color:yellow;width:485px;text-align: center">
+        |<u> {{ iban[:1] }} </u>|<u> {{ iban[1:1] }} </u>|<u> {{ iban[2:1] }} </u>|<u> {{ iban[3:1] }} </u>|<u> {{ iban[4:1] }} </u>|<u> {{ iban[5:1] }} </u>|<u> {{ iban[6:1] }} </u>|<u> {{ iban[7:1] }} </u>|<u> {{ iban[8:1] }} </u>|<u> {{ iban[9:1] }} </u>|<u> {{ iban[10:1] }} </u>|<u> {{ iban[11:1] }} </u>|<u> {{ iban[12:1] }} </u>|<u> {{ iban[13:1] }} </u>|<u> {{ iban[14:1] }} </u>|<u> {{ iban[15:1] }} </u>|<u> {{ iban[16:1] }} </u>|<u> {{ iban[17:1] }} </u>|<u> {{ iban[18:1] }} </u>|<u> {{ iban[19:1] }} </u>|<u> {{ iban[20:1] }} </u>|<u> {{ iban[21:1] }} </u>|<u> {{ iban[22:1] }} </u>|<u> {{ iban[23:1] }} </u>|<u> {{ iban[24:1] }} </u>|<u> {{ iban[25:1] }} </u>|<u> {{ iban[26:1] }} </u>|<u> {{ iban[27:1]|default('&nbsp;&nbsp;')|raw }} </u>|<u> {{ iban[28:1]|default('&nbsp;&nbsp;')|raw }} </u>|<u> {{ iban[29:1]|default('&nbsp;&nbsp;')|raw }} </u>|<u> {{ iban[30:1]|default('&nbsp;&nbsp;')|raw }} </u>|<u> {{ iban[31:1]|default('&nbsp;&nbsp;')|raw }} </u>|<u> {{ iban[32:1]|default('&nbsp;&nbsp;')|raw }} </u>|
+    </div>
+    Code international d’identification de votre banque – BIC :<br>
+    {% set bic = locataire.sepa.bic %}
+    <div style="background: yellow;text-align: center;width: 185px">
+        |<u> {{ bic[:1] }} </u>|<u> {{ bic[1:1] }} </u>|<u> {{ bic[2:1] }} </u>|<u> {{ bic[3:1] }} </u>|<u> {{ bic[4:1] }} </u>|<u> {{ bic[5:1] }} </u>|<u> {{ bic[6:1] }} </u>|<u> {{ bic[7:1] }} </u>|<u> {{ bic[8:1]|default('&nbsp;&nbsp;')|raw }} </u>|<u> {{ bic[9:1]|default('&nbsp;&nbsp;')|raw }} </u>|<u> {{ bic[10:1]|default('&nbsp;&nbsp;')|raw }} </u>|<u> {{ bic[11:1]|default('&nbsp;&nbsp;')|raw }} </u>|
+    </div>
+    <br><br>
+    <strong><u>TITULAIRE DU COMPTE A DEBITER</u></strong><br>
+    <div style="width: 250px">
+        <div style="height: 5px;width: 6px;border: 1px solid black;margin-top:5px;float: left;">{% if locataire.sepa.titulaire == true %}
+                <div style="margin: -6px 0!important;">x</div>{% endif %}</div>
+        <div style="margin-top: -3px"> &nbsp;&nbsp;Compte courant personnel du sous-locataire</div>
+        <div style="height: 5px;width: 6px;border: 1px solid black;margin-top:5px;float: left;">{% if locataire.sepa.titulaire == false %}
+                <div style="margin: -6px 0!important;">x</div>{% endif %}</div>
+        <div> &nbsp;&nbsp;Autre compte courant (parents, autre)</div>
+    </div>
+    <div style="margin: 5px 15px">{% if locataire.sepa.titulaire == false %}
+            <u><strong>Nom et Prénom du débiteur solidaire :</strong></u>
+            {{ locataire.sepa.nomTitulaire|upper }} <br>
+            <u><strong>Adresse :</strong></u>
+            {{ locataire.sepa.adrTitulaire|upper }}, {{ locataire.sepa.cpTitulaire }} {{ locataire.sepa.villeTitulaire|upper }}
+            {% else %}
+                Nom et Prénom du débiteur solidaire :
+                ...................................................................................................................................................................
+                <br>
+                Adresse :
+                .................................................................................................................................................................................................................
+                <br>
+        {% endif %}
+
+    </div>
+    <br>
+    <strong><u>CREANCIER</u></strong><br>
+    <u>Numéro d’émetteur</u>: FR19ZZZ418029 <br>
+    <u>Organisme créancier</u>: U.E.S MGEL LOGEMENT – 53 avenue Jean Jaurès – 54500 VANDOEUVRE Lès NANCY – FRANCE
+    <br><br>
+
+    <strong><u>TYPE DE PAIMENT</u></strong><br><br>
+    <div style="float: left">Paiement récurrent / répétitif : </div><div style="width: 180px">
+        <div style="height: 5px;width: 6px;border: 1px solid black;margin-top:5px;float: right;">
+            <div style="margin: -6px 0!important;">x</div></div>
+    </div><div style="clear: both;width: 180px;">
+        <div style="float: left"> Paiement ponctuel :</div> <div style="height: 5px;width: 6px;border: 1px solid black;margin-top:5px;float: right;"></div>
+    </div>
+    <br><br>
+
+    <span style="background: yellow;font-weight: bold">Fait à</span> .................... {{ locataire.ville|upper }} .................... <span
+            style="background: yellow;font-weight: bold">Le</span> .................... {{ locataire.lastContrat.dateSignature|localizeddate('none', 'none', 'fr', null, 'd MMMM Y') }} ....................<br>
+    <div style="padding-left: 30px">
+        <div style="float: left">
+            <strong style="background: yellow"> Signature du sous-locataire</strong>
+        </div>
+        <div style="float: right">
+            <strong style="background: yellow">Signature du débiteur solidaire</strong> (titulaire du compte à débiter)
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div style="clear: both">
+        <span style="background: yellow;">Faire précéder les signatures de la mention <strong
+                    style="background: yellow">"LU ET APPROUVE"</strong></span>
+        <strong>.......................................................................................................................................................................................................................................</strong>
+        <strong><u>INFORMATIONS RELATIVES AU CONTRAT ENTRE LE CREANCIER ET LE DEBITEUR :</u></strong><br><br>
+        - Vos droits concernant le présent mandat sont expliqués dans un document que vous pouvez obtenir auprès de
+        votre
+        banque. <br>
+        - Je reconnais être redevable à l’U.E.S. MGEL LOGEMENT des loyers pendant toute la durée de la sous-location de
+        mon
+        logement. <br>
+        - En cas d’incident du fait du titulaire du compte de domiciliation lors de la présentation d’une échéance de
+        prélèvement, je reconnais à l’U.E.S. MGEL LOGEMENT le droit de: <br>
+        <ul style="list-style: none">
+            <li> - Facturer des frais d’impayé au sous-locataire.</li>
+            <li> - Résilier le contrat de bail un mois après l’envoi, à l’adresse du local concerné par le loyer, d’une
+                mise en
+                demeure par lettre recommandée avec accusé de réception sans que cela porte atteinte au droit de
+                l’U.E.S. MGEL
+                LOGEMENT de faire appel à la caution.
+            </li>
+        </ul>
+
+        <div style="text-align: center">
+            <strong style="background: yellow">Document à retourner impérativement accompagné d’un <u
+                        style="background: yellow">relevé d’identité bancaire ou postal</u></strong>
+        </div>
+    </div>
+</div>
+</body>
+</html>

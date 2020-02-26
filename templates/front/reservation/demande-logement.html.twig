@@ -1,0 +1,451 @@
+﻿{% extends 'base.html.twig' %}
+
+{% block title %}Nos Résidences{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/css/resa-form.css') }}">
+{% endblock %}
+{% block body %}
+
+    <div id="content-profil" class="container" style="margin-top: 100px">
+        <form class="form cf" name="resa" method="post">
+            <div class="wizard">
+                <div class="wizard-inner mb-3">
+                    <div class="connecting-line"></div>
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="nav-item">
+                            <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" title="Résidences"
+                               class="nav-link active">
+                                <span class="round-tab">
+                                    <i class="fa fa-building"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li role="presentation" class="nav-item">
+                            <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" title="Locataire"
+                               class="nav-link disabled">
+                                <span class="round-tab">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li role="presentation" class="nav-item">
+                            <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab" title="Garant"
+                               class="nav-link disabled">
+                                <span class="round-tab">
+                                    <i class="fas fa-user-shield"></i>
+                                </span>
+                            </a>
+                        </li>
+                        {#                        <li role="presentation" class="nav-item">
+                                                    <a href="#step4" data-toggle="tab" aria-controls="step4" role="tab" title="Step 4"
+                                                       class="nav-link disabled">
+                                                        <span class="round-tab">
+                                                            <i class="fa fa-phone"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li role="presentation" class="nav-item">
+                                                    <a href="#step5" data-toggle="tab" aria-controls="step5" role="tab" title="Step 5"
+                                                       class="nav-link disabled">
+                                                        <span class="round-tab">
+                                                            <i class="fa fa-check"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>#}
+                    </ul>
+                </div>
+                <div class="tab-content ">
+                    <div class="tab-pane active text-center" role="tabpanel" id="step1">
+                        {#<h1 class="text-md-center">Step 1</h1>
+                        <div class="row">
+
+                        </div>
+                        <ul class="list-inline text-md-center">
+                            <li><button type="button" class="btn btn-lg btn-common next-step next-button">Get Started Now</button></li>
+                        </ul>#}
+                        {{ form_start(form) }}
+                        <div class="row">
+                            <div class="col-md-9 mb-5" id="form-list">
+                                <h1 class="h1-loc text-sm-center text-md-left"><i class="fas fa-hotel"></i> Résidences
+                                </h1>
+                                <h5 class="text-sm-center text-md-left font-italic text-orange">Sélectionnez une ou
+                                    plusieures résidences</h5>
+                                <hr class="profil m-sm-auto m-md-auto ml-lg-5">
+                               <div class="row mt-3 mb-3 ">
+                                 <div class="col-md-12 text-center">
+                                     {% for ville in villes %}
+                                         <a href="#{{ ville.nom|lower }}" class="btn btn-rounded pt-1 m-1">{{ ville.nom }}</a>
+                                     {% endfor %}
+                                 </div>
+                               </div>
+                                <div class="row">
+                                    {% for ville in villes %}
+                                        <div class="col-md-12">
+                                            <h4 class="mt-3" id="{{ ville.nom|lower }}">{{ ville.nom }}</h4>
+                                            <hr class="profil">
+                                            {% for residence in ville.residences %}
+                                                <div class="row mb-4">
+                                                    <div class="col-md-12" onclick="checkInput($(this))">
+                                                        <div class="col-md-12 bg-white shadow-sm p-0">
+                                                            <input type="checkbox" name="resa[locataire][residences][]"
+                                                                   value="{{ residence.id }}" hidden>
+                                                            <div class="row">
+                                                                <div class="col-md-5" style="overflow: hidden">
+                                                                    <span class="w-100 h-100 invisible"
+                                                                          style="position:absolute;left:3rem;z-index: 22222;background: url('{{ asset('assets/img/icones/check.png') }}') no-repeat center"></span>
+                                                                    <img src="{{ asset('_photos_/' ~ residence.couverture ) }}"
+                                                                         alt="" class="w-100 m-0 m-md-5 ">
+                                                                </div>
+                                                                <div class="col-md-7">
+                                                                    <div class="row h-100">
+                                                                        <div class="col-12 p-lg-5 my-auto">
+                                                                            <h5 class="text-lg-left text-center mt-2 mt-lg-0 mt-md-0">{{ residence.nom }}</h5>
+                                                                            <p class="text-justify text-black-50 font-italic mobile">{{ residence.intro }}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 mb-5" id="form-date">
+                                <h1 class="h1-loc">
+                                    <i class="fas fa-calendar-alt"></i> Date
+                                </h1>
+                                <h5 id="date" class="text-center font-italic text-orange">Choissisez une date</h5>
+                                <hr class="profil ml-auto mr-auto">
+                                <div class="row text-center">
+                                    <h4 class="w-100 text-center">Date d'entrée</h4>
+                                    <div class="m-auto datepicker-here" data-language='fr'></div>
+                                    <div class="w-100 mt-3">
+                                        <input type="date" id="resa_locataire_date_entree"
+                                               name="resa[locataire][date_entree]" required="required"
+                                               class="input w-75 m-auto form-control" readonly>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <button type="button"
+                                    class="m-auto btn btn-lg btn-orange bg-transparent btn-common next-step next-button">
+                                Etape suivante
+                            </button>
+                        </div>
+                    </div>
+                    <div class="tab-pane text-center" role="tabpanel" id="step2">
+                        <div class="col-md-9 mb-5" id="form-list">
+                            <h1 class="h1-loc text-sm-center text-md-left"><i class="fas fa-user"></i> Le locataire</h1>
+                            <h5 class="text-sm-center text-md-left font-italic text-orange">Veuillez completez les
+                                informations concernant le locataire</h5>
+                            <hr class="profil m-sm-auto m-md-auto ml-lg-5">
+                        </div>
+                        <div class="row">
+                            <div class="container">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="label-form text-center">
+                                            <small class="text-orange"><strong>CIVILITE</strong></small>
+
+                                        </div>
+                                        {{ form_widget(form.locataire.civilite) }}
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="label-form text-center">
+                                            <small class="text-orange"><strong>NOM & PRENOM</strong></small>
+                                        </div>
+                                        {{ form_widget(form.locataire.nom) }}
+                                        {{ form_widget(form.locataire.prenom) }}
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="label-form text-center">
+                                            <small class="text-orange"><strong>DATE DE NAISSANCE</strong></small>
+                                        </div>
+                                        {{ form_widget(form.locataire.date_naissance) }}
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="label-form text-center">
+                                            <small class="text-orange"><strong>ADRESSE MAIL</strong></small>
+                                        </div>
+                                        {{ form_widget(form.locataire.email) }}
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="label-form text-center">
+                                            <small class="text-orange"><strong>NUMERO DE MOBILE</strong></small>
+                                        </div>
+                                        {{ form_widget(form.locataire.telephone) }}
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="label-form text-center">
+                                            <small class="text-orange"><strong><i class="fa fas fa-map-marker"></i>
+                                                    ADRESSE</strong></small>
+                                        </div>
+                                        {{ form_widget(form.locataire.adresse) }}
+                                        {{ form_widget(form.locataire.code_postal) }}
+                                        {{ form_widget(form.locataire.ville) }}
+                                    </div>
+
+                                    <div class="row mt-3">
+
+                                        <div class="label-form text-center">
+                                            <small class="text-orange text-uppercase font-weight-bold">J'accepte de
+                                                recevoir des informations promotionnelles de la part
+                                                du groupe MGEL
+                                            </small>
+                                        </div>
+                                        {{ form_widget(form.locataire.promo_mgel) }}
+
+                                    </div>
+                                    <div class="row mt-3">
+
+                                        <div class="label-form text-center">
+                                            <small class="text-orange text-uppercase font-weight-bold">J'accepte de
+                                                recevoir des informations promotionnelles de la part
+                                                des partenaires
+                                            </small>
+                                        </div>
+                                        {{ form_widget(form.locataire.promo_partenaire) }}
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="list-inline text-md-center mt-3 mb-3">
+                            <li>
+                                <button type="button" class="btn btn-lg btn-common next-step next-button">Etape
+                                    suivante
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-pane text-center" role="tabpanel" id="step3">
+                        <h1 class="text-md-center">Le garant</h1>
+                        <div class="row">
+                            <div class="container">
+                                <div class="col-md-12">
+                                    {{ form_row(form.garant.civilite_garant) }}
+                                    <div class="row">
+                                        <div class="col-md-6 float-left">Nom</div>
+                                        <div class="col-md-6 float-right">Prénom</div>
+                                    </div>
+                                    <div class="input-group">
+                                        {{ form_widget(form.garant.nom_garant) }}
+                                        {{ form_widget(form.garant.prenom_garant) }}
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-md-12">Date de naissance</div>
+                                    </div>
+                                    {{ form_widget(form.garant.date_naissance_garant) }}
+                                    <div class="row mt-3">
+                                        <div class="col-md-12">Adresse mail</div>
+                                    </div>
+                                    {{ form_widget(form.garant.email_garant) }}
+                                    <div class="row mt-3">
+                                        <div class="col-md-12">Téléphone (mobile)</div>
+                                    </div>
+                                    {{ form_widget(form.garant.telephone_garant) }}
+                                    <div class="row mt-3">
+                                        <div class="col-md-12">Adresse</div>
+                                    </div>
+                                    {{ form_widget(form.garant.adresse_garant) }}
+                                    <div class="row mt-3">
+                                        <div class="col-md-6 float-left">Code postal</div>
+                                        <div class="col-md-6 float-right ">Ville</div>
+                                    </div>
+                                    <div class="input-group">
+                                        {{ form_widget(form.garant.code_postal_garant) }}
+                                        {{ form_widget(form.garant.ville_garant) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="list-inline text-md-center mt-3">
+                            <li>
+                                <button type="submit" class="btn btn-lg btn-common next-step next-button">Envoyer
+                                    votre demande
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                    {#<div class="tab-pane" role="tabpanel" id="step4">
+                        <h1 class="text-md-center">Step 4</h1>
+                        <div class="row">
+
+                        </div>
+                        <ul class="list-inline text-md-center">
+                            <li>
+                                <button type="button" class="btn btn-lg btn-common next-step next-button">Next Step
+                                </button>
+                            </li>
+                        </ul>
+                    </div>#}
+                    {#<div class="tab-pane" role="tabpanel" id="step5">
+                        <h1 class="text-md-center">Complete</h1>
+                        <div class="row">
+
+
+                        </div>
+                    </div>#}
+                    <div class="clearfix"></div>
+                </div>
+                <div class="wizard-inner mt-5">
+                    <div class="connecting-line"></div>
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="nav-item">
+                            <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" title="Résidences"
+                               class="nav-link active">
+                                <span class="round-tab">
+                                    <i class="fa fa-building"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li role="presentation" class="nav-item">
+                            <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" title="Locataire"
+                               class="nav-link disabled">
+                                <span class="round-tab">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li role="presentation" class="nav-item">
+                            <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab" title="Garant"
+                               class="nav-link disabled">
+                                <span class="round-tab">
+                                    <i class="fas fa-user-shield"></i>
+                                </span>
+                            </a>
+                        </li>
+                        {#                        <li role="presentation" class="nav-item">
+                                                    <a href="#step4" data-toggle="tab" aria-controls="step4" role="tab" title="Step 4"
+                                                       class="nav-link disabled">
+                                                        <span class="round-tab">
+                                                            <i class="fa fa-phone"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li role="presentation" class="nav-item">
+                                                    <a href="#step5" data-toggle="tab" aria-controls="step5" role="tab" title="Step 5"
+                                                       class="nav-link disabled">
+                                                        <span class="round-tab">
+                                                            <i class="fa fa-check"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>#}
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    <script>
+        $('.datepicker-here').datepicker({
+            dateFormat: 'yyyy-mm-dd',
+            language: 'fr',
+            minDate: new Date(),// Now can select only dates, which goes after today
+            onSelect: function (d) {
+                ;$('#resa_locataire_date_entree').val(d)
+            }
+        })
+
+        //Wizard
+        $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+
+            var $target = $(e.target);
+
+            $('body').animate({
+                scrollTop: 0
+            }, 200);
+            if ($target.hasClass('disabled')) {
+                return false;
+            }
+        });
+
+        $(".next-step").click(function (e) {
+            tarDate = $('#resa_locataire_date_entree');
+            tarRes = $('input[name="resa[locataire][residences][]"]:checked');
+            if(tarDate.val() !== '' && tarRes.length > 0 )
+            {
+                var $active = $('.wizard .nav-tabs .nav-item .active');
+                var $activeli = $active.parent("li");
+
+                $($activeli).next().find('a[data-toggle="tab"]').removeClass("disabled");
+                $($activeli).next().find('a[data-toggle="tab"]').click();
+            } else  {
+                $('html, body').stop().animate({
+                    scrollTop: 0
+                }, 1000);
+                tarDate.addClass('bg-danger').parent().append('<span><small class="text-danger">Vous devez choisir une date d\'entrée !</small></span>');
+            }
+
+        });
+
+        $('a[href^="#"]').on('click', function(event) {
+            var target = $(this.getAttribute('href'));
+            if( target.length ) {
+                event.preventDefault();
+                $('html, body').stop().animate({
+                    scrollTop: target.offset().top-100
+                }, 1000);
+            }
+        });
+
+        $(".prev-step").click(function (e) {
+
+            var $active = $('.wizard .nav-tabs .nav-item .active');
+            var $activeli = $active.parent("li");
+
+            $($activeli).prev().find('a[data-toggle="tab"]').removeClass("disabled");
+            $($activeli).prev().find('a[data-toggle="tab"]').click();
+
+        });
+
+        function checkInput(that) {
+            input = that.find('input');
+            if (input.is(":checked")) {
+                input.prop("checked", false)
+
+            } else {
+                input.prop("checked", true)
+            }
+            that.toggleClass();
+            that.find('span').toggleClass('invisible');
+        }
+
+        function toggleArrow(that) {
+            $('i.fas').toggleClass('fa-angle-up fa-angle-down');
+        }
+
+        var inputEmail = $('#resa_locataire_email');
+
+        function checkMail(email) {
+            $.ajax({
+                url: "{{ path('checkmail') }}",
+                type: "post",
+                data: {email: email},
+                success: function (result) {
+                    inputEmail.parent().find('div').html("<div class='alert col-md-12 alert-success text-success font-weight-bold small' role='alert'>" + result + "</div>");
+                    $('form[name="resa"] #submitBtn').attr('disabled', false)
+                },
+                error: function () {
+                    inputEmail.parent().find('div').html("<div class='alert col-md-12 alert-danger text-danger font-weight-bold small' role='alert'><i class='fas fa-exclamation-circle'></i>&nbsp;Email existant !</div>");
+                    $('form[name="resa"] #submitBtn').attr('disabled', true)
+                }
+            });
+        }
+
+        inputEmail.focusout(function () {
+            checkMail($(this).val());
+        })
+    </script>
+{% endblock %}

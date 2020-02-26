@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Résidences étudiantes avec services à Nancy, Mulhouse, Metz et Reims{% endblock %}
+
+{% block body %}
+
+    {#LANDING PAGE#}
+    <section class="section-ter row" id="landing">
+        <div class="landing-bg qui-sommes-nous">
+            <div class="cta-landing text-center">
+                <h1 class="text-white">Qui sommes-nous ?</h1>
+                <br>
+                <p class="text-white w-75 m-auto ">MGEL Logement est une filiale de la Mutuelle Générale des
+                    Étudiants de L'Est spécialisée dans la location de logement pour étudiants, jeunes actifs et
+                    per-sonnes en formation.</p>
+            </div>
+        </div>
+    </section>
+
+    {#DECOUVRIR MGEL#}
+    <section class="mb-5">
+        <div class="section-ter container">
+            <div class="row">
+                <div class="col-md-6 offset-lg-3 text-center mt-5 mb-2">
+                    <h1 class="orange font-weight-bold">MGEL Logement</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 offset-lg-3 mb-3">
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 offset-lg-3">
+                    <p class="text-black-50 text-justify">Fort de sa connaissance du besoin de l'étudiant en matière de logement, la
+                        MGEL a développé en
+                        1994 un concept de résidence étudiante.
+                        <br><br>
+                        C'est à travers notre expérience avec les étudiants que nous avons un établi un cahier des
+                        charges toujours plus proches des besoins des étudiants. Nos services sont régulièrement
+                        revisités afin de proposer des solutions adaptées à tous les jeunes, en les accompagnants dans
+                        leur mobilité</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 offset-lg-3 mb-3">
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="bg-dark-light pb-5" style="margin-top:-1rem;">
+        <div class="container pt-lg-5 pb-5">
+            <div class="row mt-5">
+                <div class="col-md-6 text-black-50 ">
+                    <div class="col-md-12">
+                        <h1 class="mt-5 font-weight-bold">Nos résidences:</h1>
+                        <hr class="profil ml-lg-5">
+                        <p class="text-justify">Les salles communes, de nos résidences, permettent à ses habitants de se
+                            retrouver, pour des moments de convivialités et de détente, mais aussi pour travailler dans
+                            des espaces spacieux et confortables. Les services proposés varient en fonction des
+                            résidences. <br>
+                            L'utilisation des services est incluse dans le loyer et n'engendre donc pas de coût
+                            supplémentaire pour nos résidants.
+                            <br><br>
+                            La majorité de nos logements sont de type T1 équipé ou meublé et sont composés de trois
+                            espaces indépendants :<br><br>
+                        <ul>
+                            <li> Cuisine avec un frigo, des plaques de cuisson, évier et des rangements,</li>
+                            <li> Salle d'eau avec des WC, un lavabo et une baignoire ou une douche,</li>
+                            <li> Pièce de vie avec un sommier ou un lit (sauf pour la résidence Ulysse), un plan de
+                                travail ou un bureau, un placard
+                            </li>
+                        </ul>
+                        <br>
+                        Pour avoir le détail de chacune de nos résidences ainsi que de leurs services nous vous
+                        invitons à consulter directement leurs pages.
+                        <br>
+                        <br>
+
+                            <a class="btn btn-rounded col-sm-12 mt-3 pt-1 " href="{{ path('nos-residences') }}">Voir nos résidences</a>
+
+                        </p>
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <img class="w-100 shadow-lg rounded mb-5" src="{{ asset('assets/img/soultz.jpg') }}" alt="">
+                        <img class="w-100 shadow-lg rounded" src="{{ asset('assets/img/soultz.jpg') }}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

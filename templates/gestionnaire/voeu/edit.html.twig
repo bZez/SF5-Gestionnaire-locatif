@@ -1,0 +1,70 @@
+{% extends 'gestionnaire/base.html.twig' %}
+
+{% block title %}Edit Voeu{% endblock %}
+
+{% block body %}
+    <h1>Modifier le voeux du logement N°{{ voeu.logement.numero }} <span
+                class="small text-info">({{ voeu.logement.residence.nom }})</span></h1>
+    <hr>
+    <h5><i class="fa fas fa-info-circle"></i> Infos locataire</h5>
+    {% set locataire = voeu.logement.locataire[0] %}
+    <div class="rounded bg-white border">
+        <div class="row p-3">
+            <div class="col-md-6">
+                <a href="{{ path('locataire_show',{id:locataire.id}) }}">
+                    <strong>{{ locataire.civilite }}
+                        . {{ locataire.nom|upper }} {{ locataire.prenom|capitalize }}</strong>
+                </a>
+                <br>
+                {{ locataire.adresse }} <br> {{ locataire.codePostal }} {{ locataire.ville|upper }}
+                <br>
+                <strong class="{% if locataire.dateNaissance is null %}text-danger{% endif %}">Date de
+                    naissance:</strong> {{ locataire.dateNaissance|date('d/m/Y') }} <br>
+                <strong class="{% if locataire.villeNaissance is null %}text-danger{% endif %}">Ville de
+                    naissance:</strong> {{ locataire.villeNaissance }}
+                <br>
+                <strong class="{% if locataire.codeInsee is null %}text-danger{% endif %}">N° de sécurité sociale
+                    :</strong> {{ locataire.codeInsee }}
+            </div>
+            <div class="col-md-6">
+                <i class="fas fa-at"></i> {{ locataire.email }} <br>
+                <i class="fas fa-phone"></i> {{ locataire.telFixe ? locataire.telFixe : locataire.telMobile }}
+                <hr>
+                <strong>Type d'adhérent:</strong> {{ locataire.typeAdh }} <br>
+                <strong>Type de MRH:</strong> {{ locataire.typeMrh }}
+            </div>
+        </div>
+        <div class="row p-3">
+            <div class="col-md-6 small">
+                Le
+                prospect {{ locataire.cnilMgel ? '<span class="text-success">accepte</span>' : '<span class="text-danger">n\'accepte pas</span>' }}
+                les communications MGEL.
+                <br>
+                Le
+                prospect {{ locataire.cnilPartenaires ? '<span class="text-success">accepte</span>' : '<span class="text-danger">n\'accepte pas</span>' }}
+                les communications des partenaires.
+            </div>
+            <div class="col-md-6">
+                <strong>ID Gestionnaire: </strong><span class="text-info">{{ locataire.id }}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 rounded border bg-light p-2 mb-3">
+                <h6 class="font-weight-bold"><i class="fas fa-comment-dots"></i> Commentaire</h6>
+                <div class="row text-center">
+                    <div class="col-md-12">
+                        {{ locataire.commentaire ? locataire.commentaire : 'Aucun commentaire...' }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <h5>Modification du voeu ?</h5>
+    <hr>
+    {{ include('gestionnaire/voeu/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('voeu_index') }}">back to list</a>
+
+    {{ include('gestionnaire/voeu/_delete_form.html.twig') }}
+{% endblock %}

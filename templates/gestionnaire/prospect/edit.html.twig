@@ -1,0 +1,25 @@
+{% extends 'gestionnaire/base.html.twig' %}
+
+{% block title %}Edition d'un prospect{% endblock %}
+
+{% block body %}
+    <h1><i class="fas fa-user-tag"></i> Edition du prospect N°{{ prospect.id }} <span class="float-right btn-group">
+                    <a href="{{ path('prospect_index') }}"><button class="btn btn-sm btn-primary small"><i
+                                    class="fas fa-backward"></i></button></a> &nbsp;
+        {{ include('gestionnaire/prospect/_delete_form.html.twig') }}
+            </span></h1>
+
+    {{ include('gestionnaire/prospect/_form.html.twig', {'button_label': 'Update'}) }}
+
+{% endblock %}
+{% block javascripts %}
+    <script>
+        $(document).delegate(':file', 'change', function() {
+            $(this).next('label').text(this.value);
+        });
+        $(function () {
+            $('#prospect_locataire_plainPassword').parent().parent().remove();
+            $(':file').removeAttr('required')
+        })
+    </script>
+{% endblock %}

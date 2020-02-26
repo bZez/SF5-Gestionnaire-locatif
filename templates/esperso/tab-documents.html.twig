@@ -1,0 +1,580 @@
+<div class="" id=content-profil>
+    <div class="col-md-12">
+        <div class="row" id="list">
+            <div class="col-md-12">
+                <h1 class="h1-loc"><i class="fas fa-folder-open"></i> Vos documents</h1>
+                <hr class="profil float-left ml-5">
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-12 ">
+                <div class="row">
+                    <div class="col-md-1 float-left">
+                        <div class="row mobile">
+                            <div><i class="fas fa-file pt-3 pl-5 "></i></div>
+                        </div>
+                    </div>
+                    <div class="col-md-10 float-right">
+                        <input type="text" class="input col-md" value="Mon contrat" disabled>
+                    </div>
+                    <div class="col-md-1 float-right">
+                        <div class="row">
+                            {% if is_granted('ROLE_LOCATAIRE') %}
+                                <a href="{{ path('gen_contrat',{'loc':locataire.id}) }}"> <i
+                                            class="fas fa-download pt-3 orange"></i></a>
+                            {% else %}
+                                <i class="fas fa-clock pt-3 orange" title="Dossier en attente..."></i>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if is_granted('ROLE_LOCATAIRE') %}
+            <div class="row mt-3">
+                <div class="col-md-12 ">
+                    <div class="row">
+                        <div class="col-md-1 float-left">
+                            <div class="row mobile">
+                                <div><i class="fas fa-file pt-3 pl-5 "></i></div>
+                            </div>
+                        </div>
+                        <div class="col-md-10 float-right">
+                            <input type="text" class="input col-md" value="Mon autorisation de prélèvement SEPA" disabled>
+                        </div>
+                        <div class="col-md-1 float-right">
+                            <div class="row">
+                                {% if locataire.sepa %}
+                                    <a href="{{ path('gen_sepa',{'loc':locataire.id}) }}"> <i
+                                                class="fas fa-download pt-3 orange"></i></a>
+                                {% else %}
+                                    <i class="fas fa-clock pt-3 orange" title="En attente de vote SEPA..."></i>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <div class="row mt-3">
+            <div class="col-md-12 ">
+                <div class="row">
+                    <div class="col-md-1 float-left">
+                        <div class="row mobile">
+                            <div><i class="fas fa-file pt-3 pl-5 "></i></div>
+                        </div>
+                    </div>
+                    <div class="col-md-10 float-right">
+                        <input type="text" class="input col-md" value="Infos importantes" disabled>
+                    </div>
+                    <div class="col-md-1 float-right">
+                        <div class="row">
+                            <a href=""> <i class="fas fa-download pt-3 orange"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-10 offset-sm-1 mt-4">
+                        <h5>Statut de mon dossier</h5>
+                        <hr class="profil float-left ml-5">
+                        {% if (locataire.statut is not same as('TRANSMIS') and locataire.statut is not same as('ACCEPTE') and locataire.isValid and is_granted('ROLE_PROSPECT')) %}
+                            <button class="float-right btn btn-orange bg-transparent"
+                                    onclick="transDoss()">
+                                <i class="fa fas fa-check"></i> Transmettre votre dossier ?
+                            </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-12 ">
+                <div class="row">
+                    <div class="col-md-1 float-left">
+                    </div>
+                    {% include 'modal/upload.html.twig' %}
+                    <div class="col-md-12 mb-5">
+                        {% if (is_granted('ROLE_LOCATAIRE') or locataire.statut is same as('TRANSMIS') or locataire.statut is same as('ACCEPTE') ) %}
+                            {% if is_granted('ROLE_LOCATAIRE') or locataire.statut is same as('ACCEPTE') %}
+                                {% if (is_granted('ROLE_LOCATAIRE') and locataire.lastContrat.signature) %}
+                                    <input type="text" class="input col-md" value="Dossier accepté et traité !"
+                                           disabled>
+                                {% elseif (is_granted('ROLE_LOCATAIRE') and locataire.lastContrat.signature == false) %}
+                                    {% include 'modal/choix-signature.html.twig' %}
+                                    <div class="input-group">
+                                        {% if locataire.sepa is null %}
+                                            {% include 'modal/set-sepa.html.twig' %}
+                                        {% endif %}
+                                        {% if locataire.lastContrat.signElec == false %}
+                                            <input type="text" class="input col-md"
+                                                   value="En attente de signature, RDV le {{ locataire.lastContrat.dateSignature ? locataire.lastContrat.dateSignature|date('d-m-Y à h:i:s') : 'aucune date prévue' }}"
+                                                   disabled>
+                                        {% else %}
+                                            <input type="text" class="input col-md"
+                                                   value="En attente de signature électronique..."
+                                                   disabled>
+                                            <a href="{{ path('signature_contrat') }}">
+                                                <button class="btn btn-sm btn-orange"><i
+                                                            class="fas fa-file-signature"></i>
+                                                    Signer
+                                                    votre contrat !
+                                                </button>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                {% elseif locataire.statut is same as('ACCEPTE') %}
+                                    <div class="row">
+                                        <input type="text" class="input col-md"
+                                               value="Dossier accepté un logement vous sera bientôt attribué !"
+                                               disabled>
+                                        <i class="fas fa-thumbs-up my-auto orange fa-2x"></i>
+                                    </div>
+                                {% else %}
+                                    <div class="row">
+                                        <input type="text" class="input col-md-11"
+                                               value="Malheuresement votre dossier à été refusé..."
+                                               disabled>
+                                        <i class="col-md-1 fas fa-thumbs-down my-auto orange fa-2x"></i>
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                                <input type="text" class="input col-md"
+                                       value="Dossier transmis, en attente de validation !"
+                                       disabled>
+                            {% endif %}
+                        {% else %}
+                            {#PHOTO#}
+                            {% if  locataire.photo is empty %}
+                                <div class="row">
+                                    <div class="w-80 text-center">
+                                        <input type="text" class="input text-danger"
+                                               value="Photo d'identité..."
+                                               disabled>
+                                    </div>
+                                    <span class="my-auto modal-upload-open orange" data-toggle="modal"
+                                          data-title="photo d'identité" data-id="photo"
+                                          data-target="#uploadModal"><i class="fa fas fa-upload"></i></span>
+                                </div>
+                            {% else %}
+                                <div class="row">
+                                    <div class="w-80">
+                                        <input type="text" class="input text-success col-md"
+                                               value="Photo d'identité envoyée !"
+                                               disabled>
+                                    </div>
+                                    <span class="my-auto"><a href="{{ datas_dir }}photos/{{ locataire.photo }}"
+                                                             target="_blank"><i class="fa fas fa-eye"></i></a></span>&nbsp;&nbsp;
+                                    {% if locataire.statut is not same as('TRANSMIS') %}
+                                        <span class="my-auto modal-upload-open orange" data-title="photo d'identité"
+                                              data-toggle="modal" data-id="photo"
+                                              data-target="#uploadModal"><i class="fa fas fa-upload"></i></span>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                            {#CNI#}
+                            {% if  locataire.cni is empty %}
+                                <div class="row">
+                                   <div class="w-90">
+                                       <input type="text" class="input text-danger col-md"
+                                              value="Carte d'identité..."
+                                              disabled>
+                                   </div>
+                                    <span class="my-auto modal-upload-open orange" data-toggle="modal"
+                                          data-title="carte d'identité" data-id="cni"
+                                          data-target="#uploadModal"><i class="fa fas fa-upload"></i></span>
+                                </div>
+                            {% else %}
+                                <div class="row">
+                                   <div class="w-80">
+                                       <input type="text" class="input text-success col-md"
+                                              value="Carte d'identité envoyée !"
+                                              disabled>
+                                   </div>
+                                    <span class="my-auto"><a href="{{ datas_dir }}{{ locataire.cni }}"
+                                                             target="_blank"><i class="fa fas fa-eye"></i></a></span>&nbsp;&nbsp;
+                                    {% if locataire.statut is not same as('TRANSMIS') %}
+                                        <span class="my-auto modal-upload-open orange" data-title="carte d'identité"
+                                              data-toggle="modal" data-id="cni"
+                                              data-target="#uploadModal"><i class="fa fas fa-upload"></i></span>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                            {% if locataire.statutPro == false %}
+                                {#JUSTIF SCOL#}
+                                {% if  locataire.justifScol is empty %}
+                                    <div class="row">
+                                        <div class="w-90">
+                                            <input type="text" class="input text-danger col-md"
+                                                   value="Justificatif de scolarité..."
+                                                   disabled>
+                                        </div>
+                                        <span class="my-auto modal-upload-open orange" data-toggle="modal"
+                                              data-title="justificatif de scolarité" data-id="justif_scol"
+                                              data-target="#uploadModal"><i class="fa fas fa-upload"></i></span>
+                                    </div>
+                                {% else %}
+                                    <div class="row">
+                                        <div class="w-80">
+                                            <input type="text" class="input text-success col-md"
+                                                   value="Justificatif de scolarité envoyé !"
+                                                   disabled>
+                                        </div>
+                                        <span class="my-auto"><a href="{{ datas_dir }}{{ locataire.justifScol }}"
+                                                                 target="_blank"><i
+                                                        class="fa fas fa-eye"></i></a></span>&nbsp;&nbsp;
+                                        {% if locataire.statut is not same as('TRANSMIS') %}
+                                            <span class="my-auto modal-upload-open orange"
+                                                  data-title="justificatif de scolarité" data-toggle="modal"
+                                                  data-id="justif_scol"
+                                                  data-target="#uploadModal"><i class="fa fas fa-upload"></i></span>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+
+                            {% elseif locataire.statutPro == true %}
+                                {#CONTRAT TRAV#}
+                                {% if  locataire.contratTrav is empty %}
+                                    <div class="row">
+                                        <div class="w-90">
+                                            <input type="text" class="input text-danger col-md"
+                                                   value="Contrat de travail..."
+                                                   disabled>
+                                        </div>
+                                        <span class="my-auto modal-upload-open orange" data-toggle="modal"
+                                              data-title="contrat de travail" data-id="contrat_trav"
+                                              data-target="#uploadModal"><i class="fa fas fa-upload"></i></span>
+                                    </div>
+                                {% else %}
+                                    <div class="row">
+                                       <div class="w-80">
+                                           <input type="text" class="input text-success col-md"
+                                                  value="Contrat de travail envoyé !"
+                                                  disabled>
+                                       </div>
+                                        <span class="my-auto"><a href="{{ datas_dir }}{{ locataire.contratTrav }}"
+                                                                 target="_blank"><i
+                                                        class="fa fas fa-eye"></i></a></span>&nbsp;&nbsp;
+                                        {% if locataire.statut is not same as('TRANSMIS') %}
+                                            <span class="my-auto modal-upload-open orange"
+                                                  data-title="contrat de travail" data-toggle="modal"
+                                                  data-id="contrat_trav"
+                                                  data-target="#uploadModal"><i class="fa fas fa-upload"></i></span>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                                {#BULL SAL LOC#}
+                                {% if locataire.bullSalLoc is empty %}
+                                    <div class="row">
+                                       <div class="w-90">
+                                           <input type="text" class="input text-danger col-md"
+                                                  value="Bulletins de salaires..."
+                                                  disabled>
+                                       </div>
+                                        <span class="my-auto modal-upload-open orange" data-toggle="modal"
+                                              data-id="bull_sal_loc" data-title="bulletins de salaires"
+                                              data-target="#uploadModal"><i
+                                                    class="fa fas fa-upload"></i></span>
+                                    </div>
+                                {% else %}
+                                    <div class="row">
+                                       <div class="w-80">
+                                           <input type="text" class="input text-success col-md"
+                                                  value="Bulletins de salaires envoyés !"
+                                                  disabled>
+                                       </div>
+                                        <span class="my-auto"><a href="{{ datas_dir }}{{ locataire.bullSalLoc }}"
+                                                                 target="_blank"><i
+                                                        class="fa fas fa-eye"></i></a></span>&nbsp;&nbsp;
+                                        {% if locataire.statut is not same as('TRANSMIS') %}
+                                            <span class="my-auto modal-upload-open orange" data-toggle="modal"
+                                                  data-id="bull_sal_loc" data-title="bulletins de salaires"
+                                                  data-target="#uploadModal"><i
+                                                        class="fa fas fa-upload"></i></span>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                                {#AVIS IMP LOC#}
+                                {% if locataire.avisImpLoc is empty %}
+                                    <div class="row">
+                                       <div class="w-90">
+                                           <input type="text" class="input text-danger col-md"
+                                                  value="Avis d'imposition..."
+                                                  disabled>
+                                       </div>
+                                        <span class="my-auto modal-upload-open orange" data-toggle="modal"
+                                              data-id="avis_imp_loc" data-title="avis d'imposition"
+                                              data-target="#uploadModal"><i
+                                                    class="fa fas fa-upload"></i></span>
+                                    </div>
+                                {% else %}
+                                    <div class="row">
+                                        <div class="w-80">
+                                            <input type="text" class="input text-success col-md"
+                                                   value="Avis d'imposition envoyé !"
+                                                   disabled>
+                                        </div>
+                                        <span class="my-auto"><a href="{{ datas_dir }}{{ locataire.avisImpLoc }}"
+                                                                 target="_blank"><i
+                                                        class="fa fas fa-eye"></i></a></span>&nbsp;&nbsp;
+                                        {% if locataire.statut is not same as('TRANSMIS') %}
+                                            <span class="my-auto modal-upload-open orange" data-toggle="modal"
+                                                  data-id="avis_imp_loc" data-title="avis d'imposition"
+                                                  data-target="#uploadModal"><i
+                                                        class="fa fas fa-upload"></i></span>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                            {#RIB#}
+                            {% if  locataire.rib is empty %}
+                                <div class="row">
+                                   <div class="w-90">
+                                       <input type="text" class="input text-danger col-md"
+                                              value="Relevé d'identité bancaire (RIB)..."
+                                              disabled>
+                                   </div>
+                                    <span class="my-auto modal-upload-open orange" data-toggle="modal"
+                                          data-title="relevé d'identité bancaire" data-id="rib"
+                                          data-target="#uploadModal"><i class="fa fas fa-upload"></i></span>
+                                </div>
+                            {% else %}
+                                <div class="row">
+                                   <div class="w-80">
+                                       <input type="text" class="input text-success col-md"
+                                              value="Relevé d'identité bancaire envoyé !"
+                                              disabled>
+                                   </div>
+                                    <span class="my-auto"><a href="{{ datas_dir }}{{ locataire.rib }}"
+                                                             target="_blank"><i class="fa fas fa-eye"></i></a></span>&nbsp;&nbsp;
+                                    {% if locataire.statut is not same as('TRANSMIS') %}
+                                        <span class="my-auto modal-upload-open orange"
+                                              data-title="relevé d'identité bancaire"
+                                              data-toggle="modal" data-id="rib"
+                                              data-target="#uploadModal"><i class="fa fas fa-upload"></i></span>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                            {#SEPA#}
+                            {% if  locataire.sepa is empty %}
+                                <div class="row">
+                                   <div class="w-90">
+                                       <input type="text" class="input text-danger col-md"
+                                              value="En attente de votre autorisation de prélèvement SEPA..."
+                                              disabled>
+                                   </div>
+                                    <span class="my-auto modal-upload-open orange" data-toggle="modal"
+                                          data-title="autorisation prélèvement SEPA" data-id="sepa"
+                                          data-target="#uploadModal"><i class="fa fas fa-upload"></i></span>
+                                </div>
+                            {% else %}
+                                <div class="row">
+                                   <div class="w-80">
+                                       <input type="text" class="input text-success col-md"
+                                              value="Autorisation de prélèvement SEPA envoyée !"
+                                              disabled>
+                                   </div>
+                                    <span class="my-auto"><a href="{{ datas_dir }}{{ locataire.sepa }}"
+                                                             target="_blank"><i class="fa fas fa-eye"></i></a></span>&nbsp;&nbsp;
+                                    {% if locataire.statut is not same as('TRANSMIS') %}
+                                        <span class="my-auto modal-upload-open orange"
+                                              data-title="autorisation prélèvement SEPA"
+                                              data-toggle="modal" data-id="sepa"
+                                              data-target="#uploadModal"><i class="fa fas fa-upload"></i></span>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                            {#CHEQUE#}
+                            {% if locataire.chequeFrais == false %}
+                                <div class="row">
+                                    <input type="text" class="input text-danger col-md"
+                                           value="Cheque de frais..."
+                                           disabled>
+                                </div>
+                            {% else %}
+                                <div class="row">
+                                    <input type="text" class="input text-success col-md"
+                                           value="Cheque de frais à l'ordre reçu !"
+                                           disabled>
+                                </div>
+                            {% endif %}
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="row mt-5">
+                            <div class="col-md-12">
+                                <h1 class="h1-loc"><i class="fa fgas fa-folder-open"></i> Garant</h1>
+                                <hr class="profil ml-5">
+                            </div>
+                        </div>
+
+                            {#CNI GARANT#}
+                            {% if locataire.cniGarant is empty %}
+                                <div class="row">
+                                    <div class="w-90">
+                                        <input type="text" class="input text-danger col-md"
+                                               value="Carte d'identitié du garant..."
+                                               disabled>
+                                    </div>
+                                    <span class="my-auto modal-upload-open orange" data-toggle="modal"
+                                          data-id="cni_garant" data-title="carte d'identité du garant"
+                                          data-target="#uploadModal"><i
+                                                class="fa fas fa-upload"></i></span>
+                                </div>
+                            {% else %}
+                                <div class="row">
+                                    <div class="w-80">
+                                        <input type="text" class="input text-success col-md"
+                                               value="Carte d'identité du garant envoyée !"
+                                               disabled>
+                                    </div>
+                                    <span class="my-auto"><a href="{{ datas_dir }}{{ locataire.cniGarant }}"
+                                                             target="_blank"><i class="fa fas fa-eye"></i></a></span>&nbsp;&nbsp;
+                                    {% if locataire.statut is not same as('TRANSMIS') %}
+                                        <span class="my-auto modal-upload-open orange" data-toggle="modal"
+                                              data-id="cni_garant" data-title="carte d'identité du garant"
+                                              data-target="#uploadModal"><i
+                                                    class="fa fas fa-upload"></i></span>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+
+                            {#LIVRET#}
+                            {% if locataire.livret is empty %}
+                                <div class="row">
+                                   <div class="w-90">
+                                       <input type="text" class="input text-danger col-md"
+                                              value="Livret de famille..."
+                                              disabled>
+                                   </div>
+                                    <span class="my-auto modal-upload-open orange" data-toggle="modal"
+                                          data-id="livret" data-title="livret de famille" data-target="#uploadModal"><i
+                                                class="fa fas fa-upload"></i></span>
+                                </div>
+                            {% else %}
+                                <div class="row">
+                                    <div class="w-80">
+                                        <input type="text" class="input text-success col-md"
+                                               value="Livret de famille envoyé !"
+                                               disabled>
+                                    </div>
+                                    <span class="my-auto"><a href="{{ datas_dir }}{{ locataire.livret }}"
+                                                             target="_blank"><i class="fa fas fa-eye"></i></a></span>&nbsp;&nbsp;
+                                    {% if locataire.statut is not same as('TRANSMIS') %}
+                                        <span class="my-auto modal-upload-open orange" data-toggle="modal"
+                                              data-id="livret" data-title="livret de famille"
+                                              data-target="#uploadModal"><i
+                                                    class="fa fas fa-upload"></i></span>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+
+                            {#JUSTIF DOM#}
+                            {% if locataire.justifDom is empty %}
+                                <div class="row">
+                                   <div class="w-90">
+                                       <input type="text" class="input text-danger col-md"
+                                              value="Justificatif de domicile..."
+                                              disabled>
+                                   </div>
+                                    <span class="my-auto modal-upload-open orange" data-toggle="modal"
+                                          data-id="justif_dom" data-title="justificatif de domicile"
+                                          data-target="#uploadModal"><i
+                                                class="fa fas fa-upload"></i></span>
+                                </div>
+                            {% else %}
+                                <div class="row">
+                                    <div class="w-80">
+                                        <input type="text" class="input text-success col-md"
+                                               value="Justificatif de domicile envoyé !"
+                                               disabled>
+                                    </div>
+                                    <span class="my-auto"><a href="{{ datas_dir }}{{ locataire.justifDom }}"
+                                                             target="_blank"><i class="fa fas fa-eye"></i></a></span>&nbsp;&nbsp;
+                                    {% if locataire.statut is not same as('TRANSMIS') %}
+                                        <span class="my-auto modal-upload-open orange" data-toggle="modal"
+                                              data-id="justif_dom" data-title="justificatif de domicile"
+                                              data-target="#uploadModal"><i
+                                                    class="fa fas fa-upload"></i></span>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+
+                            {#BULL SAL#}
+                            {% if locataire.bullSal is empty %}
+                                <div class="row">
+                                   <div class="w-90">
+                                       <input type="text" class="input text-danger col-md"
+                                              value="Bulletins de salaires..."
+                                              disabled>
+                                   </div>
+                                    <span class="my-auto modal-upload-open orange" data-toggle="modal"
+                                          data-id="bull_sal" data-title="bulletins de salaires"
+                                          data-target="#uploadModal"><i
+                                                class="fa fas fa-upload"></i></span>
+                                </div>
+                            {% else %}
+                                <div class="row">
+                                    <div class="w-80">
+                                        <input type="text" class="input text-success col-md"
+                                               value="Bulletins de salaires envoyés !"
+                                               disabled>
+                                    </div>
+                                    <span class="my-auto"><a href="{{ datas_dir }}{{ locataire.bullSal }}"
+                                                             target="_blank"><i class="fa fas fa-eye"></i></a></span>&nbsp;&nbsp;
+                                    {% if locataire.statut is not same as('TRANSMIS') %}
+                                        <span class="my-auto modal-upload-open orange" data-toggle="modal"
+                                              data-id="bull_sal" data-title="bulletins de salaires"
+                                              data-target="#uploadModal"><i
+                                                    class="fa fas fa-upload"></i></span>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+
+                            {#AVIS IMP#}
+                            {% if locataire.avisImp is empty %}
+                                <div class="row">
+                                   <div class="w-90">
+                                       <input type="text" class="input text-danger col-md"
+                                              value="En attente de l'avis d'imposition..."
+                                              disabled>
+                                   </div>
+                                    <span class="my-auto modal-upload-open orange" data-toggle="modal"
+                                          data-id="avis_imp" data-title="avis d'imposition"
+                                          data-target="#uploadModal"><i
+                                                class="fa fas fa-upload"></i></span>
+                                </div>
+                            {% else %}
+                                <div class="row">
+                                   <div class="w-80">
+                                       <input type="text" class="input text-success col-md"
+                                              value="Avis d'imposition envoyé !"
+                                              disabled>
+                                   </div>
+                                    <span class="my-auto"><a href="{{ datas_dir }}{{ locataire.avisImp }}"
+                                                             target="_blank"><i class="fa fas fa-eye"></i></a></span>&nbsp;&nbsp;
+                                    {% if locataire.statut is not same as('TRANSMIS') %}
+                                        <span class="my-auto modal-upload-open orange" data-toggle="modal"
+                                              data-id="avis_imp" data-title="avis d'imposition"
+                                              data-target="#uploadModal"><i
+                                                    class="fa fas fa-upload"></i></span>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+
+                        {% endif %}
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>

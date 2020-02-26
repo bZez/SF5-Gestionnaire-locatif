@@ -1,0 +1,394 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos Résidences{% endblock %}
+
+{% block body %}
+    <section class="section-ter row mb-5" id="landing">
+        <div class="landing-bg">
+            <div class="cta-landing text-center">
+                <h1 class="text-white">Résidences étudiantes modernes et sécurisées</h1>
+                <br>
+                <p class="text-white">Nos conseillers vous accompagnent dans vos démarches. <br> Constituer votre dossier en
+                    ligne, choisissez votre logement et signez votre bail.</p>
+                <br>
+                <a href="{{ 'demande-logement' }}" class="btn btn-rounded pt-1">Je réserve mon logement</a>
+                {#<div class="custom-select p-0 m-0 border-0 bg-transparent shadow">
+                    <form method="post" action="#resultats">
+                        <select name="ville" id="ville" class="d-none float-left">
+                            {% for ville in villes %}
+                                <option value="{{ ville.id }}">{{ ville.nom }}</option>
+                            {% endfor %}
+                        </select>
+                        <button class="float-right btn" style="width: 19%!important;" type="submit">Rechercher</button>
+                    </form>
+                </div>#}
+            </div>
+        </div>
+    </section>
+    <div class="bg-step text-white shadow container m-auto searcher" id="decouvrez-nos-residences">
+        <div class="container text-center">
+            <div class="row pt-3">
+                <h6 class="text-black-50 semi-bold ml-2">{{ 'Séléctionnez une ville'|upper }}</h6>
+                <div class="custom-select p-0 m-0 border-0 bg-transparent shadow mb-3">
+                    <form method="post" action="#resultats">
+                        <select name="ville" id="ville" class="d-none float-left">
+                            {% for ville in villes %}
+                                <option value="{{ ville.id }}">{{ ville.nom }}</option>
+                            {% endfor %}
+                        </select>
+                        <button class="float-right btn" style="width: 19%!important;" type="submit"><i
+                                    class="fas fa-search-location"></i></button>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="text-black-50 text-left p-2 row bg-white shadow-sm" id="resultats">
+            <div class="col-md-6">
+                <span class="small">Organiser </span> &nbsp;<i class="fas fa-th-list"></i> &nbsp; <i
+                        onclick="arrange(3)" class="fas fa-th"></i> &nbsp; <i onclick="arrange(2)"
+                                                                              class="fas fa-th-large"></i>
+            </div>
+            <div class="col-md-6 text-right">
+                <span class="small"> Affichage de <strong> {% if res is defined %}{{ res|length }}{% else %}{{ residences|length }}{% endif %}</strong> résidence(s)</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 text-center mt-5 mb-5">
+            <a href="#decouvrez-nos-residences">
+                <h1 class="text-black-50">Découvrez nos
+                    résidences</h1>
+                <hr class="profil">
+            </a>
+        </div>
+    </div>
+
+    {#<section class="bg-search-light text-white row shadow">
+        <div class="container text-center">
+            <div class="row p-5">
+                <div class="bg-white rounded-input w-100 pr-1">
+                    <form method="post" action="#resultats">
+                        <div style="width:80%;overflow: hidden" class="float-left">
+                            <select name="ville" id="ville" style="width:100%;height: 50px" class="border-0 ml-5">
+                                {% for ville in villes %}
+                                    <option value="{{ ville.id }}">{{ ville.nom }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn-rounded border-0 float-right mt-1">Rechercher</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>#}
+
+    <section class="mb-5">
+        <div class="container">
+            {% if residences is defined %}
+                <div class="row">
+                    {% for r in residences %}
+                        <a href="{{ path('infos_residence',{ville:r.ville.nom,nom:r.nom}) }}">
+                            <div class="col-md-6 float-left mb-4 blockres">
+                                <div class="col-md-12 bg-white p-0 hoverable">
+                                    <div class="w-100" style="overflow: hidden">
+                                        <img src="{{ asset('_photos_/'~r.couverture) }}" alt="" class="w-100 blockimg"
+                                             style="max-height: 360px!important">
+                                    </div>
+                                    <div class="p-4">
+                                        <a href="{{ path('infos_residence',{ville:r.ville.nom,nom:r.nom}) }}"
+                                           class="nomres h4">
+                                            <strong>Résidence {{ r.nom }}</strong>
+                                        </a>
+                                        <span class="float-right orange font-weight-bold">
+                                      <small>à partir de</small>  {{ r.loyerMin }} €
+                                    </span>
+                                        <br>
+                                        <small class="text-black-50"><i
+                                                    class="fas fa-map-marker-alt"></i> {{ r.adresse }}
+                                            <br> {{ r.ville.codePostal }} {{ r.ville.nom|upper }}
+                                        </small>
+                                        <br>
+                                        <div class="row mt-3">
+                                            <div class="col-md-12">
+                                                <div class="mr-3 float-left">
+                                                    <h5 class="mb-0 rounded">
+                                                        {{ r.typeMin }}{% if r.typeMin is not same as(r.typeMax) %} à {{ r.typeMax }}{% endif %}
+                                                    </h5>
+                                                    <span class="text-black-50"><small>Type</small></span>
+                                                </div>
+                                                <div class="float-left">
+                                                    <h5 class="rounded mb-0">
+                                                        {{ r.surfaceMin }}{% if r.surfaceMin is not same as(r.surfaceMax) %} à {{ r.surfaceMax }}{% endif %}
+                                                    </h5>
+                                                    <span class="text-black-50"><small>Surface</small></span>
+                                                </div>
+                                                <div class="float-right">
+                                                    <a href="{{ path('infos_residence',{ville:r.ville.nom,nom:r.nom}) }}">
+                                                        <button class="btn-rounded">
+                                                            <small>{{ 'détails'|upper }} <i
+                                                                        class="fas fa-chevron-right"></i></small>
+                                                        </button>
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="row" id="reslist">
+                    {% for r in res %}
+                        <a href="{{ path('infos_residence',{ville:r.ville.nom,nom:r.nom}) }}">
+                            <div class="col-md-6 float-left mb-4 blockres" id="block-{{ loop.index }}">
+                                <div class="col-md-12 bg-white p-0 hoverable">
+                                    <div class="w-100" style="overflow: hidden">
+                                        <img src="{{ asset('_photos_/'~r.couverture) }}" alt="" class="w-100 blockimg"
+                                             style="max-height: 360px!important;">
+                                    </div>
+                                    <div class="p-4">
+                                        <a href="{{ path('infos_residence',{ville:r.ville.nom,nom:r.nom}) }}"
+                                           class="nomres h4">
+                                            <strong>Résidence {{ r.nom }}</strong>
+                                        </a>
+                                        <span class="float-right orange font-weight-bold">
+                                      <small>à partir de</small>  {{ r.loyerMin }} €
+                                    </span>
+                                        <br>
+                                        <small class="text-black-50"><i
+                                                    class="fas fa-map-marker-alt"></i> {{ r.adresse }}
+                                            <br> {{ r.ville.codePostal }} {{ r.ville.nom|upper }}
+                                        </small>
+                                        <br>
+                                        <div class="row mt-3">
+                                            <div class="col-md-12">
+                                                <div class="mr-3 float-left">
+                                                    <h5 class="mb-0 rounded">
+                                                        {{ r.typeMin }}{% if r.typeMin is not same as(r.typeMax) %} à {{ r.typeMax }}{% endif %}
+                                                    </h5>
+                                                    <span class="text-black-50"><small>Type</small></span>
+                                                </div>
+                                                <div class="float-left">
+                                                    <h5 class="rounded mb-0">
+                                                        {{ r.surfaceMin }}{% if r.surfaceMin is not same as(r.surfaceMax) %} à {{ r.surfaceMax }}{% endif %}
+                                                    </h5>
+                                                    <span class="text-black-50"><small>Surface</small></span>
+                                                </div>
+                                                <div class="float-right">
+                                                    <a href="{{ path('infos_residence',{ville:r.ville.nom,nom:r.nom}) }}">
+                                                        <button class="btn-rounded">
+                                                            <small>{{ 'détails'|upper }} <i
+                                                                        class="fas fa-chevron-right"></i></small>
+                                                        </button>
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <section>
+        <div class="section-ter bg-step-half pb-3 op-75">
+            <div class="container">
+                <div class="row pt-5">
+                   <div class="col-md-12 text-center">
+                       <h3 class="text-white">Découvrir MGEL Logement</h3>
+                   </div>
+                </div>
+                <div class="row pt-5 pb-5">
+                    <div class="col-md-4">
+                        <div class="col-md-12 rounded bg-white p-5 shadow text-center h-100">
+                            <div style="width: 75px;height: 75px" class="rounded-circle bg-step m-auto"></div>
+                            <h5 class="mt-5">NOTRE CONCEPT</h5>
+                            <p class="text-justify-center text-black-50">
+                                Nos résidences sont spécialement pensées pour les jeunes. <br>
+                                Elles permettent l'accès à des services régulièrement revisité et proposent des logements fonctionnels.
+                            </p>
+                            <a href="{{ path('notre-concept') }}" class="btn btn-rounded pt-1 mt-5">En savoir plus</a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mt-3 mt-md-0">
+                        <div class="col-md-12 rounded bg-white p-5 shadow text-center h-100">
+                            <div style="width: 75px;height: 75px" class="rounded-circle bg-step m-auto"></div>
+                            <h5 class="mt-5">NOS SERVICES</h5>
+                            <p class="text-justify-center text-black-50">
+                                Parce que pour mieux réussir, il faut aussi s'accorder des moments de répits ! <br> Nous mettons à la disposition de nos résidants, des services utiles et divertissants.
+                            </p>
+                            <a href="{{ path('nos-services') }}" class="btn btn-rounded pt-1 mt-5">En savoir plus</a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mt-3 mt-md-0">
+                        <div class="col-md-12 rounded bg-white p-5 shadow text-center h-100">
+                            <div style="width: 75px;height: 75px" class="rounded-circle bg-step m-auto"></div>
+                            <h5 class="mt-5">{{ 'réservation en 3 clics'|upper }}</h5>
+                            <p class="text-justify-center text-black-50">
+                                Nos conseillers vous accompagnent dans vos démarches. <br>
+                                <strong>Constituez votre dossier en ligne,</strong> choisissez votre logement et signez votre bail.
+                            </p>
+                            <a href="{{ path('demande-logement') }}" class="btn btn-rounded pt-1 mt-5">En savoir plus</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {#<div class="row container m-auto">
+                <div class="col-md-4">
+                    <div class="text-center">
+                       <div class="pt-5 pb-5">
+                           <img class="" src="{{ asset('assets/img/icones/pict1.png') }}" alt="">
+                       </div>
+                        <h2 class="font-weight-bold text-white">Consituez votre dossier</h2>
+                        <p class="small text-white"></p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center">
+                      <div class="pt-5 pb-5">
+                          <img class="" src="{{ asset('assets/img/icones/pict2.png') }}" alt="">
+                      </div>
+                        <h2 class="font-weight-bold text-white">Choisissez votre logement</h2>
+                        <p class="small text-white"></p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center">
+                       <div class="pt-5 pb-5">
+                           <img class="" src="{{ asset('assets/img/icones/pict3.png') }}" alt="">
+                       </div>
+                        <h2 class="font-weight-bold text-white">Signature <br>du bail</h2>
+                        <p class="small text-white"></p>
+                    </div>
+                </div>
+            </div>#}
+        </div>
+    </section>
+
+    {# {% for ville in villes %}
+         <div class="col-md-12 shadow-lg bg-white w-90 ml-auto mr-auto mt-5 block p-4 ">
+             <span class="liseret"></span>
+             <div class="row m-2">
+                 <div class="col-md-6">
+                     <h3><i class="fas fa-map-marked-alt"></i> {{ ville.nom }}</h3>
+                     <hr>
+                 </div>
+     iv clas     <div class="col-md-6 rounded border bg-light p-3">
+                     {% for residence in residences[ville.nom] %}
+                         <h5><a href="{{ path('infos_residence',{'ville':ville.nom,'nom':residence.nom}) }}"><i
+                                         class="fas fa-hotel"></i> {{ residence.nom }}</a></h5>
+                     {% endfor %}
+                 </div>
+             </div>
+         </div>
+     {% endfor %}#}
+{% endblock %}
+{% block javascripts %}
+    <script>
+        var x, i, j, selElmnt, a, b, c;
+        /* Look for any elements with the class "custom-select": */
+        x = document.getElementsByClassName("custom-select");
+        for (i = 0; i < x.length; i++) {
+            selElmnt = x[i].getElementsByTagName("select")[0];
+            /* For each element, create a new DIV that will act as the selected item: */
+            a = document.createElement("DIV");
+            a.setAttribute("class", "select-selected");
+            a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+            x[i].appendChild(a);
+            /* For each element, create a new DIV that will contain the option list: */
+            b = document.createElement("DIV");
+            b.setAttribute("class", "select-items select-hide");
+            for (j = 1; j < selElmnt.length; j++) {
+                /* For each option in the original select element,
+                create a new DIV that will act as an option item: */
+                c = document.createElement("DIV");
+                c.innerHTML = selElmnt.options[j].innerHTML;
+                c.addEventListener("click", function (e) {
+                    /* When an item is clicked, update the original select box,
+                    and the selected item: */
+                    var y, i, k, s, h;
+                    s = this.parentNode.parentNode.getElementsByTagName("select")[0];
+                    h = this.parentNode.previousSibling;
+                    for (i = 0; i < s.length; i++) {
+                        if (s.options[i].innerHTML == this.innerHTML) {
+                            s.selectedIndex = i;
+                            h.innerHTML = this.innerHTML;
+                            y = this.parentNode.getElementsByClassName("same-as-selected");
+                            for (k = 0; k < y.length; k++) {
+                                y[k].removeAttribute("class");
+                            }
+                            this.setAttribute("class", "same-as-selected");
+                            break;
+                        }
+                    }
+                    h.click();
+                });
+                b.appendChild(c);
+            }
+            x[i].appendChild(b);
+            a.addEventListener("click", function (e) {
+                /* When the select box is clicked, close any other select boxes,
+                and open/close the current select box: */
+                e.stopPropagation();
+                closeAllSelect(this);
+                this.nextSibling.classList.toggle("select-hide");
+                this.classList.toggle("select-arrow-active");
+            });
+        }
+
+        function closeAllSelect(elmnt) {
+            /* A function that will close all select boxes in the document,
+            except the current select box: */
+            var x, y, i, arrNo = [];
+            x = document.getElementsByClassName("select-items");
+            y = document.getElementsByClassName("select-selected");
+            for (i = 0; i < y.length; i++) {
+                if (elmnt == y[i]) {
+                    arrNo.push(i)
+                } else {
+                    y[i].classList.remove("select-arrow-active");
+                }
+            }
+            for (i = 0; i < x.length; i++) {
+                if (arrNo.indexOf(i)) {
+                    x[i].classList.add("select-hide");
+                }
+            }
+        }
+
+        /* If the user clicks anywhere outside the select box,
+        then close all select boxes: */
+        document.addEventListener("click", closeAllSelect);
+        blk = $('.blockres');
+        lgt = blk.length;
+        if (lgt >= 6) {
+            for (i = 6; i < lgt; i++) {
+                $('#block-' + i).hide();
+            }
+            $('#reslist').append('<button id="showmore" class="btn-rounded ml-auto mr-auto mt-4">Afficher plus</button>');
+        }
+        $('#showmore').click(function () {
+            $('.blockres:hidden').fadeIn(500);
+            $(this).remove();
+        })
+    </script>
+{% endblock %}

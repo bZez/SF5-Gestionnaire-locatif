@@ -1,0 +1,143 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Résidences étudiantes avec services à Nancy, Mulhouse, Metz et Reims{% endblock %}
+
+{% block body %}
+
+    {#LANDING PAGE#}
+    <section class="section-ter row" id="landing">
+        <div class="landing-bg concept">
+            <div class="cta-landing text-center">
+                <h1 class="text-white">Notre concept</h1>
+                <br>
+                <h5 class="text-white ">Qualité, satisfaction et bien-être sont nos priorités !</h5>
+                <p class="text-white w-75 m-auto">Fort d'une expérience de plus de 20 ans, MGEL LOGEMENT vous propose
+                    des logements fonctionnels, au goût du
+                    jour et adaptés à vos besoins.</p>
+            </div>
+        </div>
+    </section>
+
+    {#DECOUVRIR MGEL#}
+    <p class="w-75 m-auto">
+    <div class="mb-5">
+        <div class="section-ter container">
+            <div class="row">
+                <div class="col-md-6 offset-lg-3 text-center mt-5 mb-2">
+                    <h1 class="orange font-weight-bold">Un concept unique</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <section class="bg-dark-light pb-5 pt-5" style="margin-top:-1rem;">
+        <div class="container">
+            <div class="section-half">
+                <div class="row mt-5 mb-5">
+                    <div class="col-md-6">
+                        <img class="w-100 shadow-lg rounded" src="{{ asset('assets/img/soultz.jpg') }}" alt="">
+                    </div>
+                    <div class="col-md-6 text-black-50 ">
+                       <div class="col-md-11 offset-lg-1">
+                           <h1 class="font-weight-bold">Nos résidences</h1>
+                           <hr class="profil ml-lg-5">
+                           <p class="text-justify">Nos résidences sont spécialement pensées pour les jeunes (étudiants
+                               boursiers et non
+                               boursiers, les personnes en formation et les jeunes actifs). Elles permettent l’accès à des
+                               <a
+                                       href="{{ path('nos-services') }}">services</a>
+                               régulièrement revisités pour plus de confort et de modernité. Situées dans des quartiers
+                               agréables à vivre,
+                               elles sont situées à proximité des écoles ou des universités et sont accessibles en
+                               transport en commun.<br>
+                               <br>
+                               <a href="{{ path('nos-residences') }}">
+                                   <button class="btn-rounded mt-3 col-sm-12">
+                                       En savoir plus
+                                   </button>
+                               </a>
+                           </p>
+                       </div>
+
+                    </div>
+                </div>
+            </div>
+            <hr class="invisible mt-5 mb-5 ">
+            <hr class="invisible mt-5 mb-5 ">
+            <div class="row ">
+                <div class="col-md-6 text-black-50 ">
+                   <div class="col-md-11">
+                       <h1 class="font-weight-bold text-lg-right">Nos logements</h1>
+                       <hr class="profil mr-lg-5">
+                       <p class="text-justify">Les logements sont optimisés pour offrir à nos locataires plus de confort.
+                           Tous nos
+                           logements sont équipés ou meublés. Vous y retrouverez 3 espaces distincts :
+                       <ul>
+                           <li>cuisine avec à minima un frigo, des plaques de cuisson, un évier et un meuble de
+                               rangement,
+                           </li>
+                           <li>lieu de vie comprenant un coin bureau, un espace nuit ainsi que des rangements,</li>
+                           <li>sanitaire proposant, en fonction des résidences, une douche ou une baignoire, un lavabo,
+                               ainsi que des
+                               toilettes,
+                           </li>
+                       </ul>
+                       Nous proposons des logements de qualité, allant du T1 de 14 m² au T3 de 86 m². <br> Tous nos logements
+                       ouvrent des droits aux aides au logement.
+                       <button class="btn-rounded col-sm-12 mt-3 mb-3">
+                           En savoir plus...
+                       </button>
+                       </p>
+                   </div>
+                </div>
+                <div class="col-md-6">
+                    <img class="w-100 shadow-lg rounded" src="{{ asset('assets/img/salon.jpg') }}" alt="">
+                </div>
+            </div>
+
+            <div class="row pt-5">
+                <div class="col-md-12 text-center">
+                    <h4 class="font-italic text-black-50">MGEL Logement, toute une équipe à votre service.</h4>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <img src="{{ asset('assets/img/icones/next-photo-grey.png') }}" alt="">
+        </div>
+    </div>
+    <section class="mb-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center mt-5 mb-2">
+                    <h1 class="orange font-weight-bold">Photos de logements</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="{{ asset('assets/img/logement-1.jpg') }}" alt="" class="w-100 shadow">
+                </div>
+                <div class="col-md-6">
+                    <img src="{{ asset('assets/img/logement-2.jpg') }}" alt="" class="w-100 shadow">
+                </div>
+            </div>
+            <div class="mt-4 row pb-5">
+                <div class="col-md-6">
+                    <img src="{{ asset('assets/img/logement-3.jpg') }}" alt="" class="w-100 shadow">
+                </div>
+                <div class="col-md-6">
+                    <img src="{{ asset('assets/img/logement-4.jpg') }}" alt="" class="w-100 shadow">
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

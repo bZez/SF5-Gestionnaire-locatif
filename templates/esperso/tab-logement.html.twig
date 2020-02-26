@@ -1,0 +1,66 @@
+<div class="row"  id="content-profil"a>
+    <div class="col-md-6 mb-5">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-center">
+                    <h1 class="h1-loc text-white "><i class="fas fa-building"></i> Votre résidence</span>
+                    </h1>
+                    <h3 class="text-orange">"{{ locataire.lastContrat.logement.residence.nom }}"</h3>
+                    <hr class="profil">
+                </div>
+            </div>
+        </div>
+
+        {#FORM#}
+        <div class="row">
+            <div class="col-md-10 offset-sm-0 offset-md-1" style="font-size:1.5em">
+                <img src="{{ asset('_photos_/'~locataire.lastContrat.logement.residence.couverture) }}" alt=""
+                     width="100%" class="rounded shadow">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-5">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-center">
+                    <h1 class="h1-loc text-white "><i class="fas fa-home"></i> Votre logement</h1>
+                    <hr class="profil">
+                </div>
+            </div>
+        </div>
+        <div class="row ">
+            <div class="centered col-md-10 offset-sm-0 offset-md-1" style="font-size:1.5em">
+                Appartement N°<strong>{{ locataire.lastContrat.logement.numero }}</strong>
+                <small class="small"> (Etage {{ locataire.lastContrat.logement.etage }})</small>
+                <br>
+                <div class="row">
+                    <div class="col-md-1 h-100 mobile">
+                        <i class="mt-3 text-black fa fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="col-md-11">
+                        <span class="text-orange"> {{ locataire.lastContrat.logement.residence.adresse }}<br> {{ locataire.lastContrat.logement.residence.ville.codePostal }} {{ locataire.lastContrat.logement.residence.ville.nom|upper }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 mb-5 mt-5">
+        <div class="text-center">
+            <h3 class="h1-loc"><i class="fa fas fa-hands"></i> Les Services</h3>
+            <hr class="profil">
+            {% set residence = locataire.lastContrat.logement.residence %}
+            {% include 'extra/service.html.twig' %}
+        </div>
+    </div>
+    <div class="col-md-12 mb-5 mt-5">
+        <div class="text-center">
+            <h3 class="h1-loc"><i class="fa fas fa-bolt"></i> Diagnostique de Perfromance Energétique</h3>
+            <hr class="profil">
+            {% set consoEner = residence.consoEner %}
+            {% set emiGaz = residence.emiGaz %}
+            {% include 'extra/diag.html.twig' %}
+        </div>
+    </div>
+</div>
+
+

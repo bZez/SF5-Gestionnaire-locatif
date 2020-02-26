@@ -1,0 +1,42 @@
+{% extends 'gestionnaire/base.html.twig' %}
+
+{% block title %}TypeLogementTarif{% endblock %}
+
+{% block body %}
+    <h1>TypeLogementTarif</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ type_logement_tarif.id }}</td>
+            </tr>
+            <tr>
+                <th>Categorie</th>
+                <td>{{ type_logement_tarif.categorie }}</td>
+            </tr>
+            <tr>
+                <th>Loyer</th>
+                <td>{{ type_logement_tarif.loyer }}</td>
+            </tr>
+            <tr>
+                <th>Charges</th>
+                <td>{{ type_logement_tarif.charges }}</td>
+            </tr>
+            <tr>
+                <th>Cotis_acc</th>
+                <td>{{ type_logement_tarif.cotisAcc }}</td>
+            </tr>
+            <tr>
+                <th>Cotis_services</th>
+                <td>{{ type_logement_tarif.cotisServices }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('type_logement_tarif_index') }}">back to list</a>
+
+    <a href="{{ path('type_logement_tarif_edit', {'id': type_logement_tarif.id}) }}">edit</a>
+
+    {{ include('type_logement_tarif/_delete_form.html.twig') }}
+{% endblock %}

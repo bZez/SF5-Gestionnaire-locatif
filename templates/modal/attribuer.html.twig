@@ -1,0 +1,62 @@
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/css/modal.css') }}">
+{% endblock %}
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header d-block pb-0">
+                {#<div class="row">
+                    <div class="col-md-12">
+                        <h5 class="modal-title float-left" id="exampleModalLongTitle">Attribuer un logement
+                            à {{ prospect.nom|upper }} {{ prospect.prenom|capitalize }}</h5>
+                        <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+                <hr>#}
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Résidences souhaitée(s):</h6>
+                        <form>
+                            <select name="residences-user" onchange="showLogement($(this))" id="residences-list-user"
+                                    class="form-control form-control-sm">
+                                <option value="">Selectionnez une résidence....</option>
+                                {% for residence in residencesUser %}
+                                    <option value="{{ residence.id }}"
+                                            onclick="getLogement($(this).val(){% if is_granted('ROLE_ADMIN') %},'Y'{% endif %})">{{ residence.nom }}</option>
+                                {% endfor %}
+                            </select>
+                        </form>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Autres résidences:</h6>
+                        <select name="residences" onchange="showLogement($(this))" id="residences-list"
+                                class="form-control form-control-sm">
+                            <option value="">Selectionnez une résidence....</option>
+                            {% for residence in get_residences.all %}
+                                <option value="{{ residence.id }}"
+                                        onclick="getLogement($(this).val(){% if is_granted('ROLE_ADMIN') %},'Y'{% endif %})">{{ residence.nom }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h6 id="nom-residence" class="mt-2 text-center"></h6>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body p-0" id="change">
+                <div class="ajax-loader"></div>
+                <table class="table-striped table table-hover table-sm">
+                    <tbody id="liste-logements"></tbody>
+                </table>
+
+            </div>
+            <button type="button" class="btn btn-secondary m-2 mb-0" data-dismiss="modal">Annuler</button>
+        </div>
+    </div>
+</div>
+

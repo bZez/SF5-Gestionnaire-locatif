@@ -1,0 +1,197 @@
+<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+      integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+{% block stylesheets %}
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 200vh;
+            overflow-x: hidden;
+        }
+
+        .mask {
+            width: 400%;
+            height: 400%;
+            background: url({{ asset('assets/img/bg-lp.jpg') }}) no-repeat -300px bottom;
+            background-size: 108vw;
+            border-radius: 150px;
+            transform: rotate(-9deg);
+            position: absolute;
+            top: -380%;
+            left: 0;
+            overflow: hidden;
+        }
+
+        .mask img {
+            transform: rotate(9deg);
+            width: 120vw;
+            position: absolute;
+            bottom: -10vh;
+            left: -25vw;
+            z-index: -1 !important;
+        }
+
+        .nav-item {
+            width: 15vw;
+        }
+
+        .txt-land {
+            font-size: 2.5em !important;
+            margin-top: 30px !important;
+            line-height: 1em;
+        }
+
+        .txt-land-p {
+            font-size: 20px !important;
+        }
+
+        .btn-connect a {
+            color: white;
+        }
+
+        .after-header {
+            position: absolute;
+            top: 75vh
+        }
+
+        /*@media (min-device-width: 1921px) {
+            .mask{
+                width: 100%;
+                height: 75%;
+                background: red;
+                border-bottom-left-radius: 150px;
+                transform: rotate(-9deg);
+                position: absolute;
+                top:-30%;
+                left: 5%;
+                overflow: hidden;
+            }
+        }*/
+    </style>
+{% endblock %}
+{% block body %}
+    <div class="mask">
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-transparent navbar-top">
+        <button class="navbar-toggler" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse pl-5 ml-5" id="navbarSupportedContent">
+            {% if 'locataire.mgellogement.fr' is same as(app.request.host) %}
+                <ul class="navbar-nav ">
+                    <li class="nav-item w-20">
+                        <a class="nav-link" href="{{ path('locataire_home') }}">Mes informations</a>
+                    </li>
+                    <li class="nav-item w-20">
+                        <a class="nav-link" href="{{ path('mes-documents') }}">Mes documents</a>
+                    </li>
+                    <li class="nav-item w-20">
+                        <a class="nav-link" href="{{ path('mon-logement') }}">Mon Logement</a>
+                    </li>
+                    <li class="nav-item w-20">
+                        <a class="nav-link" href="{{ path('mes-echeances') }}">Avis d'échéances</a>
+                    </li>
+                    <li class="nav-item w-20">
+                        <a class="nav-link" href="{{ path('demande') }}">Faire une demande</a>
+                    </li>
+                    <li class="nav-item w-20">
+                        <a class="nav-link" href="{{ path('mon-voeu') }}">Mon voeu</a>
+                    </li>
+
+                    <li class="nav-item text-right">
+                        <a class="nav-link" href="{{ path('app_logout') }}"> <i class="fa fas fa-sign-out-alt"></i>Déconnexion</a>
+                    </li>
+
+                    <li class="nav-item sm text-right float-right pr-2">
+                        <a href="{{ path('locataire_home') }}"> <i class="far fa-user-circle fa-2x"></i></a>
+                    </li>
+                </ul>
+            {% else %}
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown ">
+                        <a class="nav-link dropdown-toggle" href="#">
+                            Découvrir MGEL Logement
+                        </a>
+                        <div class="dropdown-menu">
+
+                            <a class="dropdown-item" href="{{ path('qui-sommes-nous') }}"> Qui sommes-nous ?</a>
+                            <a class="dropdown-item" href="{{ path('notre-concept') }}"> Notre concept</a>
+                            <a class="dropdown-item" href="{{ path('nos-services') }}"> Nos services</a>
+
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown ">
+                        <a class="nav-link dropdown-toggle" href="{{ path('reservation') }}">
+                            Réserver un logement
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ path('demande-logement') }}">Demande de logement</a>
+                            <a class="dropdown-item" href="{{ path('courts-sejours') }}">Courts séjours</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown ">
+                        <a class="nav-link dropdown-toggle" href="{{ path('nos-residences') }}">
+                            Découvrir nos Résidences
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ path('liste_residences',{ville:'Angers'}) }}">Angers</a>
+                            <a class="dropdown-item" href="{{ path('liste_residences',{ville:'Metz'}) }}">Metz</a>
+                            <a class="dropdown-item"
+                               href="{{ path('liste_residences',{ville:'Mulhouse'}) }}">Mulhouse</a>
+                            <a class="dropdown-item" href="{{ path('liste_residences',{ville:'Nancy'}) }}">Nancy</a>
+                            <a class="dropdown-item" href="{{ path('liste_residences',{ville:'Reims'}) }}">Reims</a>
+                            <a class="dropdown-item" href="{{ path('liste_residences',{ville:'Strasbourg'}) }}">Strasbourg</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('aide') }}">Aide & Contact</a>
+                    </li>
+
+                    <a href="{{ path('demande-logement') }}"
+                       class="btn-white text-dark bg-white border-0 p-2 pl-5 pr-5 btn-reserver"><i
+                                class="fa fas fa-home"></i> Reserver</a>
+
+
+                    <li class="nav-item sm text-right float-right pr-2 btn-connect">
+                        <a href="{{ path('locataire_home') }}"> <i class="far fa-user-circle fa-2x"></i></a>
+                    </li>
+                </ul>
+
+
+            {% endif %}
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-8"></div>
+            <div class="col-4 text-white">
+                <div class="txt-land pl-5 pr-5">Choisissez. Completez. <br>
+                    Vous êtes chez <u>vous</u> !
+                </div>
+                <div class="row mt-5">
+                    <div class="col-md pl-5 pr-5">
+                        <div class="txt-land-p p-2">A unique and beautiful collection of UI elements that are all
+                            flexible and modular. A complete and customizable solution to building the website of your
+                            dreams.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid after-header">
+<div class="row">
+    <div class="col-md-12 bg-light">
+        
+    </div>
+</div>
+    </div>
+{% endblock %}
+
+<script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>

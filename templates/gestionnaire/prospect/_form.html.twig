@@ -1,0 +1,12 @@
+{{ form_start(form) }}
+<h4>Locataire</h4>
+<hr>
+{{ form_widget(form.locataire) }}
+<h4>Garant</h4>
+<hr>
+    {{ form_widget(form.garant) }}
+<h4>Documents</h4>
+<hr>
+    {{ form_widget(form.documents) }}
+<button class="btn" id="submitBtn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

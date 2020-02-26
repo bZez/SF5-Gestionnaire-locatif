@@ -1,0 +1,105 @@
+{% extends 'gestionnaire/base.html.twig' %}
+
+{% block title %}Logement index{% endblock %}
+
+{% block body %}
+    {% set logements = residenceChoisie.logements %}
+    <h1>Liste des {{ logements|length }} logements pour la résidence <span
+                class="text-info">{{ residenceChoisie.nom }}</span></h1>
+    <hr>
+    <select name="resid" id="resid" onchange="window.location.href='/logement/'+$(this).val()" class="form-control">
+        <option value="">Selectionnez une résidence...</option>
+        {% for residence in residences %}
+            <option value="{{ residence.nom }}"
+                    {% if residenceChoisie.nom is same as (residence.nom) %}selected{% endif %}>{{ residence.nom }}</option>
+        {% endfor %}
+    </select>
+    <hr>
+    <strong> Recherche:</strong> <br>
+    <div class="row">
+        <div class="col-md-12">
+            <input type="text" class=" float-left form-control col-md-3"
+                   placeholder="Recherche par numéro d'appartement..." onkeyup="appartFilter($(this).val())">
+            &nbsp;
+            <select id="typeLit" type="text" class="text-black-50 ml-1 float-left form-control col-md-3"
+                    onchange="appartFilter(null,$('#typeLit option:selected').val())">
+                <option disabled>Recher par type de lit...</option>
+                <option value="Sommier1place">Sommier 1 place</option>
+                <option value="Sommier2places">Sommier 2 places</option>
+                <option value="Pasdesommier">Pas de sommier</option>
+            </select>
+            <button class="float-right btn btn-success ml-1" onclick="$('#results tr').show();">
+                Afficher tout
+            </button>
+            <button class="float-right btn btn-danger ml-1" onclick="$('#results tr.bg-info').hide();">
+                Afficher les logements occupés
+            </button>
+            <button class="float-right btn btn-info" onclick="$('#results tr.bg-danger').hide();">
+                Afficher les logements libre
+            </button>
+
+        </div>
+    </div>
+    <hr>
+    <table class="table table-sm text-center">
+        <thead>
+        <tr>
+            <th>Num</th>
+            <th>Cat.</th>
+            <th>Etage</th>
+            <th>Sit.</th>
+            <th>Surface</th>
+            <th>Lit</th>
+            <th>Loyer</th>
+            <th>Charges</th>
+            <th>Cotis. acc.</th>
+            <th>Cotis. ser.</th>
+            <th class="text-right">Actions</th>
+        </tr>
+        </thead>
+        <tbody id="results">
+        {% for logement in logements %}
+            <tr id="{{ logement.numero }}"
+                class="{% if (logement.hasLocataire) %}bg-danger{% else %}bg-info{% endif %} {{ logement.typeLit|replace({' ':''}) }}">
+                <td>{{ logement.numero }}</td>
+                <td>{{ logement.categorie }}</td>
+                <td>{{ logement.etage }}</td>
+                <td>{{ logement.situation }}</td>
+                <td>{{ logement.surface }}</td>
+                <td>{{ logement.typeLit }}</td>
+                <td>{{ logement.loyer }}</td>
+                <td>{{ logement.charges }}</td>
+                <td>{{ logement.cotisAcc }}</td>
+                <td>{{ logement.cotisServices }}</td>
+                <td class="text-right">
+                    {#{% if logement.hasLocataire %} <button class="btn btn-sm btn-info"><i class="fas fa-user-friends"></i></button>{% endif %}#}
+                    <a href="{{ path('logement_show', {'resid':residenceChoisie.nom,'id': logement.id}) }}">
+                        <button class="btn btn-sm btn-primary"><i class="fas fa-eye"></i></button>
+                    </a>
+                    <a href="{{ path('logement_edit', {'resid':residenceChoisie.nom,'id': logement.id}) }}">
+                        <button class="btn btn-sm btn-success"><i class="fas fa-edit"></i></button>
+                    </a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="28">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {#<a href="{{ path('logement_new') }}">Create new</a>#}
+{% endblock %}
+{% block javascripts %}
+    <script>
+        function appartFilter(val, val2) {
+            $('#results tr').hide();
+            if (val !== null) {
+                $('tr#' + val).show()
+            } else {
+                $('.' + val2).show()
+            }
+        }
+    </script>
+{% endblock %}

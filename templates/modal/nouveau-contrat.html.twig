@@ -1,0 +1,25 @@
+<!-- Modal -->
+<div class="modal fade" id="newContrat" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Renouvellement contrat</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body bg-light">
+                <form name="contrat" id="newContratForm" action="{{ path('contrat_new',{'id':logement.id}) }}">
+                    <label for="contrat_date_debut" class="small">&nbsp;<i class="fa fas fa-calendar"></i> Date de début du nouveau contrat:</label>
+                    <input type="date" class="input rounded col-md-12" name="contrat[date_debut]" id="contrat_date_debut" placeholder="Date de début du nouveau contrat...">
+                    <input type="hidden" name="route" value="{{ app.request.get('_route') }}" hidden>
+                    <input type="hidden" name="idLoc" value="{{ locataire.id }}" hidden>
+                </form>
+            </div>
+            <div class="btn-group m-3">
+                <button type="button" class="w-50 btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fas fa-times"></i> Annuler</button>
+                <button type="button" onclick="$('#newContratForm').submit();" class="w-50 btn btn-sm btn-primary"><i class="fa fas fa-check"></i> Valider</button>
+            </div>
+        </div>
+    </div>
+</div>
